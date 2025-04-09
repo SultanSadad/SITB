@@ -77,13 +77,13 @@
       <ul class="menu w-full rounded-box px-2">
         <li>
           <!-- Bagian active sebaiknya dikontrol backend sesuai halaman aktif -->
-          <a class="sidebar-item active" href="/admin/Dashboard">
+          <a class="sidebar-item active" href="/dashboard_rekam_medis">
             <i class="fas fa-tachometer-alt mr-1"></i>Dashboard
           </a>
         </li>
         <li>
           <!-- Juga bisa dikasih kondisi active via backend -->
-          <a class="sidebar-item" href="/admin/DataCustomer">
+          <a class="sidebar-item" href="/rekam_medis/hasil_uji">
             <i class="fas fa-file-medical mr-2"></i>Hasil Uji TB
           </a>
         </li>
@@ -92,12 +92,12 @@
             <summary><i class="fas fa-users mr-1"></i>Users</summary>
             <ul>
               <li>
-                <a class="sidebar-item" href="/admin/Barang">
+                <a class="sidebar-item" href="/rekam_medis/data_pasien">
                   <i class="fas fa-procedures mr-2"></i>Pasien
                 </a>
               </li>
               <li>
-                <a class="sidebar-item" href="/admin/AdminKonfirmasi">
+                <a class="sidebar-item" href="/rekam_medis/data_laboran">
                   <i class="fas fa-vials mr-2"></i>Laboran
                 </a>
               </li>
@@ -106,7 +106,7 @@
         </li>
         <li>
           <!-- Link logout sebaiknya diarahkan ke route logout dari backend -->
-          <a class="sidebar-item" href="/admin/Review">
+          <a class="sidebar-item" href="/login">
             <i class="fas fa-sign-out-alt mr-1"></i>Logout
           </a>
         </li>
@@ -149,10 +149,10 @@
       </div>
 
       <!-- Placeholder konten halaman utama -->
-      <main class="p-6 bg-base-100 flex-1 overflow-y-auto">
+      <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
         <!-- Ini adalah tempat konten dinamis dari backend akan masuk -->
         <!-- Jika pakai Laravel: @yield('rekammedis') -->
-        @yield('rekammedis')
+        @yield('rekam_medis')
       </main>
     </div>
   </div>
