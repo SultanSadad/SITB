@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/dashboardrekammedis', function () {
     return view('rekammedis.dashboard');
 });
+
+
 
 
