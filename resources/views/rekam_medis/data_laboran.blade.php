@@ -11,8 +11,8 @@
                         class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10">
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 </div>
-                <button data-modal-toggle="crud-modal"
-                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm"
+                    style="min-width: 150px; white-space: nowrap;" data-modal-toggle="crud-modal">
                     + Tambah Laboran
                 </button>
             </div>
@@ -28,41 +28,78 @@
                     <form>
                         <div class="grid gap-4 mb-4">
                             <div>
-                                <label for="nama_laboran" class="block text-sm font-medium text-gray-900">Nama Laboran</label>
+                                <label for="nama_laboran" class="block text-sm font-medium text-gray-900">Nama
+                                    Laboran</label>
                                 <input type="text" id="nama_laboran" name="nama_laboran"
-                                    class="w-full border rounded-lg p-2.5" required>
+                                    class="w-full border rounded-lg p-2.5" required pattern="[A-Za-z\s]+"
+                                    title="Nama hanya boleh mengandung huruf dan spasi">
                             </div>
                             <div>
                                 <label for="nip" class="block text-sm font-medium text-gray-900">NIP</label>
-                                <input type="text" id="nip" name="nip" class="w-full border rounded-lg p-2.5" required>
+                                <input type="text" id="nip" name="nip" class="w-full border rounded-lg p-2.5" required
+                                    pattern="\d+" title="NIP hanya boleh mengandung angka">
                             </div>
                             <div>
-                                <label for="no_whatsapp" class="block text-sm font-medium text-gray-900">No. WhatsApp</label>
+                                <label for="no_whatsapp" class="block text-sm font-medium text-gray-900">No.
+                                    WhatsApp</label>
                                 <input type="text" id="no_whatsapp" name="no_whatsapp"
-                                    class="w-full border rounded-lg p-2.5" required>
+                                    class="w-full border rounded-lg p-2.5" required pattern="\d+"
+                                    title="Nomor WhatsApp hanya boleh mengandung angka">
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
-                                <input type="email" id="email" name="email" class="w-full border rounded-lg p-2.5" required>
+                                <input type="email" id="email" name="email" class="w-full border rounded-lg p-2.5" required
+                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}"
+                                    title="Email harus mengandung simbol @">
                             </div>
-                            <div>
+                            <div class="relative">
                                 <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" id="password" name="password" class="w-full border rounded-lg p-2.5"
-                                    required>
+                                <input type="password" id="password" name="password"
+                                    class="w-full border rounded-lg p-2.5 pr-10" required>
+
+                                <!-- Ikon eye toggle -->
+                                <i id="togglePassword"
+                                    class="fa-solid fa-eye absolute right-3 top-9 cursor-pointer text-gray-600"></i>
                             </div>
-                            <div>
+                            <script>
+                                const togglePassword = document.getElementById("togglePassword");
+                                const passwordInput = document.getElementById("password");
+                                togglePassword.addEventListener("click", function () {
+                                    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                                    passwordInput.setAttribute("type", type);
+                                    // Ganti ikon
+                                    this.classList.toggle("fa-eye");
+                                    this.classList.toggle("fa-eye-slash");
+                                });
+                            </script>
+                            <div class="relative">
                                 <label for="konfirmasi_password" class="block text-sm font-medium text-gray-900">Konfirmasi
                                     Password</label>
                                 <input type="password" id="konfirmasi_password" name="konfirmasi_password"
-                                    class="w-full border rounded-lg p-2.5" required>
+                                    class="w-full border rounded-lg p-2.5 pr-10" required>
+
+                                <!-- Ikon eye toggle untuk konfirmasi password -->
+                                <i id="toggleKonfirmasiPassword"
+                                    class="fa-solid fa-eye absolute right-3 top-9 cursor-pointer text-gray-600"></i>
                             </div>
+
+                            <script>
+                                // Toggle konfirmasi password
+                                const toggleKonfirmasiPassword = document.getElementById("toggleKonfirmasiPassword");
+                                const konfirmasiPasswordInput = document.getElementById("konfirmasi_password");
+                                toggleKonfirmasiPassword.addEventListener("click", function () {
+                                    const type = konfirmasiPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+                                    konfirmasiPasswordInput.setAttribute("type", type);
+                                    this.classList.toggle("fa-eye");
+                                    this.classList.toggle("fa-eye-slash");
+                                });
+                            </script>
                         </div>
                         <div class="flex justify-end gap-2">
                             <button type="button" data-modal-toggle="crud-modal"
                                 class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm">Batal</button>
                             <button type="submit"
-                                class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm">Tambah
-                                Laboran</button>
+                                class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -109,7 +146,6 @@
                                 class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">Simpan</button>
                         </div>
                     </form>
-
                 </div>
             </div>
 
