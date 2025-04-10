@@ -13,6 +13,9 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 
+  <!-- Import Google Font: Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
   <!-- Custom Style -->
   <style>
     /* Styling sidebar & navbar */
@@ -61,6 +64,11 @@
       color: black;
       padding: 10px 20px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Apply Roboto font globally */
+    body {
+      font-family: 'Roboto', sans-serif;
     }
   </style>
 </head>

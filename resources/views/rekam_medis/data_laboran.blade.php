@@ -6,8 +6,12 @@
 
     <div class="bg-white shadow-md rounded-lg p-6">
         <div class="flex justify-between items-center mb-4">
-            <input type="text" placeholder="Cari Laboran"
-                class="border border-gray-300 rounded-lg px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-blue-300 text-sm">
+            <!-- Input Pencarian dengan ikon search -->
+            <div class="relative w-1/3">
+                <input type="text" placeholder="Cari Laboran"
+                    class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
             <a href="/rekam_medis/data_laboran/create"
                 class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-medium">
                 + Tambah Laboran
