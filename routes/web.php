@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RekamMedis\PasienController;
+use App\Models\Pasien;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,10 @@ Route::get('/', function () {
 Route::get('/dashboardrekammedis', function () {
     return view('rekammedis.dashboard');
 });
+
+Route::get('/dashboardrekammedis', [PasienController::class, 'dashboard']);
+Route::post('/rekammedis/pasien/store', [PasienController::class, 'store']);;
+Route::get('/dashboardrekammedis', [PasienController::class, 'dashboard']);
 
 
 
