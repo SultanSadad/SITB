@@ -11,10 +11,11 @@
                         class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10">
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 </div>
-                <button data-modal-toggle="crud-modal"
-                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm"
+                    style="min-width: 150px; white-space: nowrap;" data-modal-toggle="crud-modal">
                     + Tambah Pasien
                 </button>
+
             </div>
 
             <!-- Modal Tambah Pasien -->
@@ -121,20 +122,20 @@
                 <table class="w-full text-sm text-left text-gray-700">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                         <tr>
-                            <th class="px-6 py-3">NAMA</th>
-                            <th class="px-6 py-3">NIK</th>
-                            <th class="px-6 py-3">TANGGAL LAHIR</th>
-                            <th class="px-6 py-3">NO. WHATSAPP</th>
-                            <th class="px-6 py-3">AKSI</th>
+                            <th class="px-6 py-3 text-center">NAMA</th>
+                            <th class="px-6 py-3 text-center">NIK</th>
+                            <th class="px-6 py-3 text-center">TANGGAL LAHIR</th>
+                            <th class="px-6 py-3 text-center">NO. WHATSAPP</th>
+                            <th class="px-6 py-3 text-center">AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="bg-white border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">Hafivah Tahta</td>
-                            <td class="px-6 py-4">3576014403910003</td>
-                            <td class="px-6 py-4">06 Maret 2005</td>
-                            <td class="px-6 py-4 text-green-600 font-semibold">085210659598</td>
-                            <td class="px-6 py-4 flex space-x-2">
+                            <td class="px-6 py-4 font-medium text-gray-900 text-center">Hafivah Tahta</td>
+                            <td class="px-6 py-4 text-center">3576014403910003</td>
+                            <td class="px-6 py-4 text-center">06 Maret 2005</td>
+                            <td class="px-6 py-4 text-green-600 font-semibold text-center">085210659598</td>
+                            <td class="px-6 py-4 flex justify-center space-x-2">
                                 <button data-modal-toggle="edit-modal"
                                     class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold">Edit</button>
                                 <form action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
@@ -148,6 +149,7 @@
                             </td>
                         </tr>
                     </tbody>
+
                 </table>
             </div>
         </div>

@@ -92,8 +92,16 @@
           <details>
             <summary><i class="fas fa-users mr-1"></i>Users</summary>
             <ul>
-              <li><a class="sidebar-item" href="/rekam_medis/data_pasien"><i class="fas fa-procedures mr-2"></i>Pasien</a></li>
-              <li><a class="sidebar-item" href="/rekam_medis/data_laboran"><i class="fas fa-vials mr-2"></i>Laboran</a></li>
+              <li>
+                <a class="sidebar-item" href="/rekam_medis/data_pasien">
+                  <i class="fas fa-procedures mr-2"></i>Pasien
+                </a>
+              </li>
+              <li>
+                <a class="sidebar-item" href="/rekam_medis/data_laboran">
+                  <i class="fas fa-vials mr-2"></i>Laboran
+                </a>
+              </li>
             </ul>
           </details>
         </li>
