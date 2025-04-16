@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +58,8 @@
             flex-wrap: wrap;
         }
 
-        .left, .right {
+        .left,
+        .right {
             flex: 1 1 50%;
             padding: 30px;
         }
@@ -130,7 +132,8 @@
                 flex-direction: column;
             }
 
-            .left, .right {
+            .left,
+            .right {
                 flex: 1 1 100%;
                 padding: 20px;
             }
@@ -159,6 +162,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="login-box">
@@ -171,23 +175,24 @@
                     <h2>Kota Batam</h2>
                 </div>
                 <div class="right">
-                    <h3>LOGIN</h3>
+                    <h3>LOGIN PASIEN</h3>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
-                                @foreach ($errors->all() as $item )
+                                @foreach ($errors->all() as $item)
                                     <li>{{ $item }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     @endif
-                    <form method="POST" action="/">
+                    <form method="POST" action="{{ route('pasien.login') }}">
                         @csrf
                         <div class="form-group">
-                            <input type="text" value="{{ old('username') }}" name="username" placeholder="Username" required>
+                            <input type="text" value="{{ old('nama') }}" name="nama" placeholder="Nama Lengkap"
+                                required>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password" placeholder="Password" required>
+                            <input type="date" name="tanggal_lahir" placeholder="Tanggal Lahir" required>
                         </div>
                         <button type="submit" class="btn-login">Login</button>
                     </form>
@@ -196,4 +201,5 @@
         </div>
     </div>
 </body>
+
 </html>
