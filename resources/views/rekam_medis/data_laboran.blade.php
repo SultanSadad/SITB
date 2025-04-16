@@ -18,7 +18,7 @@
             </a>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto mt-6">
             <table class="w-full text-sm text-left text-gray-700">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr>
