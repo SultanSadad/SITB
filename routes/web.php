@@ -25,9 +25,10 @@ Route::get('/rekam_medis/data_pasien', function () {
     return view('rekam_medis.data_pasien');
 });
 
-Route::get('/rekam_medis/data_laboran', function () {
-    return view('rekam_medis.data_laboran');
+Route::get('/rekam_medis/data_staff', function () {
+    return view('rekam_medis.data_staff');
 });
+
 
 Route::get('/rekam_medis/hasil_uji', function () {
     return view('rekam_medis.hasil_uji');
