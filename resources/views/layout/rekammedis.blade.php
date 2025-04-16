@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard Rekam Medis</title>
 
   <!-- DaisyUI & Tailwind -->
@@ -78,7 +78,7 @@
       <ul class="menu w-full rounded-box px-2">
         <li>
           <!-- Bagian active sebaiknya dikontrol backend sesuai halaman aktif -->
-          <a class="sidebar-item active" href="/admin/Dashboard">
+          <a class="sidebar-item" href="dashboardrekammedis">
             <i class="fas fa-tachometer-alt mr-1"></i>Dashboard
           </a>
         </li>
@@ -93,13 +93,13 @@
             <summary><i class="fas fa-users mr-1"></i>Users</summary>
             <ul>
               <li>
-                <a class="sidebar-item" href="/admin/Barang">
+                <a class="sidebar-item" href="/DataPasien">
                   <i class="fas fa-procedures mr-2"></i>Pasien
                 </a>
               </li>
               <li>
                 <a class="sidebar-item" href="/admin/AdminKonfirmasi">
-                  <i class="fas fa-vials mr-2"></i>Laboran
+                  <i class="   fa-vials mr-3"></i>Staf
                 </a>
               </li>
             </ul>

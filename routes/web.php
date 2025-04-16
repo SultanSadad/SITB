@@ -24,9 +24,16 @@ Route::get('/dashboardrekammedis', function () {
     return view('rekammedis.dashboard');
 });
 
-Route::get('/dashboardrekammedis', [PasienController::class, 'dashboard']);
-Route::post('/rekammedis/pasien/store', [PasienController::class, 'store']);;
-Route::get('/dashboardrekammedis', [PasienController::class, 'dashboard']);
+Route::get('/DataPasien', function () {
+    return view('rekammedis.DataPasien');
+});
+
+Route::get('/rekammedis/data-pasien', [PasienController::class, 'index'])->name('pasien.index');
+Route::post('/rekammedis/pasien/store', [PasienController::class, 'store'])->name('pasien.store');
+Route::delete('/rekammedis/pasien/delete/{id}', [PasienController::class, 'destroy'])->name('pasien.destroy');
+Route::get('/rekammedis/pasien/{id}/edit', [PasienController::class, 'edit'])->name('pasien.edit');
+Route::put('/rekammedis/pasien/{id}', [PasienController::class, 'update'])->name('pasien.update');
+
 
 
 
