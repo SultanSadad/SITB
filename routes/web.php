@@ -29,10 +29,11 @@ Route::get('/rekam_medis/data_staff', function () {
     return view('rekam_medis.data_staff');
 });
 
-
 Route::get('/rekam_medis/hasil_uji', function () {
     return view('rekam_medis.hasil_uji');
 });
+
+
 
 Route::get('/login', function () {
     return view('login');
@@ -45,6 +46,12 @@ Route::get('/laboran/dashboard_laboran', function () {
 Route::get('/laboran/hasil_uji', function () {
     return view('laboran.hasil_uji');
 });
+
+Route::get('/laboran/detail_laboran', function () {
+    return view('laboran.detail_laboran');
+});
+
+
 
 Route::get('/pasien/dashboard_pasien', function () {
     return view('pasien.dashboard_pasien');

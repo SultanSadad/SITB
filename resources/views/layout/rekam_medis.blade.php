@@ -98,8 +98,8 @@
                 </a>
               </li>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_laboran">
-                  <i class="fas fa-vials mr-2"></i>Laboran
+                <a class="sidebar-item" href="/rekam_medis/data_staff">
+                  <i class="fas fa-vials mr-2"></i>Staff
                 </a>
               </li>
             </ul>
