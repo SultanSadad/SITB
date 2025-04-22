@@ -18,16 +18,16 @@
             <table class="w-full text-sm text-left text-gray-700">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr>
-                        <th class="px-6 py-3">Nama Pasien</th>
-                        <th class="px-6 py-3">Tanggal Uji TB</th>
-                        <th class="px-6 py-3">Tanggal Upload TB</th>
-                        <th class="px-6 py-3">Status</th>
-                        <th class="px-6 py-3">File</th>
+                        <th class="px-6 py-3 text-center">Nama Pasien</th>
+                        <th class="px-6 py-3 text-center">Tanggal Uji TB</th>
+                        <th class="px-6 py-3 text-center">Tanggal Upload TB</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                        <th class="px-6 py-3 text-center">File</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{-- Contoh data dummy --}}
-                    <tr class="bg-white border-b">
+                    <tr class="bg-white border-b text-center">
                         <td class="px-6 py-4 font-medium text-gray-900">Hafivah Tahta</td>
                         <td class="px-6 py-4">5 April 2025</td>
                         <td class="px-6 py-4">6 April 2025</td>
@@ -41,7 +41,7 @@
                             </a>
                         </td>
                     </tr>
-                    <tr class="bg-white border-b">
+                    <tr class="bg-white border-b text-center">
                         <td class="px-6 py-4 font-medium text-gray-900">Saskia Nadira</td>
                         <td class="px-6 py-4">5 April 2025</td>
                         <td class="px-6 py-4">6 April 2025</td>
@@ -58,6 +58,47 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-center mt-6">
+            <nav aria-label="Page navigation">
+                <ul class="inline-flex items-center -space-x-px text-sm">
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">
+                            &lt;
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700">2</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">3</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">4</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">5</a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
+                            &gt;
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- End Pagination -->
     </div>
 </div>
 @endsection

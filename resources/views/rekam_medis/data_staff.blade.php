@@ -71,42 +71,84 @@
             </div>
 
             <div class="overflow-x-auto mt-6">
-  <table class="w-full text-sm text-gray-700 text-center whitespace-nowrap">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-      <tr>
-        <th class="px-6 py-3">NAMA</th>
-        <th class="px-6 py-3">EMAIL</th>
-        <th class="px-6 py-3">NIP</th>
-        <th class="px-6 py-3">NO. WHATSAPP</th>
-        <th class="px-6 py-3">BAGIAN</th>
-        <th class="px-6 py-3">AKSI</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="bg-white border-b">
-        <td class="px-6 py-4 font-medium text-gray-900">Hafivah Tahta</td>
-        <td class="px-6 py-4">hafivah@example.com</td>
-        <td class="px-6 py-4">3576014403910003</td>
-        <td class="px-6 py-4 text-green-600 font-semibold">085210659598</td>
-        <td class="px-6 py-4">Rekam Medis</td>
-        <td class="px-6 py-4">
-          <div class="flex justify-center items-center space-x-2">
-            <button data-modal-toggle="edit-modal"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold">Edit</button>
-            <form action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
-              @csrf
-              @method('DELETE')
-              <button type="submit"
-                class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                Hapus
-              </button>
-            </form>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+                <table class="w-full text-sm text-left text-gray-700">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-center">NAMA</th>
+                            <th class="px-6 py-3 text-center">EMAIL</th>
+                            <th class="px-6 py-3 text-center">NIP</th>
+                            <th class="px-6 py-3 text-center">NO. WHATSAPP</th>
+                            <th class="px-6 py-3 text-center">BAGIAN</th>
+                            <th class="px-6 py-3 text-center">AKSI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b text-center ">
+                            <td class="px-6 py-4 font-medium text-gray-900 ">Hafivah Tahta</td>
+                            <td class="px-6 py-4">hafivah@example.com</td>
+                            <td class="px-6 py-4">3576014403910003</td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">085210659598</td>
+                            <td class="px-6 py-4">Rekam Medis</td>
+                            <td class="px-6 py-4 flex space-x-2">
+                                <button data-modal-toggle="edit-modal"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold">Edit</button>
+                                <form action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="flex justify-center mt-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex items-center -space-x-px text-sm">
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">
+                                    &lt;
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">1</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700">2</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">3</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">4</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">5</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
+                                    &gt;
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- End Pagination -->
+
+            </div>
+        </div>
+    </div>
 
     <!-- Script Modal -->
     <script>
@@ -117,9 +159,7 @@
                 modal.classList.toggle('hidden');
             });
         });
-
-        // Tutup modal jika klik di luar konten modal
-        window.addEventListener('click', function (event) {
+     window.addEventListener('click', function (event) {
             document.querySelectorAll('.fixed.inset-0').forEach(modal => {
                 if (!modal.classList.contains('hidden') && event.target === modal) {
                     modal.classList.add('hidden');
