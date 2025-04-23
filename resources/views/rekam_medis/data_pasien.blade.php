@@ -6,19 +6,20 @@
 
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="flex justify-between items-center mb-4">
-                <div class="relative w-1/3">
-                    <input type="text" placeholder="Cari Pasien"
-                        class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
+                <form action="{{ url('/rekam_medis/data_pasien') }}" method="GET">
+                    <div class="relative w-full">
+                        <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
+                            class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10"
+                            value="{{ request('search') }}">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </form>
                 <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm"
                     style="min-width: 150px; white-space: nowrap;" data-modal-toggle="crud-modal">
                     + Tambah Pasien
                 </button>
 
             </div>
-
-            <!-- Modal Tambah Pasien -->
             <div id="crud-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                 <div class="bg-white rounded-lg shadow-md w-full max-w-md p-5">
                     <div class="flex items-center justify-between mb-4">
@@ -26,7 +27,8 @@
                         <button type="button" class="text-gray-400 hover:text-gray-900"
                             data-modal-toggle="crud-modal">&times;</button>
                     </div>
-                    <form>
+                    <form action="{{ route('pasiens.store') }}" method="POST">
+                        @csrf
                         <div class="grid gap-4 mb-4">
                             <div>
                                 <label for="nama_pasien" class="block text-sm font-medium text-gray-900">Nama Pasien</label>
@@ -35,29 +37,18 @@
                             </div>
                             <div>
                                 <label for="nik" class="block text-sm font-medium text-gray-900">NIK</label>
-                                <input type="text" id="nik" name="nik" class="w-full border rounded-lg p-2.5" required>
+                                <input type="number" id="nik" name="nik" class="w-full border rounded-lg p-2.5" required>
                             </div>
                             <div>
                                 <label for="no_whatsapp" class="block text-sm font-medium text-gray-900">No.
                                     WhatsApp</label>
-                                <input type="text" id="no_whatsapp" name="no_whatsapp"
+                                <input type="number" id="no_whatsapp" name="no_whatsapp"
                                     class="w-full border rounded-lg p-2.5" required>
                             </div>
                             <div>
                                 <label for="tanggal_lahir" class="block text-sm font-medium text-gray-900">Tanggal
                                     Lahir</label>
                                 <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                    class="w-full border rounded-lg p-2.5" required>
-                            </div>
-                            <div>
-                                <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" id="password" name="password" class="w-full border rounded-lg p-2.5"
-                                    required>
-                            </div>
-                            <div>
-                                <label for="konfirmasi_password" class="block text-sm font-medium text-gray-900">Konfirmasi
-                                    Password</label>
-                                <input type="password" id="konfirmasi_password" name="konfirmasi_password"
                                     class="w-full border rounded-lg p-2.5" required>
                             </div>
                         </div>
@@ -78,43 +69,49 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold text-gray-900">Edit Pasien</h3>
                         <button type="button" class="text-gray-400 hover:text-gray-900"
-                            data-modal-toggle="edit-modal">&times;</button>
+                            onclick="closeEditModal()">&times;</button>
                     </div>
-                    <form>
-                        <!-- Form untuk edit pasien -->
+
+                    <!-- Form dengan ID yang dapat diakses JavaScript -->
+                    <form id="edit-form" action="{{ route('pasiens.update', 0) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Form fields dengan ID yang dapat diakses JavaScript -->
                         <div class="mb-4">
-                            <label for="nama_pasien" class="block text-gray-700">Nama Pasien</label>
-                            <input type="text" id="nama_pasien" name="nama_pasien"
+                            <label for="edit_nama" class="block text-gray-700">Nama Pasien</label>
+                            <input type="text" id="edit_nama" name="nama"
                                 class="mt-1 p-2 w-full border border-gray-300 rounded-lg" required>
                         </div>
 
                         <div class="mb-4">
-                            <label for="nik" class="block text-gray-700">NIK</label>
-                            <input type="text" id="nik" name="nik" class="mt-1 p-2 w-full border border-gray-300 rounded-lg"
-                                required>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="no_wa" class="block text-gray-700">No WhatsApp Pasien</label>
-                            <input type="text" id="no_wa" name="no_wa"
+                            <label for="edit_nik" class="block text-gray-700">NIK</label>
+                            <input type="text" id="edit_nik" name="nik"
                                 class="mt-1 p-2 w-full border border-gray-300 rounded-lg" required>
                         </div>
 
                         <div class="mb-4">
-                            <label for="tgl_lahir" class="block text-gray-700">Tanggal Lahir Pasien</label>
-                            <input type="date" id="tgl_lahir" name="tgl_lahir"
+                            <label for="edit_no_whatsapp" class="block text-gray-700">No WhatsApp Pasien</label>
+                            <input type="number" id="edit_no_whatsapp" name="no_whatsapp"
                                 class="mt-1 p-2 w-full border border-gray-300 rounded-lg" required>
                         </div>
+
+                        <div class="mb-4">
+                            <label for="edit_tanggal_lahir" class="block text-gray-700">Tanggal Lahir Pasien</label>
+                            <input type="date" id="edit_tanggal_lahir" name="tanggal_lahir"
+                                class="mt-1 p-2 w-full border border-gray-300 rounded-lg" required>
+                        </div>
+
+                        <input type="hidden" id="pasien_id" name="pasien_id" value="">
 
                         <!-- Tombol Batal dan Simpan -->
                         <div class="flex justify-end gap-2 mt-4">
-                            <button type="button" data-modal-toggle="edit-modal"
+                            <button type="button" onclick="closeEditModal()"
                                 class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm">Batal</button>
                             <button type="submit"
                                 class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm">Simpan</button>
                         </div>
                     </form>
-
                 </div>
             </div>
 
@@ -130,26 +127,89 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b">
-                            <td class="px-6 py-4 font-medium text-gray-900">Hafivah Tahta</td>
-                            <td class="px-6 py-4">3576014403910003</td>
-                            <td class="px-6 py-4">06 Maret 2005</td>
-                            <td class="px-6 py-4 text-green-600 font-semibold">085210659598</td>
-                            <td class="px-6 py-4 flex space-x-2">
-                                <button data-modal-toggle="edit-modal"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold">Edit</button>
-                                <form action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                                        Hapus
+                        @foreach ($pasiens as $pasien)
+                            <tr class="bg-white border-b">
+                                <td class="px-6 py-4 font-medium text-gray-900">{{ $pasien->nama }}</td>
+                                <td class="px-6 py-4">{{ $pasien->nik }}</td>
+                                <td class="px-6 py-4">
+                                    {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d F Y') }}
+                                </td>
+                                <td class="px-6 py-4 text-green-600 font-semibold">{{ $pasien->no_whatsapp }}</td>
+                                <td class="px-6 py-4 flex space-x-2">
+                                    <button onclick="editPasien(
+                                        '{{ $pasien->id }}', 
+                                        '{{ $pasien->nama }}', 
+                                        '{{ $pasien->nik }}', 
+                                        '{{ $pasien->no_whatsapp }}', 
+                                        '{{ $pasien->tanggal_lahir->format('Y-m-d') }}'
+                                    )"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md text-xs font-semibold">
+                                        Edit
                                     </button>
-                                </form>
-                            </td>
-                        </tr>
+
+                                    <form action="{{ route('pasiens.destroy', $pasien->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="flex justify-center mt-6">
+                <nav aria-label="Page navigation">
+                    <ul class="inline-flex items-center -space-x-px text-sm">
+                        {{-- Previous Page --}}
+                        @if ($pasiens->onFirstPage())
+                            <li>
+                                <span
+                                    class="px-3 py-2 ml-0 leading-tight text-gray-400 bg-white border border-gray-300 rounded-l-lg cursor-not-allowed">
+                                    &lt;
+                                </span>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ $pasiens->previousPageUrl() }}"
+                                    class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">
+                                    &lt;
+                                </a>
+                            </li>
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @foreach ($pasiens->getUrlRange(1, $pasiens->lastPage()) as $page => $url)
+                            <li>
+                                <a href="{{ $url }}"
+                                    class="px-3 py-2 leading-tight {{ $page == $pasiens->currentPage() ? 'text-blue-600 bg-blue-50 border border-gray-300' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700' }}">
+                                    {{ $page }}
+                                </a>
+                            </li>
+                        @endforeach
+
+                        {{-- Next Page --}}
+                        @if ($pasiens->hasMorePages())
+                            <li>
+                                <a href="{{ $pasiens->nextPageUrl() }}"
+                                    class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">
+                                    &gt;
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <span
+                                    class="px-3 py-2 leading-tight text-gray-400 bg-white border border-gray-300 rounded-r-lg cursor-not-allowed">
+                                    &gt;
+                                </span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
@@ -170,6 +230,86 @@
                 if (!modal.classList.contains('hidden') && event.target === modal) {
                     modal.classList.add('hidden');
                 }
+            });
+        });
+    </script>
+    <script>
+        function editPasien(id, nama, nik, no_whatsapp, tanggal_lahir) {
+            // Set ID pasien pada hidden field
+            document.getElementById('pasien_id').value = id;
+
+            // Update form action URL
+            const form = document.getElementById('edit-form');
+            form.action = `/pasiens/${id}`;
+
+            // Isi form dengan data
+            document.getElementById('edit_nama').value = nama;
+            document.getElementById('edit_nik').value = nik;
+            document.getElementById('edit_no_whatsapp').value = no_whatsapp;
+            document.getElementById('edit_tanggal_lahir').value = tanggal_lahir;
+
+            // Tampilkan modal
+            document.getElementById('edit-modal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').classList.add('hidden');
+        }
+
+        // Mencegah form dikirim dengan URL action yang kosong
+        document.getElementById('edit-form').addEventListener('submit', function (event) {
+            const formAction = this.getAttribute('action');
+            if (!formAction || formAction === "") {
+                event.preventDefault();
+                alert('Error: Form action URL tidak valid');
+                return false;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('search-pasien');
+            let timeoutId;
+
+            searchInput.addEventListener('input', function () {
+                clearTimeout(timeoutId);
+                const query = this.value.trim();
+
+                // Set delay untuk menghindari terlalu banyak request
+                timeoutId = setTimeout(() => {
+                    // Update URL agar bisa di-bookmark
+                    const url = new URL(window.location);
+                    if (query) {
+                        url.searchParams.set('search', query);
+                    } else {
+                        url.searchParams.delete('search');
+                    }
+                    window.history.pushState({}, '', url);
+
+                    // Fetch data dari server dengan query
+                    fetch(`/rekam_medis/data_pasien?search=${encodeURIComponent(query)}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => response.text())
+                        .then(html => {
+                            // Update konten tabel dengan hasil pencarian
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+
+                            // Sesuaikan selector ini dengan struktur tabel Anda
+                            const tableContainer = document.querySelector('.table-container');
+                            const newTableContainer = doc.querySelector('.table-container');
+
+                            if (tableContainer && newTableContainer) {
+                                tableContainer.innerHTML = newTableContainer.innerHTML;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }, 300);
             });
         });
     </script>

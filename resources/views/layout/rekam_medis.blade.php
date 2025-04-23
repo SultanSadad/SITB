@@ -72,6 +72,10 @@
     }
   </style>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
 
 <body>
   <div class="flex h-screen bg-gray-100">
@@ -105,8 +109,8 @@
                 </a>
               </li>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_laboran">
-                  <i class="fas fa-vials mr-2"></i>Laboran
+                <a class="sidebar-item" href="/rekam_medis/data_staf">
+                  <i class="fas fa-vials mr-2"></i>Staf
                 </a>
               </li>
             </ul>
@@ -158,8 +162,6 @@
 
       <!-- Placeholder konten halaman utama -->
       <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
-        <!-- Ini adalah tempat konten dinamis dari backend akan masuk -->
-        <!-- Jika pakai Laravel: @yield('rekammedis') -->
         @yield('rekam_medis')
       </main>
     </div>

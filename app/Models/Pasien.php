@@ -10,9 +10,12 @@ class Pasien extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    
     protected $fillable = [
         'nama',
+        'nik',
         'tanggal_lahir',
+        'no_whatsapp',
     ];
 
     protected $hidden = [
