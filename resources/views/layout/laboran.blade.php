@@ -86,9 +86,15 @@
       <div class="font-bold divider mb-2 text-center text-xl text-white">Meta Scane</div>
 
       <ul class="menu w-full rounded-box px-2">
-        <li><a class="sidebar-item active" href="/dashboard_laboran"><i class="fas fa-tachometer-alt mr-1"></i>Dashboard</a></li>
-        <li><a class="sidebar-item" href="/laboran/hasil_uji"><i class="fas fa-file-medical mr-2"></i>Hasil Uji TB</a></li>
-        <li><a class="sidebar-item" href="/login"><i class="fas fa-sign-out-alt mr-1"></i>Logout</a></li>
+        <li>
+          <a href="/laboran/dashboard_laboran"class="sidebar-item {{ Request::is('laboran/dashboard_laboran') ? 'active' : '' }}"><i class="fas fa-home mr-2"></i>Dashboard</a>
+        </li>
+        <li>
+        <a href="/laboran/hasil_uji"class="sidebar-item {{ Request::is('laboran/hasil_uji') ? 'active' : '' }}"><i class="fas fa-vial mr-2"></i>Hasil Uji TB</a>
+        </li>
+        <li>
+          <a href="/login"class="sidebar-item {{ Request::is('login') ? 'active' : '' }}"><i class="fas fa-right-from-bracket mr-2"></i>Logout</a>
+        </li>
       </ul>
     </div>
 

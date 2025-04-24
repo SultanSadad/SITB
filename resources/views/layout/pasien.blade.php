@@ -86,9 +86,14 @@
       <div class="font-bold divider mb-2 text-center text-xl text-white">Meta Scane</div>
 
       <ul class="menu w-full rounded-box px-2">
-        <li><a class="sidebar-item active" href="/dashboard_pasien"><i class="fas fa-tachometer-alt mr-1"></i>Dashboard</a></li>
-        <li><a class="sidebar-item" href="/pasien/hasil_uji"><i class="fas fa-file-medical mr-2"></i>Hasil Uji TB</a></li>
-        <li><a class="sidebar-item" href="/login"><i class="fas fa-sign-out-alt mr-1"></i>Logout</a></li>
+        <li>
+          <a href="/pasien/dashboard_pasien"class="sidebar-item {{ Request::is('pasien/dashboard_pasien') ? 'active' : '' }}"><i class="fas fa-home mr-2"></i>Dashboard</a>
+        </li>
+        <li>
+        <a href="/pasien/hasil_uji" class="sidebar-item {{ Request::is('pasien/hasil_uji') ? 'active' : '' }}"><i class="fas fa-vial mr-2"></i>Hasil Uji TB</a>
+        </li>
+        <li>
+        <a href="/login" class="sidebar-item {{ Request::is('login') ? 'active' : '' }}"><i class="fas fa-right-from-bracket mr-2"></i>Logout</a>
       </ul>
     </div>
 
@@ -123,7 +128,7 @@
 
       <!-- Konten utama -->
       <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
-        @yield('Pasien')
+        @yield('pasien')
       </main>
     </div>
   </div>

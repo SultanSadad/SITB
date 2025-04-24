@@ -86,19 +86,23 @@
       <div class="font-bold divider mb-2 text-center text-xl text-white">Meta Scane</div>
 
       <ul class="menu w-full rounded-box px-2">
-        <li><a class="sidebar-item active" href="/dashboard_rekam_medis"><i class="fas fa-tachometer-alt mr-1"></i>Dashboard</a></li>
-        <li><a class="sidebar-item" href="/rekam_medis/hasil_uji"><i class="fas fa-file-medical mr-2"></i>Hasil Uji TB</a></li>
+        <li>
+          <a href="/dashboard_rekam_medis"class="sidebar-item {{ Request::is('dashboard_rekam_medis') ? 'active' : '' }}"><i class="fas fa-home mr-2"></i>Dashboard</a>
+        </li>
+        <li>
+          <a href="/rekam_medis/hasil_uji"class="sidebar-item {{ Request::is('rekam_medis/hasil_uji') ? 'active' : '' }}"><i class="fas fa-vial mr-2"></i>Hasil Uji TB</a>
+        </li>
         <li>
           <details>
             <summary><i class="fas fa-users mr-1"></i>Users</summary>
             <ul>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_pasien">
+                <a href="/rekam_medis/data_pasien"class="sidebar-item {{ Request::is('rekam_medis/data_pasien') ? 'active' : '' }}">
                   <i class="fas fa-procedures mr-2"></i>Pasien
                 </a>
               </li>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_staff">
+              <a href="/rekam_medis/data_staff"class="sidebar-item {{ Request::is('rekam_medis/data_staff') ? 'active' : '' }}">
                   <i class="fas fa-vials mr-2"></i>Staff
                 </a>
               </li>

@@ -5,7 +5,7 @@
     <h1 class="font-bold text-2xl mb-4">Hasil Uji TB</h1>
 
     <div class="bg-white shadow-md rounded-lg p-6">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-6">
             <!-- Input Pencarian -->
             <div class="relative w-1/3">
                 <input type="text" placeholder="Cari Pasien"

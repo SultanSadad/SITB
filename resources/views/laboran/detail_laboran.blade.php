@@ -26,11 +26,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M3 16.5V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18v-1.5M12 3v12m0 0l-3.75-3.75M12 15l3.75-3.75" />
                 </svg>
-            Upload Hasil Uji
-        </button>
+                    Upload Hasil Uji
+                </button>
             </div>
 
-            <div class="overflow-x-auto mt-4">
+            <div class="overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-700">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                         <tr>

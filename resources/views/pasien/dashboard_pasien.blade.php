@@ -1,5 +1,5 @@
 @extends('layout.pasien')
-@section('Pasien')
+@section('pasien')
 
 <div class="flex justify-between items-center px-5 mt-6 mb-6">
   <h1 class="font-bold text-2xl">Data Pasien</h1>
