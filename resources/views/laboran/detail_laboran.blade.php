@@ -1,15 +1,12 @@
 @extends('layout.laboran')
 
 @section('laboran')
-    <div class="relative px-6 mt-4">
+    <div class="relative px-6 pt-10 mt-4">
 
         <!-- Tombol Kembali -->
-        <a href="{{ url()->previous() }}" class="inline-flex items-center text-gray-700 hover:text-gray-900 mb-3">
+        <a href="{{ url()->previous() }}" class="absolute top-4 left-6 inline-flex items-center text-gray-700 hover:text-gray-900">
             <!-- Heroicon: Panah ke kiri -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-            </svg>
-            <span class="text-sm font-medium">Kembali</span>
+            <i class="fa-solid fa-arrow-left"></i>
         </a>
 
         <h1 class="font-bold text-2xl mb-4">Detail Hasil Uji</h1>
@@ -22,10 +19,8 @@
                     class="inline-flex items-center bg-green-700 hover:bg-green-800 text-white text-sm font-semibold px-4 py-2 rounded">
             <!-- Icon upload -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3 16.5V18a2.25 2.25 0 002.25 2.25h13.5A2.25 2.25 0 0021 18v-1.5M12 3v12m0 0l-3.75-3.75M12 15l3.75-3.75" />
-                </svg>
+                        stroke-width="1.5" stroke="currentColor" class="w-1 h-2 mr-1">
+                </svg><i class="fas fa-plus mr-2"></i>
                     Upload Hasil Uji
                 </button>
             </div>
@@ -50,18 +45,16 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <a href="#"
-                                    class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs font-semibold">
+                                    class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                    <i class="fa-solid fa-download"></i>
                                     Cetak Hasil
                                 </a>
                             </td>
                             <td class="px-6 py-4 flex justify-center space-x-2">
-                                <a href="#"
-                                   class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">
-                                    Cetak
-                                </a>
                                 <button type="button"
                                     class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold"
                                     data-modal-toggle="delete-modal">
+                                    <i class="fa-solid fa-trash"></i>
                                     Hapus
                                 </button>
 

@@ -32,6 +32,7 @@
                         <td class="px-6 py-4 text-center">
                             <a href="{{ url('/laboran/detail_laboran') }}"
                                style="background-color: #E650BE;" class="text-white px-2 py-1 rounded text-xs font-regular ">
+                               <i class="fa-solid fa-circle-info mr-1"></i>
                                Detail
                             </a>
                         </td>

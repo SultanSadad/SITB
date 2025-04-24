@@ -13,7 +13,8 @@
                 </div>
                 <button type="submit" class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm"
                     style="min-width: 150px; white-space: nowrap;" data-modal-toggle="crud-modal">
-                    + Tambah Pasien
+                    <i class="fas fa-plus mr-2"></i>
+                    Tambah Pasien
                 </button>
 
             </div>
@@ -137,12 +138,15 @@
                             <td class="px-6 py-4 text-green-600 font-semibold">085210659598</td>
                             <td class="px-6 py-4 flex justify-center space-x-2">
                                 <button data-modal-toggle="edit-modal"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs font-semibold">Edit</button>
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs font-semibold">
+                                    <i class="fa-solid fa-pencil mr-1"></i>
+                                    Edit</button>
                                 <form action="#" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                        class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs font-semibold">
+                                        <i class="fa-solid fa-trash mr-1"></i>
                                         Hapus
                                     </button>
                                 </form>

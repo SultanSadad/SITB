@@ -37,6 +37,7 @@
                         <td class="px-6 py-4">
                             <a href="#"
                                class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs font-semibold">
+                               <i class="fa-solid fa-print mr-1"></i>
                                Cetak Hasil
                             </a>
                         </td>
@@ -51,6 +52,7 @@
                         <td class="px-6 py-4">
                             <a href="#"
                                class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs font-semibold">
+                               <i class="fa-solid fa-print mr-1"></i>
                                Cetak Hasil
                             </a>
                         </td>
