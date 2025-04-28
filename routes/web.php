@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PasienLoginController;
 use App\Http\Controllers\Pasien\PasienController;
 use App\Http\Controllers\Staf\StafController;
+use App\Http\Controllers\HasilUji\HasilUjiTBController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,7 @@ use App\Http\Controllers\Staf\StafController;
 Route::get('/home', function () {
     return view('welcome');
 });
+
 
 // ---------------------------
 // Rekam Medis Pages
@@ -35,15 +38,7 @@ Route::prefix('rekam_medis')->group(function () {
 // Laboran Pages
 // ---------------------------
 
-Route::prefix('laboran')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('laboran.dashboard_laboran');
-    });
 
-    Route::get('/hasil_uji', function () {
-        return view('laboran.hasil_uji');
-    });
-});
 
 // ---------------------------
 // Pasien Pages
@@ -90,3 +85,35 @@ Route::get('/rekam_medis/data_staf', [App\Http\Controllers\Staf\StafController::
 
 // Jika perlu AJAX search
 Route::get('/search/staf', [App\Http\Controllers\Staf\StafController::class, 'searchStaf'])->name('search.staf');
+
+//ROUTE LABORAN
+Route::get('/laboran/dashboard_laboran', function () {
+    return view('laboran.dashboard_laboran');   
+});
+
+
+
+Route::get('/laboran/detail_laboran', function () {
+    return view('laboran.detail_laboran');
+});
+
+// Route Laboran untuk menampilkan hasil uji berdasarkan pasien
+Route::get('/laboran/detail_laboran/{pasienId}', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'showByPasien'])->name('laboran.detail');
+Route::get('/laboran/detail/{pasienId}', [App\Http\Controllers\Laboran\LaboranController::class, 'showDetail'])->name('laboran.detail');
+
+////ROUTE PASIEN
+Route::get('/pasien/dashboard_pasien', function () {
+    return view('pasien.dashboard_pasien');
+});
+
+Route::get('/hasil_uji', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'index']);
+
+
+Route::post('/pasien/{pasien}/hasil-uji', [HasilUjiTBController::class, 'store'])->name('hasilUjiTB.store');
+
+Route::get('/rekam_medis/hasil_uji', [HasilUjiTBController::class, 'index'])->name('rekam-medis.hasil-uji');
+
+//pagin di halaman laboran/hasil_uji
+// Tambahkan rute ini di routes/web.php
+Route::get('/laboran/hasil_uji', [App\Http\Controllers\Pasien\PasienController::class, 'laboranIndex'])->name('laboran.hasil_uji');
+Route::get('/laboran/hasil_uji', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'hasilUji'])->name('laboran.hasil_uji');

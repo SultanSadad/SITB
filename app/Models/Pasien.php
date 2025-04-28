@@ -10,7 +10,7 @@ class Pasien extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    
+
     protected $fillable = [
         'nama',
         'nik',
@@ -25,4 +25,11 @@ class Pasien extends Authenticatable
     protected $casts = [
         'tanggal_lahir' => 'date',
     ];
+
+    public function hasilUjiTB()
+    {
+        return $this->hasMany(HasilUjiTB::class);
+    }
+
 }
+

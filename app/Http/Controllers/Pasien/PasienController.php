@@ -26,6 +26,8 @@ class PasienController extends Controller
 
         return view('rekam_medis.data_pasien', compact('pasiens'));
     }
+    
+   
 
     public function searchPasien(Request $request)
     {
@@ -97,4 +99,10 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect()->route('pasiens.index');
     }
+   // Tambahkan metode ini di PasienController.php
+public function laboranIndex()
+{
+    $pasiens = Pasien::latest()->paginate(8); // Pagination dengan 6 item per halaman
+    return view('laboran.hasil_uji', compact('pasiens'));
+}
 }
