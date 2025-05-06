@@ -6,18 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up()
 {
     Schema::table('pasiens', function (Blueprint $table) {
-        $table->string('nik')->unique()->nullable(false)->change(); // ganti jadi NOT NULL
+        $table->date('tanggal_lahir')->nullable();
     });
 }
-
 
 public function down()
 {
     Schema::table('pasiens', function (Blueprint $table) {
-        $table->dropColumn(['nik', 'no_whatsapp']);
+        $table->dropColumn('tanggal_lahir');
     });
 }
 

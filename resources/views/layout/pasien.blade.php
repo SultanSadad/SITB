@@ -87,13 +87,21 @@
 
       <ul class="menu w-full rounded-box px-2">
         <li>
-          <a href="/pasien/dashboard_pasien"class="sidebar-item {{ Request::is('pasien/dashboard_pasien') ? 'active' : '' }}"><i class="fas fa-home mr-2"></i>Dashboard</a>
+          <a href="{{ route('pasien.dashboard') }}"
+            class="sidebar-item {{ Request::is('pasien/dashboard') ? 'active' : '' }}"><i
+              class="fas fa-home mr-2"></i>Dashboard</a>
         </li>
         <li>
-        <a href="/pasien/hasil_uji" class="sidebar-item {{ Request::is('pasien/hasil_uji') ? 'active' : '' }}"><i class="fas fa-vial mr-2"></i>Hasil Uji TB</a>
+          <a href="{{ route('pasien.hasil_uji') }}"
+            class="sidebar-item {{ Request::is('pasien/hasil_uji') ? 'active' : '' }}"><i
+              class="fas fa-vial mr-2"></i>Hasil Uji Laboratorium</a>
         </li>
         <li>
-        <a href="/login" class="sidebar-item {{ Request::is('login') ? 'active' : '' }}"><i class="fas fa-right-from-bracket mr-2"></i>Logout</a>
+          <form action="{{ route('pasien.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="sidebar-item"><i class="fas fa-right-from-bracket mr-2"></i>Logout</button>
+          </form>
+        </li>
       </ul>
     </div>
 
@@ -111,7 +119,7 @@
         </div>
 
         <div class="flex-none gap-4 items-center">
-          <span class="text-sm font-semibold">Hi, Pasien</span>
+        <span class="text-sm font-semibold">Hi, {{ Auth::user()->name }}</span>
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar me-6" aria-label="User Profile">
               <div class="w-10 h-10 rounded-full overflow-hidden tooltip" data-tip="User Profile">
@@ -120,7 +128,12 @@
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
-              <li><a href="/Login">Logout</a></li>
+              <li>
+                <form action="{{ route('pasien.logout') }}" method="POST">
+                  @csrf
+                  <button type="submit" class="w-full text-left">Logout</button>
+                </form>
+              </li>
             </ul>
           </div>
         </div>

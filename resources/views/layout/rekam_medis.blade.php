@@ -74,9 +74,6 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-
 <body>
   <div class="flex h-screen bg-gray-100">
     <!-- Sidebar -->
@@ -88,15 +85,15 @@
 
       <ul class="menu w-full rounded-box px-2">
         <li>
-          <!-- Bagian active sebaiknya dikontrol backend sesuai halaman aktif -->
-          <a class="sidebar-item active" href="/dashboard_rekam_medis">
+          <a class="sidebar-item {{ Request::is('rekam_medis/dashboard') ? 'active' : '' }}"
+            href="{{ route('rekam-medis.dashboard') }}">
             <i class="fas fa-tachometer-alt mr-1"></i>Dashboard
           </a>
         </li>
         <li>
-          <!-- Juga bisa dikasih kondisi active via backend -->
-          <a class="sidebar-item" href="/rekam_medis/hasil_uji">
-            <i class="fas fa-file-medical mr-2"></i>Hasil Uji TB
+          <a class="sidebar-item {{ Request::is('rekam_medis/hasil_uji') ? 'active' : '' }}"
+            href="{{ route('rekam-medis.hasil-uji.index') }}">
+            <i class="fas fa-file-medical mr-2"></i>Hasil Uji Laboratorium
           </a>
         </li>
         <li>
@@ -104,23 +101,25 @@
             <summary><i class="fas fa-users mr-1"></i>Users</summary>
             <ul>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_pasien">
+                <a class="sidebar-item" href="{{ route('rekam-medis.data-pasien') }}">
                   <i class="fas fa-procedures mr-2"></i>Pasien
                 </a>
               </li>
               <li>
-                <a class="sidebar-item" href="/rekam_medis/data_staf">
-                  <i class="fas fa-vials mr-2"></i>Staf
+                <a class="sidebar-item" href="{{ route('rekam-medis.data-staf') }}">
+                  <i class="fas fa-vials mr-2"></i>Akun
                 </a>
               </li>
             </ul>
           </details>
         </li>
         <li>
-          <!-- Link logout sebaiknya diarahkan ke route logout dari backend -->
-          <a class="sidebar-item" href="/login">
-            <i class="fas fa-sign-out-alt mr-1"></i>Logout
-          </a>
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="sidebar-item">
+              <i class="fas fa-sign-out-alt mr-1"></i>Logout
+            </button>
+          </form>
         </li>
       </ul>
     </div>
@@ -130,30 +129,27 @@
       <!-- Navbar -->
       <div class="navbar bg-[#EDEDED] text-black shadow-md px-4 custom-navbar">
         <div class="flex-1">
-          <!-- Judul halaman bisa diisi dinamis dari backend -->
           <h1 class="text-xl font-bold"></h1>
         </div>
 
         <div class="flex-none gap-4 items-center">
-          <!-- Nama user diambil dari session / auth backend -->
-          <span class="text-sm font-semibold">Hi, Elon Musk</span>
-          <!-- nanti ini diubah dinamis -->
+        <span class="text-sm font-semibold">Hi, {{ Auth::user()->name }}</span>
 
           <!-- Avatar user -->
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar me-6" aria-label="User Profile">
               <div class="w-10 h-10 rounded-full overflow-hidden tooltip" data-tip="User Profile">
-                <!-- URL gambar juga harus dinamis dari user login -->
                 <img src="/image/profile.jpg" class="w-full h-full object-cover" alt="Profile" />
               </div>
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
-              <li><a>Settings</a></li>
+              <!-- Logout button in dropdown -->
               <li>
-                <!-- Logout sebaiknya pakai form POST (bukan GET link) -->
-                <a href="/Login">Logout</a>
-                <!-- contoh: <form method="POST" action="/logout"> -->
+                <form action="{{ route('logout') }}" method="POST">
+                  @csrf
+                  <button type="submit" class="w-full text-left">Logout</button>
+                </form>
               </li>
             </ul>
           </div>
@@ -167,4 +163,5 @@
     </div>
   </div>
 </body>
+
 </html>

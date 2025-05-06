@@ -3,10 +3,10 @@
 @section('laboran')
     <div class="relative px-6 mt-1">
         <!-- Tombol Kembali -->
-        <a href="{{ route('laboran.hasil_uji') }}" class="mt-4 inline-block bg-gray-600 text-white px-4 py-2 rounded">
+        <a href="{{ route('laboran.hasil-uji') }}" class="mt-4 inline-block bg-gray-600 text-white px-4 py-2 rounded">
             Kembali
         </a>
-        <h1 class="font-bold text-2xl mb-4">Detail Hasil Uji</h1>
+        <h1 class="font-bold text-2xl mb-4">Detail Hasil Uji Laboratorium</h1>
         <div class="bg-white shadow-md rounded-lg p-6">
             <!-- Tombol Upload Hasil Uji -->
             <div class="flex justify-end mb-4">
@@ -25,84 +25,80 @@
             <div class="overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-700">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                    <tr>
-    <!-- TANGGAL UJI -->
-    <th class="px-6 py-3 text-center">
-        <div class="flex items-center justify-center gap-1 relative">
-            TANGGAL UJI
-            <button id="filterTanggalUjiButton" data-dropdown-toggle="filterTanggalUjiDropdown" class="text-gray-500 hover:text-gray-700">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                </svg>
-            </button>
+                        <tr>
+                            <!-- TANGGAL UJI -->
+                            <th class="px-6 py-3 ">
+                                <div class="flex gap-1 relative">
+                                    TANGGAL UJI
+                                    <button id="filterTanggalUjiButton" data-dropdown-toggle="filterTanggalUjiDropdown"
+                                        class="text-gray-500 hover:text-gray-700">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
 
-            <!-- Dropdown filter -->
-            <div id="filterTanggalUjiDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-8 right-0">
-                <ul class="py-2 text-sm text-gray-700">
-                    <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terbaru</a></li>
-                    <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terlama</a></li>
-                </ul>
-            </div>
-        </div>
-    </th>
+                                    <!-- Dropdown filter -->
+                                    <div id="filterTanggalUjiDropdown"
+                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-8 right-0">
+                                        <ul class="py-2 text-sm text-gray-700">
+                                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terbaru</a></li>
+                                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terlama</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th>
 
-    <!-- TANGGAL UPLOAD -->
-    <th class="px-6 py-3 text-center">
-        <div class="flex items-center justify-center gap-1 relative">
-            TANGGAL UPLOAD
-            <button id="filterTanggalUploadButton" data-dropdown-toggle="filterTanggalUploadDropdown" class="text-gray-500 hover:text-gray-700">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                </svg>
-            </button>
+                            <!-- TANGGAL UPLOAD -->
+                            <th class="px-6 py-3 ">
+                                <div class="flex  gap-1 relative">
+                                    TANGGAL UPLOAD
+                                    <button id="filterTanggalUploadButton"
+                                        data-dropdown-toggle="filterTanggalUploadDropdown"
+                                        class="text-gray-500 hover:text-gray-700">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0l-4.25-4.65a.75.75 0 01.02-1.06z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
 
-            <div id="filterTanggalUploadDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-8 right-0">
-                <ul class="py-2 text-sm text-gray-700">
-                    <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terbaru</a></li>
-                    <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terlama</a></li>
-                </ul>
-            </div>
-        </div>
-    </th>
+                                    <div id="filterTanggalUploadDropdown"
+                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-8 right-0">
+                                        <ul class="py-2 text-sm text-gray-700">
+                                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terbaru</a></li>
+                                            <li><a href="#" class="block px-4 py-2 hover:bg-gray-100">Terlama</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th>
 
-    <!-- STATUS -->
-    <th class="px-6 py-3 text-center">
-       STATUS
-    </th>
+                            <!-- STATUS -->
+                          
 
-    <!-- FILE -->
-    <th class="px-6 py-3 text-center">
-        FILE
-    </th>
+                            <!-- FILE -->
+                            <th class="px-6 py-3 ">
+                                FILE
+                            </th>
 
-    <!-- AKSI -->
-    <th class="px-6 py-3 text-center">
-        <div class="flex items-center justify-center gap-1">
-            AKSI
-        </div>
-    </th>
-</tr>
+                            <!-- AKSI -->
+                            <th class="px-6 py-3 ">
+                                <div class="flex gap-1">
+                                    AKSI
+                                </div>
+                            </th>
+                        </tr>
 
                     </thead>
                     <tbody>
                         @forelse ($pasien->hasilUjiTB as $hasil)
                             <tr class="bg-white border-b">
-                                <td class="px-6 py-4 text-center">{{ $hasil->tanggal_uji }}</td>
-                                <td class="px-6 py-4 text-center">{{ $hasil->tanggal_upload }}</td>
-                                <td class="px-6 py-4 text-center">
-                                    @if ($hasil->status === 'Negatif')
-                                        <span
-                                            class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium">Negatif</span>
-                                    @elseif ($hasil->status === 'Positif')
-                                        <span
-                                            class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">Positif</span>
-                                    @else
-                                        <span
-                                            class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">{{ $hasil->status }}</span>
-                                    @endif
-                                </td>
+                                <td class="px-6 py-4 ">{{ $hasil->tanggal_uji }}</td>
+                                <td class="px-6 py-4 ">{{ $hasil->tanggal_upload }}</td>
+                        
 
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-6 py-4 ">
                                     <button type="button"
                                         onclick="window.open('{{ asset('storage/' . $hasil->file) }}', '_blank')"
                                         class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">
@@ -110,14 +106,18 @@
                                         Cetak Hasil
                                     </button>
                                 </td>
-                                <td class="px-6 py-4 flex justify-center space-x-2">
-                                    <button type="button"
-                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold"
-                                        data-modal-toggle="delete-modal">
-                                        <i class="fa-solid fa-trash"></i>
-                                        Hapus
-                                    </button>
+                                <td class="px-6 py-4 flex space-x-2">
+                                    <form action="{{ route('hasil-uji.destroy', $hasil->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">
+                                            <i class="fa-solid fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
                                 </td>
+
                             </tr>
                         @empty
                             <tr>
@@ -129,7 +129,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal Upload Hasil Uji -->
     <div id="modalUpload"
         class="hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-50">
         <div class="relative p-0 w-full max-w-md">
@@ -153,7 +152,8 @@
                 </div>
 
                 <!-- Modal body -->
-                <form action="{{ route('hasilUjiTB.store', $pasien->id) }}" method="POST" enctype="multipart/form-data"
+                
+                <form action="{{ route('hasil-uji.store', $pasien->id) }}" method="POST" enctype="multipart/form-data"
                     class="p-5">
                     @csrf
 

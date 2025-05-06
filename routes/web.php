@@ -1,119 +1,101 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\PasienLoginController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Pasien\PasienController;
 use App\Http\Controllers\Staf\StafController;
 use App\Http\Controllers\HasilUji\HasilUjiTBController;
+use App\Http\Controllers\RekamMedis\HasilUjiRekamController;
+use App\Http\Controllers\RekamMedis\DashboardController as RekamDashboardController;
+use App\Http\Controllers\Laboran\LaboranDashboardController;
+use App\Http\Controllers\Laboran\LaboranController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
-
+// Halaman Home Default
 Route::get('/home', function () {
     return view('welcome');
-});
+})->name('home');
 
-
-// ---------------------------
-// Rekam Medis Pages
-// ---------------------------
-
-Route::prefix('rekam_medis')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('rekam_medis.dashboard');
-    });
-
-    Route::get('/data_pasien', [PasienController::class, 'index']);
-  
-    Route::get('/hasil_uji', function () {
-        return view('rekam_medis.hasil_uji');
-    });
-});
-
-// ---------------------------
-// Laboran Pages
-// ---------------------------
-
-
-
-// ---------------------------
-// Pasien Pages
-// ---------------------------
-
+// ======================= PASIEN ROUTES =======================
 Route::prefix('pasien')->name('pasien.')->group(function () {
-    // Login routes
     Route::middleware('guest')->group(function () {
-        Route::get('/login', [PasienLoginController::class, 'index'])->name('login');
-        Route::post('/login', [PasienLoginController::class, 'login']);
+        Route::get('/login', [LoginController::class, 'showPasienLoginForm'])->name('login');
+        Route::post('/login', [LoginController::class, 'loginPasien']);
     });
 
-    // Authenticated routes
     Route::middleware('auth')->group(function () {
-        Route::get('/dashboard_pasien', function () {
+        Route::get('/dashboard', function () {
             return view('pasien.dashboard_pasien');
-        });
-        Route::get('/hasil_uji', function () {
+        })->name('dashboard');
+
+        Route::get('/hasil-uji', function () {
             return view('pasien.hasil_uji');
-        });
+        })->name('hasil_uji');
+
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    });
+});
+
+// ======================= STAF ROUTES =======================
+Route::prefix('staf')->name('staf.')->group(function () {
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'showStafLoginForm'])->name('login');
+        Route::post('/login', [LoginController::class, 'loginStaf']);
     });
 
-    // Logout
-    Route::post('/logout', [PasienLoginController::class, 'logout'])->name('logout');
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('staf.dashboard');
+        })->name('dashboard');
+
+        Route::get('/hasil-uji', [LaboranController::class, 'index'])->name('hasil-uji');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    });
 });
 
-// ---------------------------
-// CRUD Routes
-// ---------------------------
+// ======================= REKAM MEDIS ROUTES =======================
+Route::prefix('rekam-medis')->name('rekam-medis.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [RekamDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/hasil-uji', [HasilUjiRekamController::class, 'index'])->name('hasil-uji.index');
+    Route::get('/detail/{pasienId}', [HasilUjiTBController::class, 'showByPasienRekamMedis'])->name('detail');
 
-// Pasien
+    // Menambahkan route untuk data pasien dan staf sesuai dengan yang ada di sidebar
+    Route::get('/data-pasien', [PasienController::class, 'index'])->name('data-pasien');
+    Route::get('/data-staf', [StafController::class, 'index'])->name('data-staf');
+    Route::get('/datahasiluji', [HasilUjiRekamController::class, 'index'])->name('datahasiluji');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+// ======================= LABORAN ROUTES =======================
+Route::prefix('laboran')->name('laboran.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [LaboranDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/data-pasien', function () {
+        return view('laboran.data_pasien');
+    })->name('data-pasien');
+    Route::get('/hasil-uji', [HasilUjiTBController::class, 'indexLaboran'])->name('hasil-uji');
+    Route::get('/detail/{pasienId}', [HasilUjiTBController::class, 'showByPasien'])->name('detail');
+    Route::get('/DataHasilUji', [HasilUjiTBController::class, 'semuaHasilUji'])->name('data-hasil-uji');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+// ======================= HASIL UJI ROUTES (Umum) =======================
+Route::get('/hasil-uji', [HasilUjiTBController::class, 'index']);
+Route::delete('/hasil-uji/{id}', [HasilUjiTBController::class, 'destroy'])->name('hasil-uji.destroy');
+Route::post('/pasien/{pasien}/hasil-uji', [HasilUjiTBController::class, 'store'])->name('hasil-uji.store');
+
+// ======================= DATA & SEARCH =======================
 Route::resource('pasiens', PasienController::class);
-
-// Staf (Laboran & Rekam Medis)
 Route::resource('stafs', StafController::class);
-Route::get('/rekam_medis/data_staf', [StafController::class, 'index'])->name('data_staf');
 
-// SEARCH PASIEN   
+Route::get('/rekam_medis/data-staf', [StafController::class, 'index'])->name('data-staf');
+Route::get('/rekam_medis/data-pasien', [PasienController::class, 'index'])->name('data-pasien');
+
 Route::get('/search/pasien', [PasienController::class, 'searchPasien'])->name('search.pasien');
+Route::get('/search/staf', [StafController::class, 'searchStaf'])->name('search.staf');
+
+// ======================= GLOBAL LOGOUT (Fallback) =======================
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-// Rute data staf dengan parameter pencarian
-Route::get('/rekam_medis/data_staf', [App\Http\Controllers\Staf\StafController::class, 'index'])->name('data_staf');
-
-// Jika perlu AJAX search
-Route::get('/search/staf', [App\Http\Controllers\Staf\StafController::class, 'searchStaf'])->name('search.staf');
-
-//ROUTE LABORAN
-Route::get('/laboran/dashboard_laboran', function () {
-    return view('laboran.dashboard_laboran');   
-});
-
-
-
-Route::get('/laboran/detail_laboran', function () {
-    return view('laboran.detail_laboran');
-});
-
-// Route Laboran untuk menampilkan hasil uji berdasarkan pasien
-Route::get('/laboran/detail_laboran/{pasienId}', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'showByPasien'])->name('laboran.detail');
-Route::get('/laboran/detail/{pasienId}', [App\Http\Controllers\Laboran\LaboranController::class, 'showDetail'])->name('laboran.detail');
-
-////ROUTE PASIEN
-Route::get('/pasien/dashboard_pasien', function () {
-    return view('pasien.dashboard_pasien');
-});
-
-Route::get('/hasil_uji', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'index']);
-
-
-Route::post('/pasien/{pasien}/hasil-uji', [HasilUjiTBController::class, 'store'])->name('hasilUjiTB.store');
-
-Route::get('/rekam_medis/hasil_uji', [HasilUjiTBController::class, 'index'])->name('rekam-medis.hasil-uji');
-
-//pagin di halaman laboran/hasil_uji
-// Tambahkan rute ini di routes/web.php
-Route::get('/laboran/hasil_uji', [App\Http\Controllers\Pasien\PasienController::class, 'laboranIndex'])->name('laboran.hasil_uji');
-Route::get('/laboran/hasil_uji', [App\Http\Controllers\HasilUji\HasilUjiTBController::class, 'hasilUji'])->name('laboran.hasil_uji');
+Route::get('/stafs/{staf}/edit-data', [App\Http\Controllers\Staf\StafController::class, 'getEditData'])
+    ->name('stafs.edit-data');
+    Route::post('/stafs', [StafController::class, 'store'])->name('stafs.store');

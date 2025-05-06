@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Pasien;
 use App\Models\Pasien;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class PasienController extends Controller
 {
-    // Menampilkan semua data pasien
     public function index(Request $request)
     {
         $query = Pasien::query();
@@ -22,38 +22,34 @@ class PasienController extends Controller
         }
 
         $pasiens = $query->paginate(7);
-        $pasiens->appends($request->all()); // Mempertahankan parameter search di pagination
+        $pasiens->appends($request->all());
 
         return view('rekam_medis.data_pasien', compact('pasiens'));
     }
-    
-   
 
     public function searchPasien(Request $request)
     {
         $search = $request->get('search');
 
-        // Case-insensitive search, mencari di nama dan NIK
         $pasiens = Pasien::where(function ($query) use ($search) {
             $query->whereRaw('LOWER(nama) LIKE ?', ['%' . strtolower($search) . '%'])
                 ->orWhereRaw('LOWER(nik) LIKE ?', ['%' . strtolower($search) . '%']);
         })
-            ->limit(10) // Batasi hasil untuk performa
-            ->get(['id', 'nama', 'nik', 'tanggal_lahir']); // Ambil hanya field yang dibutuhkan
+            ->limit(10)
+            ->get(['id', 'nama', 'nik', 'tanggal_lahir']);
 
         return response()->json($pasiens);
     }
 
-
-    // Menampilkan form tambah pasien
     public function create()
     {
         return view('pasiens.create');
     }
 
-    // Menyimpan data pasien baru
     public function store(Request $request)
     {
+        Log::info('Request masuk', $request->all());
+
         $request->validate([
             'nama_pasien' => 'required|string|max:255',
             'nik' => 'required|string|unique:pasiens',
@@ -61,24 +57,30 @@ class PasienController extends Controller
             'no_whatsapp' => 'nullable|string',
         ]);
 
-        Pasien::create([
+        Log::info('Validasi oke');
+
+        $latestPasien = Pasien::latest('id')->first();
+        $nextId = $latestPasien ? $latestPasien->id + 1 : 1;
+        $no_erm = str_pad($nextId, 8, '0', STR_PAD_LEFT);
+
+        $pasien = Pasien::create([
             'nama' => $request->nama_pasien,
             'nik' => $request->nik,
             'tanggal_lahir' => $request->tanggal_lahir,
             'no_whatsapp' => $request->no_whatsapp,
+            'no_erm' => $no_erm,
         ]);
 
+        Log::info('Pasien berhasil dibuat', $pasien->toArray());
 
-        return redirect()->route('pasiens.index');
+        return redirect()->route('pasiens.index')->with('success', 'Pasien berhasil ditambahkan.');
     }
 
-    // Menampilkan form edit pasien
     public function edit(Pasien $pasien)
     {
-        return view('rekam_medis.data_pasien', compact('pasien'));
+        return view('pasiens.edit', compact('pasien')); // disarankan gunakan view khusus edit
     }
 
-    // Menyimpan perubahan data pasien
     public function update(Request $request, Pasien $pasien)
     {
         $request->validate([
@@ -88,21 +90,38 @@ class PasienController extends Controller
             'no_whatsapp' => 'nullable|string',
         ]);
 
-        $pasien->update($request->all());
+        $pasien->update([
+            'nama' => $request->nama,
+            'nik' => $request->nik,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'no_whatsapp' => $request->no_whatsapp,
+        ]);
 
         return redirect()->route('pasiens.index');
     }
 
-    // Menghapus data pasien
     public function destroy(Pasien $pasien)
     {
         $pasien->delete();
         return redirect()->route('pasiens.index');
     }
-   // Tambahkan metode ini di PasienController.php
-public function laboranIndex()
-{
-    $pasiens = Pasien::latest()->paginate(8); // Pagination dengan 6 item per halaman
-    return view('laboran.hasil_uji', compact('pasiens'));
-}
+
+    public function laboranIndex()
+    {
+        $pasiens = Pasien::latest()->paginate(8);
+        return view('laboran.hasil_uji', compact('pasiens'));
+    }
+
+    public function updateVerifikasi(Request $request, $id)
+    {
+        try {
+            $pasien = Pasien::findOrFail($id);
+            $pasien->verifikasi = $request->verifikasi ? true : false;
+            $pasien->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
 }

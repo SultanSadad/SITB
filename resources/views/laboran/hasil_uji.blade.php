@@ -2,12 +2,12 @@
 
 @section('laboran')
     <div class="px-6 mt-4">
-        <h1 class="font-bold text-2xl mb-4">Hasil Uji TB</h1>
+        <h1 class="font-bold text-2xl mb-4">Hasil Uji Laboratorium</h1>
 
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="flex justify-between items-center mb-6">
                 <!-- Input Pencarian -->
-                <form action="{{ url('/laboran/hasil_uji') }}" method="GET">
+                <form action="{{ url('/laboran/hasil-uji') }}" method="GET">
                     <div class="relative w-full">
                         <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
                             class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10"
@@ -20,33 +20,39 @@
             <div class="overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-700">
         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-            <tr>
-                <th class="px-6 py-3 text-center">Nama Pasien</th>
-                <th class="px-6 py-3 text-center">No WhatsApp</th>
-                <th class="px-6 py-3 text-center">Aksi</th>
-            </tr>
+        <tr>
+        <th scope="col" class="px-6 py-3 ">Nomor ERM</th>
+        <th scope="col" class="px-6 py-3 ">NIK</th>
+        <th scope="col" class="px-6 py-3 ">Nama</th>
+        <th scope="col" class="px-6 py-3 ">Tanggal Lahir</th>
+        <th scope="col" class="px-6 py-3 ">No HP</th>
+        <th scope="col" class="px-6 py-3 ">Aksi</th>
+    </tr>
         </thead>
         <!-- views/laboran/hasil_uji.blade.php -->
 
         <tbody>
-            @forelse ($pasiens as $pasien)
-                <tr class="bg-white border-b">
-                    <td class="px-6 py-4 font-medium text-gray-900 text-center">{{ $pasien->nama }}</td>
-                    <td class="px-6 py-4 text-center">{{ $pasien->no_whatsapp }}</td>
-                    <td class="px-6 py-4 text-center">
-                        <a href="{{ route('laboran.detail', ['pasienId' => $pasien->id]) }}"
-                            style="background-color: #E650BE;"
-                            class="text-white px-2 py-1 rounded text-xs font-regular ">
-                            Detail
-                        </a>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3" class="px-6 py-4 text-center">Tidak ada data pasien</td>
-                </tr>
-            @endforelse
-        </tbody>
+    @forelse ($pasiens as $pasien)
+        <tr class="bg-white border-b">
+            <td class="px-6 py-4 font-medium text-gray-900 ">{{ $pasien->no_erm ?? 'N/A' }}</td>
+            <td class="px-6 py-4 ">{{ $pasien->nik ?? 'N/A' }}</td>
+            <td class="px-6 py-4 ">{{ $pasien->nama }}</td>
+            <td class="px-6 py-4 ">{{ $pasien->tanggal_lahir ? date('d-m-Y', strtotime($pasien->tanggal_lahir)) : 'N/A' }}</td>
+            <td class="px-6 py-4 ">{{ $pasien->no_whatsapp ?? 'N/A' }}</td>
+            <td class="px-6 py-4 ">
+                <a href="{{ route('laboran.detail', ['pasienId' => $pasien->id]) }}"
+                   style="background-color: #E650BE;"
+                   class="text-white px-2 py-1 rounded text-xs font-regular">
+                    Detail
+                </a>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="6" class="px-6 py-4 text-center">Tidak ada data pasien</td>
+        </tr>
+    @endforelse
+</tbody>
     </table>
 </div>
 

@@ -9,7 +9,7 @@ class HasilUjiTB extends Model
     protected $table = 'hasil_uji_tb';
 
     protected $fillable = [
-        'pasien_id', 'tanggal_uji', 'tanggal_upload', 'status', 'file'
+        'pasien_id', 'tanggal_uji', 'tanggal_upload', 'file'
     ];
 
     public function pasien()

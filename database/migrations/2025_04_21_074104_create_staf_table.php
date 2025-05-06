@@ -1,28 +1,27 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Staf extends Model
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    use HasFactory;
+    
+    protected $table = 'staf';
+    
+    protected $fillable = [
+        'nip',
+        'nama',
+        'email',
+        'no_whatsapp',
+        'peran',
+    ];
+    
+    // Relation with User
+    public function user()
     {
-        Schema::create('staf', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('nip')->unique();
-            $table->string('email')->unique();
-            $table->string('no_whatsapp')->nullable();
-            $table->enum('role', ['laboran', 'rekammedis']);
-            $table->timestamps();
-        });
+        return $this->hasOne(User::class, 'profile_id')->where('role', 'staf');
     }
-    public function down(): void
-    {
-        Schema::dropIfExists('staf');
-    }
-};
+}

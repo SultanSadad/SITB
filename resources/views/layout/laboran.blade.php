@@ -87,13 +87,30 @@
 
       <ul class="menu w-full rounded-box px-2">
         <li>
-          <a href="/laboran/dashboard_laboran"class="sidebar-item {{ Request::is('laboran/dashboard_laboran') ? 'active' : '' }}"><i class="fas fa-home mr-2"></i>Dashboard</a>
+          <a href="{{ route('laboran.dashboard') }}"
+            class="sidebar-item {{ Request::is('laboran/dashboard') ? 'active' : '' }}">
+            <i class="fas fa-home mr-2"></i>Dashboard
+          </a>
         </li>
         <li>
-        <a href="/laboran/hasil_uji"class="sidebar-item {{ Request::is('laboran/hasil_uji') ? 'active' : '' }}"><i class="fas fa-vial mr-2"></i>Hasil Uji TB</a>
+          <a href="{{ route('laboran.data-pasien') }}"
+            class="sidebar-item {{ Request::is('laboran/data-pasien') ? 'active' : '' }}">
+            <i class="fas fa-home mr-2"></i>Data Pasien
+          </a>
         </li>
         <li>
-          <a href="/login"class="sidebar-item {{ Request::is('login') ? 'active' : '' }}"><i class="fas fa-right-from-bracket mr-2"></i>Logout</a>
+        <a href="{{ route('laboran.hasil-uji') }}" class="sidebar-item {{ Request::is('laboran/hasil-uji') ? 'active' : '' }}">
+            <i class="fas fa-home mr-2"></i>Hasil Uji
+          </a>
+        </li>
+        <!-- Tombol Logout -->
+        <li>
+          <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="sidebar-item">
+              <i class="fas fa-right-from-bracket mr-2"></i>Logout
+            </button>
+          </form>
         </li>
       </ul>
     </div>
@@ -112,7 +129,7 @@
         </div>
 
         <div class="flex-none gap-4 items-center">
-          <span class="text-sm font-semibold">Hi, Laboran</span>
+        <span class="text-sm font-semibold">Hi, {{ Auth::user()->name }}</span>
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar me-6" aria-label="User Profile">
               <div class="w-10 h-10 rounded-full overflow-hidden tooltip" data-tip="User Profile">
@@ -121,13 +138,19 @@
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
-              <li><a href="/Login">Logout</a></li>
+              <!-- Logout button in dropdown -->
+              <li>
+                <form action="{{ route('logout') }}" method="POST">
+                  @csrf
+                  <button type="submit" class="w-full text-left">Logout</button>
+                </form>
+              </li>
             </ul>
           </div>
-        </div>
+        </div> 
       </div>
 
-      <!-- Konten utama -->
+      <!-- Main Content -->
       <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
         @yield('laboran')
       </main>

@@ -18,7 +18,6 @@
             <table class="w-full text-sm text-left text-gray-700">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr>
-                        <th class="px-6 py-3 text-center">Nama Pasien</th>
                         <th class="px-6 py-3 text-center">Tanggal Uji TB</th>
                         <th class="px-6 py-3 text-center">Tanggal Upload TB</th>
                         <th class="px-6 py-3 text-center">Status</th>
@@ -28,7 +27,6 @@
                 <tbody>
                     {{-- Contoh data dummy --}}
                     <tr class="bg-white border-b text-center">
-                        <td class="px-6 py-4 font-medium text-gray-900">Hafivah Tahta</td>
                         <td class="px-6 py-4">5 April 2025</td>
                         <td class="px-6 py-4">6 April 2025</td>
                         <td class="px-6 py-4">
@@ -43,7 +41,6 @@
                         </td>
                     </tr>
                     <tr class="bg-white border-b text-center">
-                        <td class="px-6 py-4 font-medium text-gray-900">Saskia Nadira</td>
                         <td class="px-6 py-4">5 April 2025</td>
                         <td class="px-6 py-4">6 April 2025</td>
                         <td class="px-6 py-4">

@@ -188,11 +188,13 @@
                     <form method="POST" action="{{ route('pasien.login') }}">
                         @csrf
                         <div class="form-group">
-                            <input type="text" value="{{ old('nama') }}" name="nama" placeholder="Nama Lengkap"
-                                required>
+                            <label for="nik">NIK</label>
+                            <input type="text" id="nik" value="{{ old('nik') }}" name="nik" placeholder="NIK" required>
                         </div>
                         <div class="form-group">
-                            <input type="date" name="tanggal_lahir" placeholder="Tanggal Lahir" required>
+                            <label for="no_erm">Nomor Rekam Medis</label>
+                            <input type="text" id="no_erm" value="{{ old('no_erm') }}" name="no_erm"
+                                placeholder="Nomor Rekam Medis" required>
                         </div>
                         <button type="submit" class="btn-login">Login</button>
                     </form>

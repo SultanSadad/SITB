@@ -10,8 +10,18 @@ class Authenticate extends Middleware
     /**
      * Get the path the user should be redirected to when they are not authenticated.
      */
-    protected function redirectTo(Request $request): ?string
+    protected function redirectTo($request)
     {
-        return $request->expectsJson() ? null : route('login');
+        if (!$request->expectsJson()) {
+            // Cek prefix URL agar diarahkan ke login yang sesuai
+            if ($request->is('pasien/*')) {
+                return route('pasien.login');
+            } elseif ($request->is('staf/*') || $request->is('rekam_medis/*') || $request->is('laboran/*')) {
+                return route('staf.login');
+            }
+
+            // Fallback: redirect ke login staf jika tidak dikenali
+            return route('staf.login');
+        }
     }
 }
