@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'profile_id',
+        'pasien_id',
+        'staf_id',
     ];
 
     /**
@@ -44,20 +45,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
+
     /**
-     * Get the staf profile associated with the user.
+     * Relasi ke tabel staf.
      */
     public function staf()
     {
-        return $this->belongsTo(Staf::class, 'profile_id');
+        return $this->belongsTo(Staf::class, 'staf_id');
     }
-    
+
     /**
-     * Get the pasien profile associated with the user.
+     * Relasi ke tabel pasien.
      */
     public function pasien()
     {
-        return $this->belongsTo(Pasien::class, 'profile_id');
+        return $this->belongsTo(Pasien::class, 'pasien_id');
     }
 }

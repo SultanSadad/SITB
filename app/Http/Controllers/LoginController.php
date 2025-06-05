@@ -11,90 +11,118 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    // Form login untuk pasien
+    // Menampilkan form login untuk pasien
     public function showPasienLoginForm()
     {
-        return view('auth.pasien_login');
+        return view('auth.login_pemohon');
     }
 
-    // Proses login pasien menggunakan NIK & No.ERM
+    // Proses login untuk pasien
     public function loginPasien(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'nik' => 'required',
-            'no_erm' => 'required',
+            'nik' => 'required|string',
+            'no_erm' => 'required|string',
         ]);
 
+        // Cari pasien berdasarkan NIK dan No. ERM
         $pasien = Pasien::where('nik', $request->nik)
             ->where('no_erm', $request->no_erm)
             ->first();
 
-        if ($pasien) {
-            $user = User::where('profile_id', $pasien->id)
-                ->where('role', 'pasien')
-                ->first();
-
-            if ($user) {
-                Auth::login($user);
-                return redirect()->route('pasien.dashboard');
-            }
+        // Jika tidak ditemukan, kembali ke form dengan error
+        if (!$pasien) {
+            return back()->withErrors([
+                'nik' => 'NIK atau Nomor Rekam Medis tidak valid.',
+            ])->withInput();
         }
 
-        return back()->withErrors(['login_failed' => 'NIK atau No.ERM tidak ditemukan']);
+        // Cari akun user terkait pasien tersebut
+        $user = User::where('pasien_id', $pasien->id)
+            ->where('role', 'pasien')
+            ->first();
+
+        // Jika belum ada akun, buatkan user baru untuk pasien
+        if (!$user) {
+            $user = User::create([
+                'name' => $pasien->nama,
+                'email' => null,
+                'password' => null,
+                'role' => 'pasien',
+                'pasien_id' => $pasien->id,
+            ]);
+        }
+
+        // Login user pasien
+        Auth::login($user);
+
+        // Redirect ke dashboard pasien
+        return redirect()->route('pasien.dashboard');
     }
 
-    // Form login untuk staf
+    // Menampilkan form login untuk staf
     public function showStafLoginForm()
     {
-        return view('auth.staf_login');
+        return view('auth.login_petugas');
     }
 
-    // Proses login staf menggunakan email & password
+    // Proses login untuk staf menggunakan email atau nama & password
     public function loginStaf(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|string',
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)
-            ->where('role', 'staf') // ← role staf dari tabel users
+        // Cari user dengan role staf berdasarkan email atau nama
+        $user = User::where('role', 'staf')
+            ->where(function ($query) use ($request) {
+                $query->where('email', $request->email)
+                    ->orWhere('name', $request->email);
+            })
             ->first();
 
+        // Cek kecocokan password
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
 
-            // Ambil data staf dari profile_id
-            $staf = Staf::find($user->profile_id);
+            // Ambil data staf terkait
+            $staf = Staf::find($user->staf_id);
 
-            // Redirect berdasarkan peran staf
+            // Redirect sesuai peran staf
             if ($staf?->peran === 'laboran') {
                 return redirect()->route('laboran.dashboard');
             } elseif ($staf?->peran === 'rekam_medis') {
                 return redirect()->route('rekam-medis.dashboard');
             }
 
+            // Jika peran tidak valid, logout kembali
             Auth::logout();
             return back()->withErrors(['login_failed' => 'Peran staf tidak valid.']);
         }
 
-        return back()->withErrors(['login_failed' => 'Email atau password salah']);
+        // Jika user tidak ditemukan atau password salah
+        return back()->withErrors(['login_failed' => 'Username atau password salah']);
     }
 
-    // Logout umum untuk semua peran
+    // Proses logout untuk semua user
     public function logout(Request $request)
     {
-        $user = Auth::user();  // Mendapatkan user yang sedang login
+        $user = Auth::user();
 
-        Auth::logout();  // Logout user
-        $request->session()->invalidate();  // Invalidasi session
-        $request->session()->regenerateToken();  // Regenerasi token CSRF
+        // Logout dan hapus session
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        // Redirect berdasarkan role pengguna
+        // Redirect ke halaman login sesuai peran
         if ($user->role === 'staf') {
-            return redirect()->route('staf.login');  // Jika staf, redirect ke login staf
+            return redirect()->route('staf.login');
         }
 
-        return redirect()->route('pasien.login');  // Jika pasien, redirect ke login pasien
+        return redirect()->route('pasien.login');
     }
 }
+

@@ -19,10 +19,13 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->enum('role', ['pasien', 'staf']);
 
-            // profile_id mengarah ke 'pasiens' jika role == 'pasien'
-            // profile_id mengarah ke 'staf' jika role == 'staf'
-            // Tidak perlu foreign key strict karena profile_id fleksibel ke dua tabel yang berbeda
-            $table->unsignedBigInteger('profile_id'); 
+            // Tambahkan foreign key eksplisit untuk relasi ke tabel pasiens dan staf
+            $table->unsignedBigInteger('pasien_id')->nullable();
+            $table->unsignedBigInteger('staf_id')->nullable();
+
+            $table->foreign('pasien_id')->references('id')->on('pasiens')->onDelete('cascade');
+            $table->foreign('staf_id')->references('id')->on('staf')->onDelete('cascade');
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -18,16 +18,16 @@ class Pasien extends Authenticatable
         'verifikasi',
         'no_erm', // Make sure this is included
     ];
-    
+
     protected $hidden = [
         'remember_token',
     ];
 
     protected $casts = [
         'tanggal_lahir' => 'date',
+        'verifikasi' => 'boolean',
     ];
 
-    
 
     public function hasilUjiTB()
     {
