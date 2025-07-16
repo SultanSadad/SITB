@@ -1,7 +1,13 @@
+{{--
+// Nama File = dashboard_rekam_medis.blade.php
+// Deskripsi = Halaman dashboard untuk Staf Rekam Medis, menampilkan statistik total, hasil uji hari ini, hasil uji
+total, total pasien, dan tabel hasil uji hari ini.
+// Dibuat oleh = Sultan Sadad - NIM: 3312301102
+// Tanggal = 25 April 2025
+--}}
+
 @extends('layout.rekam_medis')
-
 @section('rekam_medis')
-
     <div class="px-6 mt-4">
         <!-- Header -->
         <div class="flex justify-between items-center mb-2">
@@ -42,7 +48,7 @@
         <!-- Dashboard Cards Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <!-- Card 1 - Total Pasien -->
-            <a href="{{ route('rekam-medis.data-pasien') }}" class="block">
+            <a href="{{ route('rekam-medis.pasien.index') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">
@@ -62,7 +68,7 @@
             </a>
 
             <!-- Card 2 - Total Hasil Uji -->
-            <a href="{{ route('rekam-medis.datahasiluji') }}" class="block">
+            <a href="{{ route('rekam-medis.hasil-uji.data') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">
@@ -82,7 +88,7 @@
             </a>
 
             <!-- Card 3 - Hasil Uji Hari Ini -->
-            <a href="{{ route('rekam-medis.datahasiluji') }}" class="block">
+            <a href="{{ route('rekam-medis.hasil-uji.data') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">
@@ -344,6 +350,7 @@
             // Update ringkasan angka di atas chart
             updateSummary(selectedYear);
         });
+
     </script>
 
 @endsection

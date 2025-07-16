@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\HasilUjiTB;
+use App\Models\Pasien;
+use Illuminate\Support\Facades\Gate; // <-- Pastikan ini tidak dikomentari
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +23,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // =======================================================
+        // TAMBAHKAN ATURAN OTORISASI DI SINI
+        // =======================================================
+        Gate::define('view-hasil-uji', function (Pasien $pasien, HasilUjiTB $hasilUji) {
+            // Aturan: Izinkan jika ID pasien yang login SAMA DENGAN ID pasien pemilik hasil uji.
+            return $pasien->id === $hasilUji->pasien_id;
+        });
     }
 }

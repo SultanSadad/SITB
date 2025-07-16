@@ -1,36 +1,43 @@
 <?php
 
-namespace App\Http\Middleware;
+// Nama File   = PastikanPeranLaboran.php
+// Deskripsi   = Middleware ini bertugas memastikan bahwa hanya pengguna dengan peran 'laboran'
+//               yang dapat mengakses rute atau halaman tertentu. Jika pengguna bukan laboran
+//               atau belum login sebagai staf, akses akan ditolak.
+// Dibuat oleh = Salma
+// Tanggal     = 16 Juli 2025
 
-use Closure;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Pastikan Auth di-import
+namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+use Closure; // Import Closure untuk tipe data callback.
+use Illuminate\Http\Request; // Import kelas Request untuk bekerja dengan permintaan HTTP.
+use Illuminate\Support\Facades\Auth; // Import Facade Auth untuk mengecek status login.
+
+
 
 class PastikanPeranLaboran
 {
     /**
-     * Handle an incoming request.
+     * handle()
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     * **Tujuan:** Memeriksa apakah pengguna yang sedang login adalah seorang 'laboran'.
+     * Jika ya, izinkan akses. Jika tidak, tolak akses.
+     *
+     * @param  \Illuminate\Http\Request  $request Objek Request yang sedang diproses.
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next Closure yang mewakili middleware berikutnya atau handler utama.
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse Respons HTTP atau pengalihan.
      */
     public function handle(Request $request, Closure $next)
     {
-        // Cek apakah pengguna sudah login dan memiliki staf_id
-        if (Auth::check() && Auth::user()->staf_id) {
-            // Ambil data staf terkait pengguna
-            $staf = Auth::user()->staf; // Asumsi ada relasi 'staf' di model User
-
-            // Cek apakah peran staf adalah 'laboran'
-            if ($staf && $staf->peran === 'laboran') {
-                return $next($request);
-            }
+        // 1. Cek Login Staf & Peran:
+        //    - `Auth::guard('staf')->check()`: Memeriksa apakah ada pengguna yang login melalui guard 'staf'.
+        //    - `Auth::guard('staf')->user()->peran === 'laboran'`: Jika ada, periksa apakah peran staf tersebut adalah 'laboran'.
+        if (Auth::guard('staf')->check() && Auth::guard('staf')->user()->peran === 'laboran') {
+            // Jika pengguna adalah staf dan perannya 'laboran', izinkan permintaan untuk dilanjutkan.
+            return $next($request);
         }
-        
-        // Jika tidak, redirect atau berikan response error
-        Auth::logout(); // Logout pengguna karena mencoba akses tidak sah
-        return redirect()->route('staf.login')->withErrors(['access_denied' => 'Anda tidak memiliki izin untuk mengakses halaman ini.']);
-        // atau abort(403, 'Unauthorized action.');
+
+        // Jika kondisi di atas tidak terpenuhi (bukan staf, atau staf tapi bukan laboran),
+        // hentikan permintaan dan tampilkan error 403 (Forbidden).
+        abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
     }
 }

@@ -1,3 +1,13 @@
+{{-- Nama File   = detail_hasil_uji.blade.php] --}}
+{{-- Deskripsi   = Update modal data hasil uji --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal     = 10 April 2025 --}}
+
+{{-- Nama File   = [detail_hasil_uji.blade.php] --}}
+{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal     = 16 April 2025 --}}
+
 @extends('layout.laboran')
 <title>Detail Hasil Uji Laboratorium</title>
 @section('laboran')
@@ -9,17 +19,14 @@
         </div>
         <div class="bg-white shadow-xl rounded-sm p-6">
 
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0"> {{-- Tambahkan flex-col
-                dan gap untuk responsivitas --}}
-                <a href="{{ route('laboran.hasil-uji') }}"
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0">
+                <a href="{{ route('laboran.hasil-uji.index') }}"
                     class="inline-block bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition w-full sm:w-auto text-center">
-                    {{-- Lebarkan tombol untuk mobile --}}
                     <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
                 </a>
 
                 <button onclick="toggleModal(true)"
-                    class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-auto"> {{--
-                    Lebarkan tombol untuk mobile --}}
+                    class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg text-sm w-full sm:w-auto">
                     + Tambah Hasil Uji
                 </button>
             </div>
@@ -27,7 +34,6 @@
             {{-- Modal Notifikasi (Satu definisi yang universal) --}}
             <div id="popup-modal" tabindex="-1"
                 class="hidden fixed top-0 left-0 right-0 z-50  items-center justify-center w-full h-full bg-black bg-opacity-50 p-4">
-                {{-- Tambahkan p-4 untuk padding di mobile --}}
                 <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md text-center">
                     <svg id="modal-icon" class="mx-auto mb-4 w-12 h-12" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -38,12 +44,10 @@
             </div>
 
             <div id="delete-modal" tabindex="-1"
-                class="hidden fixed inset-0 z-50  items-center justify-center bg-black bg-opacity-50 p-4"> {{-- Tambahkan
-                p-4 untuk padding di mobile --}}
+                class="hidden fixed inset-0 z-50  items-center justify-center bg-black bg-opacity-50 p-4">
                 <div class="bg-white rounded-lg shadow-md w-full max-w-md p-6">
                     <div class="text-center">
-                        <h3 class="mb-4 text-lg font-normal text-gray-700">Yakin ingin menghapus data ini?</h3> {{-- Ubah
-                        "pasien ini" menjadi "data ini" agar lebih umum --}}
+                        <h3 class="mb-4 text-lg font-normal text-gray-700">Yakin ingin menghapus data ini?</h3>
                         <form id="delete-form" method="POST">
                             @csrf
                             @method('DELETE')
@@ -69,15 +73,12 @@
                             <th scope="col" class="px-6 py-4 font-semibold">
                                 <div class="flex items-center gap-1 relative">
                                     Tanggal Uji
-
                                 </div>
                             </th>
 
                             <th scope="col" class="px-6 py-4 font-semibold">
                                 <div class="flex items-center gap-1 relative">
                                     Tanggal Upload
-                                    {{-- Dropdown untuk filter Tanggal Upload --}}
-
                                 </div>
                             </th>
 
@@ -176,7 +177,7 @@
                                 class="join-item btn btn-sm border border-gray-300 text-gray-600">{{ $last }}</a>
                         @endif
 
-                        {{-- Tombol Berikutnya --}}
+                        {{-- Next Button --}}
                         @if ($hasilUjiList->hasMorePages())
                             <a href="{{ $hasilUjiList->nextPageUrl() }}"
                                 class="join-item btn btn-sm border border-gray-300 hover:bg-gray-100 text-gray-600">&raquo;</a>
@@ -197,17 +198,14 @@
                         <p class="text-xs text-gray-500 font-semibold">Tanggal Upload</p>
                         <p class="text-base font-bold mb-4 text-gray-900">{{ $hasil->tanggal_upload }}</p>
 
-                        <div class="flex flex-col sm:flex-row sm:justify-between gap-2"> {{-- Gunakan flex-col untuk tumpukan di
-                            mobile --}}
+                        <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
                             <a href="{{ asset('storage/' . $hasil->file) }}" target="_blank"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-semibold text-center transition w-full">
-                                {{-- Lebarkan tombol untuk mobile --}}
                                 <i class="fa-solid fa-download mr-1"></i> Cetak Hasil
                             </a>
                             <button type="button"
                                 onclick="confirmDelete('{{ route('laboran.hasil-uji.destroy', $hasil->id) }}')"
                                 class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-semibold transition w-full">
-                                {{-- Lebarkan tombol untuk mobile --}}
                                 <i class="fa-solid fa-trash mr-1"></i> Hapus
                             </button>
                         </div>
@@ -223,8 +221,7 @@
     {{-- Modal Upload --}}
     <div id="modalUpload"
         class="hidden fixed top-0 right-0 left-0 z-50  justify-center items-center w-full md:inset-0 h-full bg-black bg-opacity-50 p-4">
-        {{-- Tambahkan p-4 untuk padding di mobile --}}
-        <div class="relative p-0 w-full max-w-md">
+        <div class="relative p-4 w-full max-w-md"> {{-- Mengubah p-0 menjadi p-4 untuk konsistensi --}}
             <div class="relative bg-white rounded-lg shadow-md overflow-hidden">
                 <div class="flex items-center justify-between p-5 border-b">
                     <h3 class="text-xl font-medium text-gray-900">
@@ -257,7 +254,7 @@
                                 </svg>
                             </div>
                             <input type="date" id="tanggal_uji" name="tanggal_uji"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg block w-full ps-10 p-3"
+                                class="bg-gray-50 border border-gray-300 text-base rounded-lg block w-full ps-10 p-3"
                                 required>
                         </div>
                     </div>
@@ -275,7 +272,6 @@
                             </label>
                             <div
                                 class="flex-grow bg-gray-50 border border-l-0 border-gray-300 rounded-r-lg py-2 px-3 text-sm text-gray-500 truncate">
-                                {{-- Tambahkan truncate --}}
                                 Tidak ada file yang dipilih
                             </div>
                         </div>
@@ -284,15 +280,13 @@
                             class="hidden items-center justify-between bg-gray-50 border border-gray-300 rounded-lg py-2 px-3">
                             <div class="text-sm text-gray-900 truncate" id="selected-filename">filename.pdf</div>
                             <button type="button" id="change-file-btn"
-                                class="ml-2 text-sm text-blue-600 hover:text-blue-800 font-medium flex-shrink-0"> {{--
-                                Tambahkan flex-shrink-0 --}}
+                                class="ml-2 text-sm text-blue-600 hover:text-blue-800 font-medium flex-shrink-0">
                                 Ganti File
                             </button>
                         </div>
 
                         <input id="file_upload" type="file" style="display: none;" name="file" accept=".pdf" required>
-                        <div class="mt-2 text-sm text-gray-500">Format: PDF (Maksimal 10MB)</div> {{-- Berikan info ukuran
-                        file --}}
+                        <div class="mt-2 text-sm text-gray-500">Format: PDF (Maksimal 10MB)</div>
                     </div>
 
                     <div class="flex justify-end space-x-2 mt-8">
@@ -308,24 +302,53 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.3/dist/flowbite.min.js"></script>
     <script>
-        let flowbitePopupModal; // Variabel global untuk instance modal notifikasi
+        // Variabel global untuk menyimpan instance modal
+        let flowbitePopupModal;
+        let flowbiteDeleteModal;
+        let flowbiteCrudModal; // Jika ada modal crud di halaman ini
+        let flowbiteModalUploadInstance; // Deklarasikan di sini agar global dan terinisialisasi sekali
 
         document.addEventListener('DOMContentLoaded', function () {
+            // =========================
+            // Inisialisasi Modal Flowbite (HANYA SEKALI per modal)
+            // =========================
             const popupModalElement = document.getElementById('popup-modal');
-
-            // Inisialisasi modal Flowbite jika elemen dan class Modal tersedia
             if (popupModalElement && typeof Modal !== 'undefined') {
                 flowbitePopupModal = new Modal(popupModalElement, {
-                    backdrop: 'static', // Modal tidak bisa ditutup dengan klik luar
-                    closable: true      // Bisa ditutup manual oleh user
+                    backdrop: 'static',
+                    backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+                    closable: true
                 });
             } else {
-                console.error("Flowbite Modal atau elemen 'popup-modal' tidak ditemukan.");
+                console.error("Flowbite Modal Notifikasi tidak ditemukan.");
             }
 
-            // Menangani error validasi dari Laravel (blade $errors)
+            const deleteModalElement = document.getElementById('delete-modal');
+            if (deleteModalElement && typeof Modal !== 'undefined') {
+                flowbiteDeleteModal = new Modal(deleteModalElement);
+            } else {
+                console.error("Flowbite Modal Konfirmasi Hapus tidak ditemukan.");
+            }
+
+            const crudModalElement = document.getElementById('crud-modal'); // Jika ada crud modal di halaman ini
+            if (crudModalElement && typeof Modal !== 'undefined') {
+                 // Inisialisasi jika diperlukan, atau hapus jika tidak ada di halaman ini
+                 // flowbiteCrudModal = new Modal(crudModalElement);
+            }
+
+            const modalUploadElement = document.getElementById('modalUpload');
+            if (modalUploadElement && typeof Modal !== 'undefined') {
+                flowbiteModalUploadInstance = new Modal(modalUploadElement);
+            } else {
+                console.error("Flowbite Modal Upload tidak ditemukan.");
+            }
+
+
+            // =========================
+            // Tampilkan Notifikasi Flash dari Laravel (ini bagian yang memanggil pop-up)
+            // =========================
             @if ($errors->any())
-                const rawMessage = @json($errors->first()); // Ambil pesan error pertama
+                const rawMessage = @json($errors->first());
                 const translated = {
                     "The tanggal uji field is required.": "Tanggal uji wajib diisi.",
                     "The tanggal upload field is required.": "Tanggal upload wajib diisi.",
@@ -334,11 +357,10 @@
                     "The file must be a file of type: pdf.": "Format file tidak didukung. Gunakan PDF.",
                     "The file must not be greater than 10240 kilobytes.": "Ukuran file terlalu besar (maks 10MB)."
                 };
-                const finalMessage = translated[rawMessage] ?? rawMessage; // Gunakan terjemahan jika ada
-                showNotification('error', finalMessage); // Tampilkan pesan error
+                const finalMessage = translated[rawMessage] ?? rawMessage;
+                showNotification('error', finalMessage);
             @endif
 
-            // Menampilkan notifikasi dari session flash message
             @if (session('success_type') && session('success_message'))
                 showNotification("{{ session('success_type') }}", "{{ session('success_message') }}");
             @elseif (session('success'))
@@ -351,23 +373,86 @@
             @elseif (session('error'))
                 showNotification('error', "{{ session('error') }}");
             @endif
-        });
+
+
+            // =========================
+            // Event Listener untuk Form Upload (digabungkan ke dalam DOMContentLoaded utama)
+            // =========================
+            const fileInput = document.getElementById('file_upload');
+            const uploadForm = document.getElementById('uploadForm');
+            const initialFileInputState = document.getElementById('file-input-initial');
+            const selectedFileInputState = document.getElementById('file-input-selected');
+            const selectedFilenameDisplay = document.getElementById('selected-filename');
+            const changeFileButton = document.getElementById('change-file-btn');
+
+            if (fileInput) { // Pastikan elemen ada
+                fileInput.addEventListener('change', function () {
+                    const file = this.files[0];
+                    if (file) {
+                        selectedFilenameDisplay.textContent = file.name;
+                        initialFileInputState.classList.add('hidden');
+                        selectedFileInputState.classList.remove('hidden');
+                    } else {
+                        initialFileInputState.classList.remove('hidden');
+                        selectedFileInputState.classList.add('hidden');
+                    }
+                });
+            }
+
+            if (changeFileButton) { // Pastikan elemen ada
+                changeFileButton.addEventListener('click', e => {
+                    e.preventDefault();
+                    fileInput.click();
+                });
+            }
+
+            if (uploadForm) { // Pastikan elemen ada
+                uploadForm.addEventListener('submit', function (e) {
+                    const file = fileInput.files[0];
+                    const tanggalUji = document.getElementById('tanggal_uji').value;
+
+                    if (!tanggalUji) {
+                        showNotification('error', "Tanggal Uji wajib diisi.");
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (!file) {
+                        showNotification('error', "Silakan pilih file terlebih dahulu.");
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (file.size > 10 * 1024 * 1024) { // Batas 10MB
+                        showNotification('error', "Ukuran file terlalu besar. Maksimal 10MB.");
+                        e.preventDefault();
+                        return;
+                    }
+
+                    document.getElementById('tanggal_upload').value = new Date().toISOString().substr(0, 10);
+                });
+            }
+
+        }); // END of the single, main DOMContentLoaded
+
+        // =========================
+        // Fungsi-fungsi Global (di luar DOMContentLoaded)
+        // =========================
 
         // Fungsi untuk menampilkan notifikasi modal
         function showNotification(type, message) {
             if (!flowbitePopupModal) {
-                console.error("Modal Flowbite belum terinisialisasi.");
+                console.error("Modal Notifikasi Flowbite belum terinisialisasi.");
                 return;
             }
 
-            const icon = document.getElementById('modal-icon'); // SVG ikon
-            const msg = document.getElementById('modal-message'); // Isi pesan
+            const icon = document.getElementById('modal-icon');
+            const msg = document.getElementById('modal-message');
 
-            icon.className = 'mx-auto mb-4 w-12 h-12'; // Reset class
+            icon.className = 'mx-auto mb-4 w-12 h-12';
             icon.innerHTML = '';
-            msg.innerText = message; // Isi pesan ke elemen modal
+            msg.innerText = message;
 
-            // Template ikon SVG untuk berbagai tipe notifikasi
             const icons = {
                 success: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`,
@@ -377,7 +462,6 @@
                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`
             };
 
-            // Warna ikon berdasarkan tipe notifikasi
             const colorMap = {
                 success_add: 'green',
                 success_edit: 'blue',
@@ -387,94 +471,61 @@
                 info: 'blue'
             };
 
-            const color = colorMap[type] ?? 'blue'; // Default ke biru jika tidak cocok
+            const color = colorMap[type] ?? 'blue';
             const path = icons[type.startsWith('success') ? 'success' : type] ?? icons.info;
 
-            icon.classList.add(`text-${color}-500`, `stroke-${color}-500`); // Tambahkan warna ikon
-            icon.innerHTML = path; // Isi path SVG
+            icon.classList.add(`text-${color}-500`, `stroke-${color}-500`);
+            icon.innerHTML = path;
 
-            popupModalElement.classList.add('flex'); // Tampilkan modal
-            flowbitePopupModal.show(); // Tampilkan modal dari Flowbite
-
-            // Auto-hide modal setelah 2.5 detik
+            flowbitePopupModal.show();
+            // Tidak perlu manipulasi class 'flex'/'hidden' secara manual, biarkan Flowbite yang mengurusnya
             setTimeout(() => {
-                popupModalElement.classList.remove('flex');
                 flowbitePopupModal.hide();
             }, 2500);
         }
 
         // Fungsi untuk menampilkan modal konfirmasi hapus
         function confirmDelete(url) {
-            const el = document.getElementById('delete-modal');
-            document.getElementById('delete-form').action = url; // Set URL form
-            el.classList.remove('hidden'); // Tampilkan modal hapus
-            el.classList.add('flex');
+            if (!flowbiteDeleteModal) {
+                console.error("Modal Konfirmasi Hapus Flowbite belum terinisialisasi.");
+                return;
+            }
+            document.getElementById('delete-form').action = url;
+            flowbiteDeleteModal.show();
+            // Tidak perlu manipulasi class 'flex'/'hidden' secara manual
         }
 
         // Menutup modal konfirmasi hapus
         function closeDeleteModal() {
-            const el = document.getElementById('delete-modal');
-            el.classList.remove('flex');
-            el.classList.add('hidden'); // Sembunyikan kembali
+            if (flowbiteDeleteModal) {
+                flowbiteDeleteModal.hide();
+                // Tidak perlu manipulasi class 'flex'/'hidden' secara manual
+            }
         }
 
         // Fungsi untuk menampilkan atau menyembunyikan modal upload file
         function toggleModal(show) {
-            const el = document.getElementById('modalUpload');
-            el.classList.toggle('hidden', !show);
-            el.classList.toggle('flex', show);
+            if (!flowbiteModalUploadInstance) {
+                console.error("Modal Upload Flowbite belum terinisialisasi.");
+                return;
+            }
+
+            if (show) {
+                const today = new Date().toISOString().substr(0, 10);
+                document.getElementById('tanggal_uji').value = today;
+                document.getElementById('tanggal_upload').value = today;
+
+                document.getElementById('file_upload').value = '';
+                document.getElementById('selected-filename').textContent = 'Tidak ada file yang dipilih';
+                document.getElementById('file-input-initial').classList.remove('hidden');
+                document.getElementById('file-input-selected').classList.add('hidden');
+
+                flowbiteModalUploadInstance.show();
+                // Tidak perlu manipulasi class 'flex'/'hidden' secara manual
+            } else {
+                flowbiteModalUploadInstance.hide();
+                // Tidak perlu manipulasi class 'flex'/'hidden' secara manual
+            }
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const fileInput = document.getElementById('file_upload'); // Input file
-            const form = document.getElementById('uploadForm'); // Form upload
-            const initial = document.getElementById('file-input-initial'); // Tampilan awal
-            const selected = document.getElementById('file-input-selected'); // Tampilan setelah file dipilih
-            const fileName = document.getElementById('selected-filename'); // Tampilkan nama file
-            const changeBtn = document.getElementById('change-file-btn'); // Tombol ganti file
-
-            // Atur tanggal default hari ini saat modal dibuka
-            const today = new Date().toISOString().substr(0, 10);
-            document.getElementById('tanggal_uji').value = today;
-            document.getElementById('tanggal_upload').value = today;
-
-            // Tampilkan nama file setelah dipilih dan ubah tampilan UI-nya
-            fileInput.addEventListener('change', function () {
-                const file = this.files[0];
-                if (file) {
-                    fileName.textContent = file.name;
-                    initial.classList.add('hidden');
-                    selected.classList.remove('hidden');
-                } else {
-                    initial.classList.remove('hidden');
-                    selected.classList.add('hidden');
-                }
-            });
-
-            // Klik tombol 'ganti file' akan trigger input file
-            changeBtn.addEventListener('click', e => {
-                e.preventDefault();
-                fileInput.click();
-            });
-
-            // Validasi form sebelum dikirim
-            form.addEventListener('submit', function (e) {
-                const file = fileInput.files[0];
-
-                if (!file) {
-                    showNotification('error', "Silakan pilih file terlebih dahulu.");
-                    e.preventDefault(); // Batalkan submit
-                    return;
-                }
-
-                if (file.size > 10 * 1024 * 1024) { // Batas 10MB
-                    showNotification('error', "Ukuran file terlalu besar. Maksimal 10MB.");
-                    e.preventDefault();
-                    return;
-                }
-
-                document.getElementById('tanggal_upload').value = today; // Set tanggal upload ulang
-            });
-        });
     </script>
 @endsection

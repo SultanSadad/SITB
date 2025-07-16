@@ -40,16 +40,20 @@
 
         <!-- Medical Records Info -->
         <div class="bg-blue-100 rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-bold mb-4">Panduan Sistem Informasi Hasil Laboratorium</h2>
-            <div class="aspect-w-16 aspect-h-9 w-full">
-                <iframe class="w-full h-64 rounded-lg" src="https://www.youtube.com/embed/xxwE_011bT0"
-                    title="Panduan Sistem Informasi Pasien" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+    <h2 class="text-xl font-bold mb-4">Panduan Sistem Informasi Hasil Laboratorium</h2>
+    
+    <div class="aspect-w-16 aspect-h-9">
+        <iframe 
+            class="w-full h-64 rounded-md"
+            src="https://www.youtube.com/embed/nrfrxLVEPPc"
+            title="Panduan Sistem Informasi Hasil Laboratorium"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
 
-            </div>
-        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

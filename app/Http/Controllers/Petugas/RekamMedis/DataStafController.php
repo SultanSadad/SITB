@@ -1,231 +1,249 @@
 <?php
-
+// Nama File   = DataStafController.php 
+// Deskripsi   = Controller ini bertanggung jawab untuk mengelola data staf rumah sakit dari perspektif petugas rekam medis.
+//               Fungsi yang disediakan meliputi: menampilkan daftar staf dengan fitur pencarian,
+//               menambahkan staf baru (termasuk enkripsi password), memperbarui data staf yang sudah ada (dengan validasi unik dan opsionalitas password),
+//               menghapus data staf, serta menyediakan endpoint AJAX untuk mengambil data staf tertentu (untuk form edit) dan melakukan pencarian dinamis.
+// Dibuat oleh = Sultan Sadad- 3312301102
+// Tanggal     = 4 April 2025
 namespace App\Http\Controllers\Petugas\RekamMedis;
 
-use App\Models\Staf;
-use App\Models\User;
-use Illuminate\Http\Request;
+// Import Controller dasar Laravel.
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
+// Pastikan ini mengarah ke model Staf Anda (misal: App\Models\Staf).
+use App\Models\Staf;
+// Import Request untuk ambil data dari form atau URL.
+use Illuminate\Http\Request;
+// Import Hash untuk mengenkripsi password.
 use Illuminate\Support\Facades\Hash;
+// Import Log untuk mencatat pesan error.
+use Illuminate\Support\Facades\Log;
+// Import Rule untuk validasi data unik atau kondisi lainnya.
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
-
+// Import Rules\Password untuk validasi kekuatan password.
+use Illuminate\Validation\Rules\Password;
+// Import ValidationException untuk menangani error validasi.
+use Illuminate\Validation\ValidationException;
 
 class DataStafController extends Controller
 {
-    // Tampilkan semua data staf dengan pencarian
+    /**
+     * index()
+     *
+     * Fungsi ini buat nampilin halaman daftar semua staf.
+     * Ada fitur pencarian berdasarkan nama, email, NIP, atau peran.
+     *
+     * @param  \Illuminate\Http\Request  $request Objek Request untuk input pencarian.
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index(Request $request)
     {
-        // Inisialisasi query staf
+        // Mulai query untuk mengambil data staf.
         $query = Staf::query();
 
-        // Jika terdapat input pencarian
-        if ($request->has('search') && !empty($request->search)) {
-            $search = $request->search;
-
-            // Pencarian berdasarkan nama, NIP, email, atau no WhatsApp (case-insensitive)
-            $query->where(function ($q) use ($search) {
-                $q->whereRaw('LOWER(nama) LIKE ?', ['%' . strtolower($search) . '%'])
-                    ->orWhereRaw('LOWER(nip) LIKE ?', ['%' . strtolower($search) . '%'])
-                    ->orWhereRaw('LOWER(email) LIKE ?', ['%' . strtolower($search) . '%'])
-                    ->orWhereRaw('LOWER(no_whatsapp) LIKE ?', ['%' . strtolower($search) . '%']);
+        // Kalau ada input 'q' (query pencarian) dari pengguna:
+        if ($request->has('q') && !empty($request->q)) {
+            $searchTerm = $request->q;
+            // Cari staf yang nama, email, NIP, atau perannya mirip dengan kata kunci.
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('nama', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
             });
         }
 
-        // Ambil hasil query dengan pagination
-        $stafs = $query->paginate(9);
-        $stafs->appends($request->all());
+        // Ambil data staf sesuai query, diurutkan dari yang terbaru, dan tampilkan 10 per halaman.
+        $stafs = $query->latest()->paginate(10);
 
-        // Jika AJAX, render partial view tabel saja
-        if ($request->ajax()) {
-            return view('petugas.rekam_medis.partials.staf_table', compact('stafs'))->render();
-        }
+        // Tambahkan parameter pencarian ('q') ke link pagination.
+        // Ini penting supaya hasil pencarian tetap ada saat pindah halaman.
+        $stafs->appends(['q' => $request->q]);
 
-        // Tampilkan view utama
+        // Tampilkan view 'petugas.rekam_medis.data_staf' dan kirim data $stafs.
         return view('petugas.rekam_medis.data_staf', compact('stafs'));
     }
 
-
-    public function create()
-    {
-        // Redirect karena form tambah staf menggunakan modal, bukan halaman terpisah
-        return redirect()->route('rekam-medis.stafs.index');
-    }
-
-
+    /**
+     * store()
+     *
+     * Fungsi ini buat nyimpen data staf baru ke database.
+     * Ada validasi untuk memastikan data yang masuk benar dan unik.
+     *
+     * @param  \Illuminate\Http\Request  $request Objek Request yang berisi data form staf baru.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
-        Log::info('Received staff creation request with params:', $request->all());
-
-        // Validasi input dari form tambah staf
+        // Validasi data yang masuk dari form.
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nip' => 'required|string|unique:staf,nip',
-            'email' => 'required|string|unique:users,email',
-            'no_whatsapp' => 'required|string|unique:staf,no_whatsapp',
-            'peran' => 'required|in:laboran,rekam_medis',
-            'password' => 'required|min:6|confirmed',
-        ], [
-            // Pesan validasi kustom
-            'nip.unique' => 'NIP sudah digunakan.',
-            'email.unique' => 'Username sudah digunakan.',
-            'password.confirmed' => 'Password dan konfirmasi tidak cocok.',
-            // dst...
-        ]);
-
-        // Debug password input
-        Log::info('Password input check:', [
-            'raw_password' => $request->input('password'),
-            'confirmation' => $request->input('password_confirmation'),
+            'nip' => 'nullable|string|max:255|unique:staf,nip', // NIP boleh kosong, tapi harus unik kalau diisi.
+            'email' => 'required|string|max:255|unique:staf,email', // Email wajib dan harus unik.
+            'no_whatsapp' => 'nullable|string|max:255',
+            'peran' => 'required|string', // Peran (misal: laboran, rekam medis) wajib diisi.
+            'password' => ['required', 'confirmed', Password::min(8)], // Password wajib, harus sama dengan konfirmasi, min. 8 karakter.
         ]);
 
         try {
-            // Simpan ke tabel staf
-            $staf = Staf::create([
+            // Buat data staf baru di database pakai data yang sudah divalidasi.
+            Staf::create([
                 'nama' => $validated['nama'],
                 'nip' => $validated['nip'],
                 'email' => $validated['email'],
                 'no_whatsapp' => $validated['no_whatsapp'],
                 'peran' => $validated['peran'],
+                'password' => Hash::make($validated['password']), // Enkripsi password sebelum disimpan.
             ]);
 
-            // Simpan ke tabel user
-            User::create([
-                'name' => $validated['nama'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'staf',
-                'staf_id' => $staf->id,
-            ]);
-
-            Log::info('Staff created successfully with ID: ' . $staf->id);
-
-            return redirect()->route('rekam-medis.stafs.index')->with([
-                'success_type' => 'success_add',
-                'success_message' => 'Data staf berhasil ditambahkan.'
+            // Redirect kembali ke halaman daftar staf dengan pesan sukses.
+            return redirect()->route('rekam-medis.staf.index')->with([
+                'success_type' => 'success_add', // Tipe pesan sukses (untuk styling/skrip JS).
+                'success_message' => 'Data staf Berhasil ditambahkan.'
             ]);
         } catch (\Exception $e) {
-            Log::error('Failed to create staff:', ['error' => $e->getMessage()]);
-            return redirect()->route('rekam-medis.stafs.index')->with([
+            // Kalau ada error, catat di log.
+            Log::error('Gagal membuat staf: ' . $e->getMessage());
+            // Redirect kembali dengan pesan error.
+            return redirect()->route('rekam-medis.staf.index')->with([
                 'success_type' => 'error',
-                'success_message' => 'Gagal menambahkan data staf: ' . $e->getMessage()
+                'success_message' => 'Gagal menambahkan data staf.'
             ]);
         }
     }
 
-
-    public function editData(Staf $staf)
-    {
-        // Ambil user berdasarkan staf_id
-        $user = User::where('staf_id', $staf->id)->first();
-
-        // Set email dari tabel user (jika ada)
-        $staf->email = $user ? $user->email : $staf->email;
-
-        // Kirim data JSON untuk diisi di form modal edit
-        return response()->json($staf);
-    }
-
-
+    /**
+     * update()
+     *
+     * Fungsi ini buat update (mengubah) data staf yang sudah ada.
+     * Password bersifat opsional, hanya diupdate kalau diisi.
+     *
+     * @param  \Illuminate\Http\Request  $request Objek Request yang berisi data update.
+     * @param  \App\Models\Staf $staf Objek Staf yang akan diupdate.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Staf $staf)
     {
-        Log::info('Received staff update request for ID ' . $staf->id, $request->all());
-
-        $user = User::where('staf_id', $staf->id)->first();
-
-        // Validasi input dengan pengecualian untuk data yang sedang diedit
-        $validationRules = [
+        // Validasi data update.
+        // Rule::unique('staf')->ignore($staf->id) artinya cek unik, tapi lewati ID staf ini sendiri.
+        $validated = $request->validate([
             'nama' => 'required|string|max:255',
-            'nip' => ['required', 'string', Rule::unique('staf', 'nip')->ignore($staf->id)],
-            'email' => ['nullable', 'string', Rule::unique('users', 'email')->ignore($user->id ?? null)],
-            'no_whatsapp' => ['required', 'string', Rule::unique('staf', 'no_whatsapp')->ignore($staf->id)],
-            'peran' => 'required|in:laboran,rekam_medis',
-        ];
-
-        // Tambah validasi password jika diisi
-        if ($request->filled('password')) {
-            $validationRules['password'] = 'required|min:6|confirmed';
-        }
-
-        $validated = $request->validate($validationRules, [
-            // Pesan kustom error validasi
+            'nip' => ['nullable', 'string', 'max:255', Rule::unique('staf')->ignore($staf->id)],
+            'email' => ['required', 'string', 'max:255', Rule::unique('staf')->ignore($staf->id)],
+            'no_whatsapp' => 'nullable|string|max:255',
+            'peran' => 'required|string',
+            'password' => ['nullable', 'confirmed', Password::min(8)], // Password boleh kosong (nullable).
         ]);
 
         try {
-            // Update data staf
-            $staf->update([
-                'nama' => $validated['nama'],
-                'nip' => $validated['nip'],
-                'no_whatsapp' => $validated['no_whatsapp'],
-                'peran' => $validated['peran'],
-                'email' => $validated['email'] ?? null,
-            ]);
+            // Update data profil staf secara manual.
+            $staf->nama = $validated['nama'];
+            $staf->nip = $validated['nip'];
+            $staf->email = $validated['email'];
+            $staf->no_whatsapp = $validated['no_whatsapp'];
+            $staf->peran = $validated['peran'];
 
-            // Update atau buat user
-            if (!empty($validated['email'])) {
-                if ($user) {
-                    $userData = [
-                        'name' => $validated['nama'],
-                        'email' => $validated['email'],
-                        'role' => $validated['peran'],
-                    ];
-
-                    if ($request->filled('password')) {
-                        $userData['password'] = Hash::make($validated['password']);
-                    }
-
-                    $user->update($userData);
-                } else {
-                    User::create([
-                        'name' => $validated['nama'],
-                        'email' => $validated['email'],
-                        'password' => $request->filled('password') ? Hash::make($validated['password']) : Hash::make(Str::random(10)),
-                        'role' => $validated['peran'],
-                        'staf_id' => $staf->id,
-                    ]);
-                    Log::warning('User not found for Staf ID ' . $staf->id . '. Creating new user.');
-                }
-            } elseif ($user) {
-                $user->delete(); // Hapus user jika email dikosongkan
+            // Cek apakah kolom 'password' di form diisi oleh pengguna.
+            if ($request->filled('password')) {
+                // Jika diisi, enkripsi dan update passwordnya.
+                $staf->password = Hash::make($request->password);
             }
 
-            Log::info('Staff updated successfully: ' . $staf->id);
+            // Simpan semua perubahan ke database.
+            $staf->save();
 
-            return redirect()->route('rekam-medis.stafs.index')->with([
-                'success_type' => 'success_edit',
+            // Redirect kembali ke halaman daftar staf dengan pesan sukses.
+            return redirect()->to('rekam-medis/data-staf')->with([
+                'success_type' => 'success_edit', // Tipe pesan sukses.
                 'success_message' => 'Data staf berhasil diperbarui.'
             ]);
         } catch (\Exception $e) {
-            Log::error('Failed to update staff:', ['error' => $e->getMessage()]);
-
-            return redirect()->route('rekam-medis.stafs.index')->with([
+            // Kalau ada error, catat di log.
+            Log::error('Gagal update staf: ' . $e->getMessage());
+            // Redirect kembali dengan pesan error.
+            return redirect()->to('rekam-medis/data-staf')->with([
                 'success_type' => 'error',
-                'success_message' => 'Gagal memperbarui data staf: ' . $e->getMessage()
+                'success_message' => 'Gagal memperbarui data staf.'
             ]);
         }
     }
+
+    /**
+     * destroy()
+     *
+     * Fungsi ini buat menghapus data staf dari database.
+     *
+     * @param  \App\Models\Staf $staf Objek Staf yang akan dihapus.
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Staf $staf)
     {
         try {
-            // Hapus user terkait staf
-            User::where('staf_id', $staf->id)->delete();
-
-            // Hapus data staf
+            // Langsung hapus data staf dari database.
             $staf->delete();
-
-            return redirect()->route('rekam-medis.stafs.index')->with([
-                'success_type' => 'success_delete',
-                'success_message' => 'Data staf berhasil dihapus.'
+            // Redirect kembali ke halaman daftar staf dengan pesan sukses.
+            return redirect()->route('rekam-medis.staf.index')->with([
+                'success_type' => 'success_delete', // Tipe pesan sukses.
+                'success_message' => 'Data Staf berhasil dihapus.'
             ]);
         } catch (\Exception $e) {
-            Log::error('Failed to delete staff:', ['error' => $e->getMessage()]);
-
-            return redirect()->route('rekam-medis.stafs.index')->with([
+            // Kalau ada error, catat di log.
+            Log::error('Gagal menghapus staf: ' . $e->getMessage());
+            // Redirect kembali dengan pesan error.
+            return redirect()->route('rekam-medis.staf.index')->with([
                 'success_type' => 'error',
-                'success_message' => 'Gagal menghapus data staf: ' . $e->getMessage()
+                'success_message' => 'Terjadi kesalahan saat menghapus data staf.'
             ]);
         }
     }
 
+    /**
+     * editData()
+     *
+     * Fungsi ini buat ambil data staf untuk ditampilkan di modal edit (biasanya pakai AJAX).
+     *
+     * @param  \App\Models\Staf $staf Objek Staf yang datanya mau diambil.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editData(Staf $staf)
+    {
+        // Kembalikan data staf sebagai JSON.
+        return response()->json($staf);
+    }
+
+    /**
+     * searchStaf()
+     *
+     * Metode ini mengembalikan bagian HTML tabel staf yang sudah difilter/dicari.
+     * Biasa dipakai untuk update tabel secara dinamis tanpa refresh halaman penuh (AJAX).
+     *
+     * @param  \Illuminate\Http\Request  $request Objek Request yang berisi kata kunci pencarian.
+     * @return string (HTML)
+     */
+    public function searchStaf(Request $request)
+    {
+        $query = Staf::query();
+        $searchTerm = $request->get('q');
+
+        // Jika ada kata kunci pencarian:
+        if (!empty($searchTerm)) {
+            // Filter staf berdasarkan nama, email, NIP, WhatsApp, atau peran.
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('nama', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('no_whatsapp', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        // Ambil data staf, urutkan dari terbaru, dan paginasi 10 data per halaman.
+        $stafs = $query->latest()->paginate(10);
+        // Tambahkan parameter pencarian ke link pagination.
+        $stafs->appends(['q' => $searchTerm]);
+
+        // Kembalikan partial view (hanya baris-baris tabel) yang sudah di-render.
+        // Ini memungkinkan pembaruan bagian tabel saja tanpa memuat ulang seluruh halaman.
+        return view('petugas.rekam_medis.partials.staf_table_rows', compact('stafs'))->render();
+    }
 }

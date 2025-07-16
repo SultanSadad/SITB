@@ -1,3 +1,15 @@
+{{-- Nama File   = hasil_uji.blade.php --}}
+{{-- Deskripsi   = Hasil Uji Rekam medis --}}
+{{-- Dibuat oleh = Saskia Nadira - 3312301031 --}}
+{{-- Tanggal     = 10 April 2025 --}}
+
+
+{{-- Nama File   = [Berbagai file views] --}}
+{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal     = 16 April 2025 --}}
+
+
 @extends('layout.laboran')
 <title>Hasil Uji Laboratorium</title>
 @section('laboran')
@@ -48,7 +60,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap font-medium">
                                     @if ($pasien->tanggal_lahir)
-                                        {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d F Y') }}
+                                        {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d-  m-Y') }}
                                     @else
                                         <span class="text-red-500">belum diisi</span>
                                     @endif
@@ -64,7 +76,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <a href="{{ route('laboran.detail', ['pasienId' => $pasien->id]) }}"
+                                    <a href="{{ route('laboran.hasil-uji.show', ['pasienId' => $pasien->id]) }}"
                                         class="inline-block bg-pink-500 hover:bg-pink-600 text-white text-xs font-medium px-3 py-1 rounded transition">
                                         Detail
                                     </a>
@@ -110,7 +122,8 @@
                                 {{ $pasien->no_whatsapp ?? 'Belum diisi' }}
                             </p>
 
-                            <a href="{{ route('laboran.detail', ['pasienId' => $pasien->id]) }}" style="background-color: #E650BE;"
+                            <a href="{{ route('laboran.hasil-uji.show', ['pasienId' => $pasien->id]) }}"
+                                style="background-color: #E650BE;"
                                 class="text-white px-4 py-2 rounded text-sm font-semibold text-center w-full block transition hover:opacity-90">
                                 Detail
                             </a>

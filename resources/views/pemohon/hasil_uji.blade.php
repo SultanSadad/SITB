@@ -21,7 +21,8 @@
 
         <div class="bg-white shadow-lg rounded-xl p-4 md:p-6 border border-gray-100">
             <div class="mb-6">
-                <form action="{{ route('pasien.hasil_uji') }}" method="GET"
+                <form action="{{ route('pasien.hasil-uji.index') }}" method="GET"
+                
                     class="flex flex-col sm:flex-row sm:items-end gap-4 w-full">
 
                     <div class="relative flex-1 sm:max-w-xs">
@@ -38,7 +39,7 @@
                             <span class="hidden sm:inline">Cari</span>
                             <span class="sm:hidden">Cari</span>
                         </button>
-                        <a href="{{ route('pasien.hasil_uji') }}"
+                        <a href="{{ route('pasien.hasil-uji.index') }}"
                             class="h-[42px] bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 px-4 rounded-lg text-sm flex items-center whitespace-nowrap">
                             <i class="fas fa-sync-alt mr-2"></i>
                             <span class="hidden sm:inline">Reset</span>
@@ -75,18 +76,17 @@
 
                             <div class="pt-3 border-t">
                                 <div class="flex gap-2">
-                                    <a href="{{ asset('storage/' . $hasil->file) }}"
-                                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium inline-flex items-center justify-center transition-all duration-200"
-                                        target="_blank">
-                                        <i class="fas fa-eye mr-2"></i>
-                                        Lihat
-                                    </a>
-                                    <a href="{{ asset('storage/' . $hasil->file) }}"
-                                        class="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-3 py-2.5 rounded-lg text-sm font-medium inline-flex items-center justify-center transition-all duration-200"
-                                        download>
-                                        <i class="fas fa-download mr-2"></i>
-                                        Unduh
-                                    </a>
+                                <a href="{{ route('pasien.hasil-uji.show', $hasil->id) }}" target="_blank"
+    class="bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-md text-xs font-medium inline-flex items-center justify-center transition-all duration-200">
+    <i class="fas fa-eye mr-1 text-xs"></i>
+    Lihat
+</a>
+
+<a href="{{ route('pasien.hasil-uji.show', $hasil->id) }}?download=true"
+    class="bg-gray-600 hover:bg-gray-700 text-white px-2.5 py-1 rounded-md text-xs font-medium inline-flex items-center justify-center transition-all duration-200">
+    <i class="fas fa-download mr-1 text-xs"></i>
+    Unduh
+</a>
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,8 @@
+{{-- Nama File   = [riwayat_hasil_uji.blade,php] --}}
+{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal     = 16 April 2025 --}}
+
 @extends('layout.rekam_medis')
 <title>Riwayat Hasil Uji Laboratorium</title>
 @section('rekam_medis')
@@ -5,7 +10,7 @@
         <h1 class="font-bold text-2xl mb-4">Data Hasil Laboratorium</h1>
 
         <div class="bg-white shadow-md rounded-lg p-6">
-            <form action="{{ route('rekam-medis.datahasiluji') }}" method="GET"
+            <form action="{{ route('rekam-medis.hasil-uji.data') }}" method="GET"
                 class="flex flex-col md:flex-row justify-between gap-4 mb-6">
                 <div class="flex relative">
                     <input type="text" name="search" placeholder="Cari Nama" value="{{ request('search') }}"
@@ -21,7 +26,7 @@
                         class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg text-sm flex items-center">
                         <i class="fas fa-filter mr-2"></i> Filter
                     </button>
-                    <a href="{{ route('rekam-medis.datahasiluji') }}"
+                    <a href="{{ route('rekam-medis.hasil-uji.data') }}"
                         class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm border border-gray-300 rounded-lg px-4 py-2 flex items-center">
                         <i class="fas fa-sync-alt mr-2"></i> Reset
                     </a>

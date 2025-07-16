@@ -2,40 +2,49 @@
 
 namespace App\Console;
 
+// Buat atur jadwal tugas otomatis.
 use Illuminate\Console\Scheduling\Schedule;
+// Ini kelas utama buat perintah-perintah di terminal (console).
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+// Ini buat pakai model HasilUjiTB (meskipun di sini belum dipakai).
 use App\Models\HasilUjiTB;
 
 class Kernel extends ConsoleKernel
 {
     /**
-     * Define the application's command schedule.
+     * **schedule()**
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * Fungsi ini buat atur kapan tugas atau perintah di aplikasi harus jalan otomatis.
+     * Kayak ngasih alarm ke aplikasi.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule Objek untuk bikin jadwal.
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        // Ini opsional: Jika Anda ingin otomatis menandai hasil uji yang sudah lewat dari hari ini
+        // Contoh: Mau jalankan sesuatu setiap hari jam 00:01 (tengah malam lewat 1 menit).
+        // Sekarang isinya masih kosong, jadi belum ngapa-ngapain.
         $schedule->call(function () {
-            // Kode ini akan dijalankan setiap hari tengah malam
-            // Misalnya, Anda bisa menambahkan flag atau menandai bahwa data ini sudah tidak baru
-            // HasilUjiTB::whereDate('created_at', now()->subDay())->update(['is_new' => false]);
-            
-            // Atau cukup mengandalkan filter tanggal di controller tanpa perlu update data
-        })->dailyAt('00:01');
+            // Kode yang mau dijalankan di sini.
+            // Contoh: \Log::info('Tugas harian jalan!'); // Buat cek kalau jalan
+        })->dailyAt('00:01'); // Jadwalnya: tiap hari jam 00:01.
     }
 
     /**
-     * Register the commands for the application.
+     * **commands()**
+     *
+     * Fungsi ini buat daftar semua perintah khusus yang bisa kamu jalankan
+     * lewat terminal (misal: `php artisan nama-perintah`).
      *
      * @return void
      */
     protected function commands()
     {
+        // Muat semua perintah yang ada di folder 'App/Console/Commands'.
         $this->load(__DIR__.'/Commands');
 
+        // Muat file 'console.php' di folder 'routes'.
+        // Ini biasanya buat perintah sederhana tanpa file terpisah.
         require base_path('routes/console.php');
     }
-
 }

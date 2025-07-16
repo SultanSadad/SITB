@@ -1,3 +1,8 @@
+{{-- Nama File   = detail_hasil_uji.blade.php --}}
+{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal     = 16 April 2025 --}}
+
 @extends('layout.rekam_medis')
 <title>Detail Hasil Uji Laboratorium</title>
 @section('rekam_medis')

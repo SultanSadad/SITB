@@ -1,3 +1,10 @@
+{{--
+// Nama File = dashboard_laboran.blade.php
+// Deskripsi = Halaman dashboard untuk Laboran, menampilkan statistik total, hasil uji hari ini, hasil uji total, total pasien, dan tabel hasil uji hari ini.
+// Dibuat oleh = Sultan Sadad - NIM: 3312301102
+// Tanggal = 25 April 2025
+--}}
+
 @extends('layout.laboran')
 @section('laboran')
 
@@ -43,7 +50,7 @@
         <!-- Dashboard Cards Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <!-- Card 1 - Total Pasien -->
-            <a href="{{ route('laboran.data-pasien') }}" class="block">
+            <a href="{{ route('laboran.pasien.index') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">
@@ -63,7 +70,7 @@
             </a>
 
             <!-- Card 2 - Total Hasil Uji -->
-            <a href="{{ route('laboran.riwayat-hasil-uji') }}" class="block">
+            <a href="{{ route('laboran.hasil-uji.riwayat') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">
@@ -83,7 +90,7 @@
             </a>
 
             <!-- Card 3 - Hasil Uji Hari Ini -->
-            <a href="{{ route('laboran.riwayat-hasil-uji') }}" class="block">
+            <a href="{{ route('laboran.hasil-uji.riwayat') }}" class="block">
                 <div
                     class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow transition duration-300 hover:bg-purple-50">
                     <div class="flex items-center space-x-3">

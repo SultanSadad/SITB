@@ -1,3 +1,28 @@
+{{-- Nama File = data_pasien.blade.php --}}
+{{-- Deskripsi = Update modal data pasien --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal = 10 April 2025 --}}
+
+{{--Perbaikan tambahan:
+- Deskripsi = Perbaikan layout dan jarak
+- Dibuat oleh = Saskia Nadira - 3312301031
+- Tanggal = 16 April 2025--}}
+
+{{-- Nama File = data_pasien.blade.php --}}
+{{-- Deskripsi = Update modal data pasien --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal = 10 April 2025 --}}
+
+{{-- Nama File = [data_pasien.blade.php] --}}
+{{-- Deskripsi = Update modal data laboran --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal = 10 April 2025 --}}
+
+{{-- Nama File = [data_pasien.blade.php] --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
+{{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
+{{-- Tanggal = 16 April 2025 --}}
+
 @extends('layout.laboran')
 <title>Data Pasien</title>
 @section('laboran')
@@ -8,7 +33,7 @@
         <h1 class="font-bold text-xl sm:text-2xl mb-4">Data Pasien</h1>
 
         <div class="bg-white shadow-md rounded-lg p-3 sm:p-6">
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center  space-y-3 sm:space-y-0">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
                 <form action="{{ url('/laboran/data-pasien') }}" method="GET" class="w-64 sm:w-auto">
                     <div class="relative w-full sm:w-64 lg:w-64">
                         <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
@@ -24,6 +49,7 @@
                 </button>
             </div>
 
+            {{-- Delete Confirmation Modal --}}
             <div id="delete-modal" tabindex="-1" aria-hidden="true"
                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full p-4">
                 <div class="relative p-4 w-full max-w-md max-h-full">
@@ -64,6 +90,7 @@
                 </div>
             </div>
 
+            {{-- Create Pasien Modal --}}
             <div id="crud-modal" tabindex="-1" aria-hidden="true"
                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full p-4">
                 <div class="relative p-4 w-full max-w-md max-h-full">
@@ -83,7 +110,7 @@
                                 <span class="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <form action="{{ route('laboran.data-pasien.store') }}" method="POST" class="p-4 md:p-5">
+                        <form action="{{ route('laboran.pasien.store') }}" method="POST" class="p-4 md:p-5">
                             @csrf
                             <div class="grid gap-4 mb-4 grid-cols-2">
                                 <div class="col-span-2">
@@ -92,7 +119,7 @@
                                             class="text-red-600">*</span></label>
                                     <input type="text" name="no_erm" id="no_erm"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. ERM001" required="">
+                                        required>
                                 </div>
                                 <div class="col-span-2">
                                     <label for="nama"
@@ -100,22 +127,27 @@
                                         Pasien<span class="text-red-600">*</span></label>
                                     <input type="text" name="nama" id="nama"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. John Doe" required="">
+                                        required>
                                 </div>
                                 <div class="col-span-2">
                                     <label for="nik"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK</label>
-                                    <input type="number" name="nik" id="nik"
+                                    <input type="text" name="nik" id="nik"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. 1234567890123456">
+                                        pattern="[0-9]{16}"
+                                        maxlength="16"
+                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka."
+                                        inputmode="numeric">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="no_whatsapp"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No.
                                         WhatsApp</label>
-                                    <input type="text" name="no_whatsapp" id="no_whatsapp"
+                                    <input type="tel" name="no_whatsapp" id="no_whatsapp"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. 081234567890">
+                                        pattern="^(08|\+62)[0-9]{8,12}$"
+                                        maxlength="14"
+                                        title="Masukkan nomor WhatsApp yang valid (contoh: 081234567890 atau +6281234567890). Minimal 10 digit, maksimal 14 digit.">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="tanggal_lahir"
@@ -130,12 +162,6 @@
                                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Batal</button>
                                 <button type="submit"
                                     class="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                    <svg class="me-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
                                     Tambah Pasien
                                 </button>
                             </div>
@@ -144,6 +170,7 @@
                 </div>
             </div>
 
+            {{-- Edit Pasien Modal --}}
             <div id="edit-modal" tabindex="-1" aria-hidden="true"
                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full p-4">
                 <div class="relative p-4 w-full max-w-md max-h-full">
@@ -174,7 +201,7 @@
                                             class="text-red-600">*</span></label>
                                     <input type="text" name="no_erm" id="edit_no_erm"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. ERM001" required="">
+                                        required>
                                 </div>
                                 <div class="col-span-2">
                                     <label for="edit_nama"
@@ -182,22 +209,27 @@
                                         Pasien<span class="text-red-600">*</span></label>
                                     <input type="text" name="nama" id="edit_nama"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. John Doe" required="">
+                                        required>
                                 </div>
                                 <div class="col-span-2">
                                     <label for="edit_nik"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK</label>
-                                    <input type="number" name="nik" id="edit_nik"
+                                    <input type="text" name="nik" id="edit_nik"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. 1234567890123456">
+                                        pattern="[0-9]{16}"
+                                        maxlength="16"
+                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka."
+                                        inputmode="numeric">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="edit_no_whatsapp"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No.
                                         WhatsApp</label>
-                                    <input type="text" name="no_whatsapp" id="edit_no_whatsapp"
+                                    <input type="tel" name="no_whatsapp" id="edit_no_whatsapp"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="e.g. 081234567890">
+                                        pattern="^(08|\+62)[0-9]{8,12}$"
+                                        maxlength="14"
+                                        title="Masukkan nomor WhatsApp yang valid (contoh: 081234567890 atau +6281234567890). Minimal 10 digit, maksimal 14 digit.">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="edit_tanggal_lahir"
@@ -220,19 +252,17 @@
                 </div>
             </div>
 
+            {{-- Mobile Cards View --}}
             <div class="block lg:hidden space-y-4 mt-6" id="mobile-cards-container">
                 @forelse ($pasiens as $pasien)
-                    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm relative"> {{-- Added relative for
-                        absolute positioning of checkbox --}}
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm relative">
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-xl font-bold text-gray-900">
                                 {{ $pasien->nama ?? 'Nama Belum diisi' }}
                             </h3>
-                            {{-- Checkbox Verifikasi --}}
-
                         </div>
 
-                        <div class="text-sm text-gray-700 space-y-1.5"> {{-- Reduced space-y --}}
+                        <div class="text-sm text-gray-700 space-y-1.5">
                             <p>
                                 <span class="font-semibold text-gray-600">ERM: </span>
                                 <span class="{{ empty($pasien->no_erm) ? 'text-red-500' : 'text-gray-800' }}">
@@ -254,7 +284,7 @@
                             <p>
                                 <span class="font-semibold text-gray-600">WhatsApp: </span>
                                 @if (!empty($pasien->no_whatsapp))
-                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', $pasien->no_whatsapp) }}" target="_blank"
+                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $pasien->no_whatsapp)) }}" target="_blank"
                                         class="text-green-600 hover:underline">
                                         {{ $pasien->no_whatsapp }}
                                     </a>
@@ -264,22 +294,20 @@
                             </p>
                         </div>
 
-                        <div class="flex justify-end gap-3 mt-4"> {{-- Adjusted gap and justified to end --}}
+                        <div class="flex justify-end gap-3 mt-4">
                             <button onclick="editPasien(
-                                                    '{{ $pasien->id }}',
-                                                    '{{ $pasien->nama }}',
-                                                    '{{ $pasien->nik }}',
-                                                    '{{ $pasien->no_whatsapp }}',
-                                                    '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
-                                                    '{{ $pasien->no_erm ?? '' }}'
-                                                )"
+                                                                                    '{{ $pasien->id }}',
+                                                                                    '{{ $pasien->nama }}',
+                                                                                    '{{ $pasien->nik }}',
+                                                                                    '{{ $pasien->no_whatsapp }}',
+                                                                                    '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
+                                                                                    '{{ $pasien->no_erm ?? '' }}'
+                                                                                )"
                                 class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm font-semibold w-full transition duration-200">
-                                {{-- Wider buttons --}}
                                 Edit
                             </button>
-                            <button onclick="confirmDelete('{{ route('laboran.data-pasien.destroy', $pasien->id) }}')"
+                            <button onclick="confirmDelete('{{ route('laboran.pasien.destroy', $pasien->id) }}')"
                                 class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-semibold w-full transition duration-200">
-                                {{-- Wider buttons --}}
                                 Hapus
                             </button>
                         </div>
@@ -289,6 +317,7 @@
                 @endforelse
             </div>
 
+            {{-- Desktop Table View --}}
             <div id="table-container" class="hidden lg:block overflow-x-auto mt-6">
                 <table class="w-full text-sm text-left text-gray-700">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100">
@@ -308,7 +337,7 @@
                                     <div class="flex items-center">
                                         <span>{{ $label }}</span>
                                         <a
-                                            href="{{ route('laboran.data-pasien', array_merge(request()->except(['sort', 'direction', 'page']), ['sort' => $field, 'direction' => request('sort') == $field && request('direction') == 'asc' ? 'desc' : 'asc'])) }}">
+                                            href="{{ route('laboran.pasien.index', array_merge(request()->except(['sort', 'direction', 'page']), ['sort' => $field, 'direction' => request('sort') == $field && request('direction') == 'asc' ? 'desc' : 'asc'])) }}">
                                             <svg class="w-3 h-3 ml-1 {{ request('sort') == $field ? (request('direction') == 'asc' ? 'rotate-180' : '') : 'opacity-30' }}"
                                                 fill="currentColor" viewBox="0 0 24 24">
                                                 <path
@@ -318,8 +347,6 @@
                                     </div>
                                 </th>
                             @endforeach
-
-
                             <th scope="col" class="px-6 py-3">AKSI</th>
                         </tr>
                     </thead>
@@ -337,32 +364,32 @@
                                     {{ $pasien->nik ?? 'Belum diisi' }}
                                 </td>
                                 <td class="px-6 py-4 {{ empty($pasien->tanggal_lahir) ? 'text-red-500' : '' }}">
-                                    {{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d F Y') : 'Belum diisi' }}
+                                    {{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d-m-Y') : 'Belum diisi' }}
                                 </td>
-                                <td class="px-6 py-4 {{ empty($pasien->no_whatsapp) ? 'text-red-500' : 'text-green-600' }}">
-                                    @if (!empty($pasien->no_whatsapp))
-                                        <a href="https://wa.me/{{ preg_replace('/^0/', '62', $pasien->no_whatsapp) }}"
-                                            target="_blank" class="hover:underline">
+                                <td class="px-6 py-4 whitespace-nowrap font-medium">
+                                    @if ($pasien->no_whatsapp)
+                                        <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $pasien->no_whatsapp)) }}"
+                                            target="_blank" class="text-green-600 hover:underline hover:text-green-700 transition">
                                             {{ $pasien->no_whatsapp }}
                                         </a>
                                     @else
-                                        Belum diisi
+                                        <span class="text-red-500">belum diisi</span>
                                     @endif
                                 </td>
 
                                 <td class="px-6 py-4 flex space-x-2">
                                     <button onclick="editPasien(
-                                                            '{{ $pasien->id }}',
-                                                            '{{ $pasien->nama }}',
-                                                            '{{ $pasien->nik }}',
-                                                            '{{ $pasien->no_whatsapp }}',
-                                                            '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
-                                                            '{{ $pasien->no_erm ?? '' }}'
-                                                        )"
+                                                                                            '{{ $pasien->id }}',
+                                                                                            '{{ $pasien->nama }}',
+                                                                                            '{{ $pasien->nik }}',
+                                                                                            '{{ $pasien->no_whatsapp }}',
+                                                                                            '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
+                                                                                            '{{ $pasien->no_erm ?? '' }}'
+                                                                                        )"
                                         class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md text-xs font-semibold transition duration-200">
                                         Edit
                                     </button>
-                                    <button onclick="confirmDelete('{{ route('laboran.data-pasien.destroy', $pasien->id) }}')"
+                                    <button onclick="confirmDelete('{{ route('laboran.pasien.destroy', $pasien->id) }}')"
                                         class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold transition duration-200">
                                         Hapus
                                     </button>
@@ -371,13 +398,14 @@
                         @empty
                             <tr>
                                 <td colspan="7" class="px-6 py-4 text-center text-gray-500">Tidak ada data pasien yang
-                                    ditemukan.</td> {{-- Update colspan --}}
+                                    ditemukan.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
 
+            {{-- Pagination --}}
             <div class="flex justify-center mt-6">
                 <div class="join text-sm">
                     {{-- Previous Button --}}
@@ -439,7 +467,6 @@
     </div>
 
     {{-- Universal Popup Modal for alerts --}}
-    {{-- This modal is now handled by Flowbite's Modal component --}}
     <div id="popup-modal" tabindex="-1"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full p-4">
         <div class="relative w-full max-w-sm sm:max-w-md max-h-full">
@@ -457,185 +484,387 @@
         </div>
     </div>
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.3/dist/flowbite.min.js"></script>
     <script>
-        // Variabel global untuk menyimpan instance modal
+        // Variabel global untuk menyimpan instance modal Flowbite
         let flowbitePopupModal;
         let flowbiteDeleteModal;
         let flowbiteEditModal;
+        let flowbiteCrudModal;
 
+        /**
+         * Cleans a phone number by removing non-numeric characters.
+         * If it starts with '0', it replaces it with '62'.
+         *
+         * @param {string} phoneNumber The phone number to clean.
+         * @returns {string} The cleaned phone number, ready for a wa.me link.
+         */
+        function cleanPhoneNumberForWhatsapp(phoneNumber) {
+            if (!phoneNumber) return '';
+            let cleaned = phoneNumber.replace(/[^0-9]/g, ''); // Remove all non-digits
+            if (cleaned.startsWith('0')) {
+                cleaned = '62' + cleaned.substring(1);
+            }
+            return cleaned;
+        }
+
+        /**
+         * Sets up real-time validation for NIK input fields.
+         * Ensures only numbers, exactly 16 digits if filled, and is optional.
+         *
+         * @param {string} id The ID of the NIK input element.
+         */
+        function setupNikInputValidation(id) {
+            const inputElement = document.getElementById(id);
+            if (!inputElement) return;
+
+            inputElement.addEventListener('input', function() {
+                let value = this.value.replace(/\D/g, ''); // Remove non-digits
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+                this.value = value;
+            });
+
+            inputElement.addEventListener('paste', function(event) {
+                event.preventDefault();
+                const pasteData = event.clipboardData.getData('text');
+                const sanitizedData = pasteData.replace(/\D/g, '');
+                const currentValue = this.value.replace(/\D/g, '');
+
+                let newValue = (currentValue + sanitizedData).slice(0, 16);
+                this.value = newValue;
+            });
+
+            inputElement.addEventListener('invalid', function() {
+                if (this.value !== '' && this.value.length !== 16) {
+                    this.setCustomValidity("NIK harus terdiri dari 16 digit angka.");
+                } else {
+                    this.setCustomValidity("");
+                }
+            });
+
+            inputElement.addEventListener('focus', function() {
+                this.setCustomValidity("");
+            });
+
+            inputElement.addEventListener('blur', function() {
+                if (this.value !== '' && this.value.length !== 16) {
+                    this.reportValidity();
+                }
+            });
+        }
+
+        /**
+         * Sets up real-time validation for WhatsApp input fields.
+         * Ensures numbers, '+' allowed, 10-14 digits, optional.
+         *
+         * @param {string} id The ID of the WhatsApp input element.
+         */
+        function setupWhatsappInputValidation(id) {
+            const inputElement = document.getElementById(id);
+            if (!inputElement) return;
+
+            inputElement.addEventListener('input', function() {
+                let value = this.value.replace(/[^0-9+]/g, ''); // Only digits and '+'
+                // Ensure it doesn't exceed max length while allowing '+' at start
+                if (value.startsWith('+') && value.length > 15) { // + and up to 14 digits after
+                    value = value.slice(0, 15);
+                } else if (!value.startsWith('+') && value.length > 14) { // no + and up to 14 digits
+                     value = value.slice(0, 14);
+                }
+                this.value = value;
+            });
+
+            inputElement.addEventListener('paste', function(event) {
+                event.preventDefault();
+                const pasteData = event.clipboardData.getData('text');
+                const sanitizedData = pasteData.replace(/[^0-9+]/g, '');
+                let currentValue = this.value.replace(/[^0-9+]/g, '');
+                let newValue = currentValue + sanitizedData;
+
+                if (newValue.startsWith('+') && newValue.length > 15) {
+                    newValue = newValue.slice(0, 15);
+                } else if (!newValue.startsWith('+') && newValue.length > 14) {
+                    newValue = newValue.slice(0, 14);
+                }
+                this.value = newValue;
+            });
+
+            inputElement.addEventListener('invalid', function(event) {
+                if (this.value !== '') {
+                    // Check for minimum and maximum length first (10 to 14 digits for the number part)
+                    let numValue = this.value.replace(/[^0-9]/g, ''); // Only numeric part for length check
+                    if (numValue.length < 10) {
+                        this.setCustomValidity("Nomor WhatsApp minimal harus 10 digit.");
+                    } else if (numValue.length > 14) {
+                        this.setCustomValidity("Nomor WhatsApp tidak boleh lebih dari 14 digit.");
+                    }
+                    // Check if it starts with '08' or '+62'
+                    else if (!this.value.startsWith('08') && !this.value.startsWith('+62')) {
+                        this.setCustomValidity("Nomor WhatsApp harus dimulai dengan '08' atau '+62'.");
+                    } else {
+                        this.setCustomValidity(""); // Valid
+                    }
+                } else {
+                    this.setCustomValidity(""); // Allow empty
+                }
+            });
+
+            inputElement.addEventListener('focus', function() {
+                this.setCustomValidity("");
+            });
+
+            inputElement.addEventListener('blur', function() {
+                if (this.value !== '') {
+                    this.reportValidity();
+                }
+            });
+        }
+
+
+        /**
+         * Displays a notification modal with a given type and message.
+         *
+         * @param {'success' | 'error' | 'info'} type The type of notification (influences icon and color).
+         * @param {string} message The message to display.
+         */
+        function showNotification(type, message) {
+            if (!flowbitePopupModal) {
+                console.error("Modal Notifikasi Flowbite belum terinisialisasi.");
+                return;
+            }
+
+            const icon = document.getElementById('modal-icon');
+            const msg = document.getElementById('modal-message');
+
+            icon.className = 'mx-auto mb-4 w-10 h-10 sm:w-12 sm:h-12'; // Reset class
+            icon.innerHTML = ''; // Clear previous icon
+            msg.innerText = message;
+
+            const checkmarkPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+            const xmarkPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />`;
+            const infoPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />`;
+
+            if (type.includes('success')) {
+                icon.innerHTML = checkmarkPath;
+                icon.classList.add('text-green-500', 'stroke-current');
+            } else if (type === 'error') {
+                icon.innerHTML = xmarkPath;
+                icon.classList.add('text-red-500', 'stroke-current');
+            } else {
+                icon.innerHTML = infoPath;
+                icon.classList.add('text-blue-500', 'stroke-current');
+            }
+
+            flowbitePopupModal.show();
+            setTimeout(() => {
+                flowbitePopupModal.hide();
+            }, 3000); // Hide after 3 seconds
+        }
+
+        /**
+         * Sets the action URL for the delete form and shows the delete confirmation modal.
+         *
+         * @param {string} url The URL to send the DELETE request to.
+         */
+        function confirmDelete(url) {
+            if (!flowbiteDeleteModal) {
+                console.error("Modal Konfirmasi Hapus Flowbite belum terinisialisasi.");
+                return;
+            }
+            document.getElementById('delete-form').action = url;
+            flowbiteDeleteModal.show();
+        }
+
+        /**
+         * Hides the delete confirmation modal.
+         */
+        function closeDeleteModal() {
+            if (flowbiteDeleteModal) {
+                flowbiteDeleteModal.hide();
+            }
+        }
+
+        /**
+         * Populates the edit patient modal with existing data and shows it.
+         *
+         * @param {string} id Patient ID.
+         * @param {string} nama Patient name.
+         * @param {string} nik Patient NIK.
+         * @param {string} no_whatsapp Patient WhatsApp number.
+         * @param {string} tanggal_lahir Patient date of birth (YYYY-MM-DD format).
+         * @param {string} no_erm Patient ERM number.
+         */
+        function editPasien(id, nama, nik, no_whatsapp, tanggal_lahir, no_erm) {
+            if (!flowbiteEditModal) {
+                console.error("Edit Modal Flowbite belum terinisialisasi.");
+                return;
+            }
+            document.getElementById('pasien_id').value = id;
+            document.getElementById('edit_nama').value = nama;
+            document.getElementById('edit_nik').value = nik || '';
+            document.getElementById('edit_no_whatsapp').value = no_whatsapp || '';
+            document.getElementById('edit_tanggal_lahir').value = tanggal_lahir;
+            document.getElementById('edit_no_erm').value = no_erm;
+
+            let updateUrl = "{{ route('laboran.pasien.update', ['pasien' => ':id']) }}";
+            updateUrl = updateUrl.replace(':id', id);
+            document.getElementById('edit-form').action = updateUrl;
+
+            flowbiteEditModal.show();
+        }
+
+        /**
+         * Hides the edit patient modal.
+         */
+        function closeEditModal() {
+            if (flowbiteEditModal) {
+                flowbiteEditModal.hide();
+            }
+        }
+
+
+        // Ensure all JavaScript runs after the DOM is fully loaded.
         document.addEventListener('DOMContentLoaded', function () {
-            // =========================
-            // Inisialisasi Modal
-            // =========================
-
-            // Inisialisasi modal notifikasi
+            // Initialize all Flowbite modal instances
             const popupModalElement = document.getElementById('popup-modal');
             if (popupModalElement && typeof Modal !== 'undefined') {
                 flowbitePopupModal = new Modal(popupModalElement, {
-                    backdrop: 'static', // Tidak bisa tutup klik luar
+                    backdrop: 'static',
                     backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
                     closable: true
                 });
+            } else {
+                console.error("Flowbite Modal Notifikasi tidak ditemukan.");
             }
 
-            // Inisialisasi modal konfirmasi hapus
             const deleteModalElement = document.getElementById('delete-modal');
             if (deleteModalElement && typeof Modal !== 'undefined') {
                 flowbiteDeleteModal = new Modal(deleteModalElement);
+            } else {
+                console.error("Flowbite Modal Konfirmasi Hapus tidak ditemukan.");
             }
 
-            // Inisialisasi modal edit pasien
             const editModalElement = document.getElementById('edit-modal');
             if (editModalElement && typeof Modal !== 'undefined') {
                 flowbiteEditModal = new Modal(editModalElement);
+            } else {
+                console.error("Flowbite Modal Edit Pasien tidak ditemukan.");
             }
 
-            // =========================
-            // Tampilkan Notifikasi Flash dari Laravel
-            // =========================
-            function showNotification(type, message) {
-                if (!flowbitePopupModal) return;
-
-                const iconElement = document.getElementById('modal-icon');
-                const messageElement = document.getElementById('modal-message');
-
-                // Reset konten ikon dan pesan
-                iconElement.className = 'mx-auto mb-4 w-10 h-10 sm:w-12 sm:h-12';
-                iconElement.innerHTML = '';
-                messageElement.innerText = message;
-
-                // Path ikon SVG
-                const checkmarkPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`;
-                const xmarkPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />`;
-                const infoPath = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />`;
-
-                // Tentukan jenis ikon dan warna berdasarkan tipe
-                if (type.includes('success')) {
-                    iconElement.innerHTML = checkmarkPath;
-                    iconElement.classList.add('text-green-500', 'stroke-green-500');
-                } else if (type === 'error') {
-                    iconElement.innerHTML = xmarkPath;
-                    iconElement.classList.add('text-red-500', 'stroke-red-500');
-                } else {
-                    iconElement.innerHTML = infoPath;
-                    iconElement.classList.add('text-blue-500', 'stroke-blue-500');
-                }
-
-                flowbitePopupModal.show(); // Tampilkan modal
-                setTimeout(() => flowbitePopupModal.hide(), 2500); // Auto-tutup setelah 2.5 detik
+            const crudModalElement = document.getElementById('crud-modal');
+            if (crudModalElement && typeof Modal !== 'undefined') {
+                flowbiteCrudModal = new Modal(crudModalElement);
+            } else {
+                console.error("Flowbite Modal Tambah Pasien tidak ditemukan.");
             }
 
-            // Tampilkan error validasi Laravel (jika ada)
+            // Display Laravel Flash Messages
             @if ($errors->any())
                 const rawMessage = @json($errors->first());
                 const translated = {
                     "The nik has already been taken.": "NIK sudah digunakan.",
                     "The no whatsapp has already been taken.": "Nomor WhatsApp sudah digunakan.",
                     "The no erm has already been taken.": "Nomor ERM sudah digunakan.",
+                    "The nama field is required.": "Nama pasien wajib diisi.",
+                    "The no erm field is required.": "No. ERM wajib diisi.",
+                    // Add more translations as needed
                 };
                 const finalMessage = translated[rawMessage] ?? rawMessage;
                 showNotification('error', finalMessage);
             @endif
 
-            // Tampilkan notifikasi sukses dari session
             @if (session('success'))
                 showNotification('success', "{{ session('success') }}");
             @endif
 
-            // =========================
-            // AJAX Live Search
-            // =========================
+            // Apply validation to NIK and WhatsApp inputs for both Add and Edit forms
+            setupNikInputValidation('nik'); // Add Form NIK
+            setupWhatsappInputValidation('no_whatsapp'); // Add Form WhatsApp
 
+            setupNikInputValidation('edit_nik'); // Edit Form NIK
+            setupWhatsappInputValidation('edit_no_whatsapp'); // Edit Form WhatsApp
+
+            // AJAX Live Search & Pagination/Sorting
             const searchInput = document.getElementById('search-pasien');
             const tableContainer = document.getElementById('table-container');
             const mobileCardsContainer = document.getElementById('mobile-cards-container');
-            const paginationContainer = document.querySelector('.flex.justify-center.mt-6 nav');
-            let timeoutId;
+            const paginationContainer = document.querySelector('.flex.justify-center.mt-6 .join');
+            let searchTimeoutId;
 
-            // AJAX pencarian dinamis saat user mengetik
+            const fetchData = async (url) => {
+                try {
+                    const response = await fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    const html = await response.text();
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+                    tableContainer.innerHTML = doc.getElementById('table-container')?.innerHTML ?? '';
+                    mobileCardsContainer.innerHTML = doc.getElementById('mobile-cards-container')?.innerHTML ?? '';
+
+                    const newPagination = doc.querySelector('.flex.justify-center.mt-6 .join');
+                    if (paginationContainer && newPagination) {
+                        paginationContainer.innerHTML = newPagination.innerHTML;
+                    } else if (paginationContainer) {
+                        paginationContainer.innerHTML = ''; // Clear pagination if none received
+                    }
+
+                    // Re-initialize Flowbite components for newly loaded content
+                    Flowbite.init();
+                } catch (error) {
+                    console.error('Data fetching error:', error);
+                }
+            };
+
             if (searchInput) {
                 searchInput.addEventListener('input', function () {
-                    clearTimeout(timeoutId); // Reset delay sebelumnya
+                    clearTimeout(searchTimeoutId);
                     const query = this.value.trim();
 
-                    timeoutId = setTimeout(() => {
-                        // Ambil parameter sorting dari URL
-                        const sortParam = new URLSearchParams(window.location.search).get('sort') || '';
-                        const directionParam = new URLSearchParams(window.location.search).get('direction') || '';
-
-                        // Kirim request pencarian
-                        fetch(`/laboran/data-pasien?search=${encodeURIComponent(query)}&sort=${sortParam}&direction=${directionParam}`, {
-                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                        })
-                            .then(response => response.text())
-                            .then(html => {
-                                const doc = new DOMParser().parseFromString(html, 'text/html');
-                                tableContainer.innerHTML = doc.getElementById('table-container')?.innerHTML ?? '';
-                                mobileCardsContainer.innerHTML = doc.getElementById('mobile-cards-container')?.innerHTML ?? '';
-                                paginationContainer.innerHTML = doc.querySelector('.flex.justify-center.mt-6 nav')?.innerHTML ?? '';
-                            })
-                            .catch(error => console.error('Live search error:', error));
-                    }, 300); // Delay 300ms
+                    searchTimeoutId = setTimeout(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const sortParam = urlParams.get('sort') || '';
+                        const directionParam = urlParams.get('direction') || '';
+                        const newUrl =
+                            `/laboran/data-pasien?search=${encodeURIComponent(query)}&sort=${sortParam}&direction=${directionParam}`;
+                        fetchData(newUrl);
+                        window.history.pushState({
+                            path: newUrl
+                        }, '', newUrl);
+                    }, 300);
                 });
             }
 
-            // =========================
-            // AJAX Sorting & Pagination
-            // =========================
-
-            // Intersep klik pada link sorting atau pagination
             document.addEventListener('click', function (event) {
                 const link = event.target.closest('a');
-                if (!link || !link.href) return;
-
-                if (link.closest('#table-container') || link.closest('.flex.justify-center.mt-6 nav')) {
-                    event.preventDefault(); // Stop reload halaman
-
-                    fetch(link.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-                        .then(response => response.text())
-                        .then(html => {
-                            const doc = new DOMParser().parseFromString(html, 'text/html');
-                            tableContainer.innerHTML = doc.getElementById('table-container')?.innerHTML ?? '';
-                            mobileCardsContainer.innerHTML = doc.getElementById('mobile-cards-container')?.innerHTML ?? '';
-                            paginationContainer.innerHTML = doc.querySelector('.flex.justify-center.mt-6 nav')?.innerHTML ?? '';
-                            window.history.pushState({ path: link.href }, '', link.href); // Update URL tanpa reload
-                        })
-                        .catch(error => console.error('Pagination/Sorting error:', error));
+                // Only intercept clicks on pagination/sorting links within the table or pagination area
+                if (link && (link.closest('#table-container') || link.closest('.flex.justify-center.mt-6 .join')) && !link.href.includes('wa.me')) {
+                    event.preventDefault();
+                    fetchData(link.href);
+                    window.history.pushState({
+                        path: link.href
+                    }, '', link.href);
                 }
             });
+
+            window.addEventListener('popstate', function (event) {
+                if (event.state && event.state.path) {
+                    fetchData(event.state.path);
+                } else {
+                    fetchData(window.location.href);
+                }
+            });
+
+            // Ensure the popup modal is hidden if no message is intended
+            const modalMessageElement = document.getElementById('modal-message');
+            if (modalMessageElement && modalMessageElement.innerText.trim() === "Pesan" && popupModalElement) {
+                flowbitePopupModal.hide();
+            }
         });
-
-        // =========================
-        // Fungsi Modal CRUD
-        // =========================
-
-        // Menampilkan modal konfirmasi hapus
-        function confirmDelete(url) {
-            const form = document.getElementById('delete-form');
-            form.action = url; // Set action form
-            if (flowbiteDeleteModal) flowbiteDeleteModal.show();
-        }
-
-        // Menampilkan modal edit pasien dengan data yang sudah diisi
-        function editPasien(id, nama, nik, no_whatsapp, tanggal_lahir, no_erm) {
-            document.getElementById('pasien_id').value = id;
-            document.getElementById('edit_nama').value = nama;
-            document.getElementById('edit_nik').value = nik;
-            document.getElementById('edit_no_whatsapp').value = no_whatsapp;
-            document.getElementById('edit_tanggal_lahir').value = tanggal_lahir;
-            document.getElementById('edit_no_erm').value = no_erm;
-            document.getElementById('edit-form').action = `/laboran/data-pasien/${id}`;
-            if (flowbiteEditModal) flowbiteEditModal.show();
-        }
-
-        // Menutup modal edit pasien
-        function closeEditModal() {
-            if (flowbiteEditModal) flowbiteEditModal.hide();
-        }
     </script>
-
-
 @endsection
