@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         // Muat semua perintah yang ada di folder 'App/Console/Commands'.
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         // Muat file 'console.php' di folder 'routes'.
         // Ini biasanya buat perintah sederhana tanpa file terpisah.

@@ -7,11 +7,15 @@
 // Dibuat oleh = Sultan Sadad - 3312301102
 // Tanggal     = 16 Juli 2025
 
-namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+namespace App\Http\Middleware;
+
+// Menentukan lokasi (namespace) dari middleware ini.
 use Closure; // Import Closure untuk tipe data callback.
 use Illuminate\Http\Request; // Import kelas Request untuk bekerja dengan permintaan HTTP.
 use Illuminate\Support\Facades\Auth; // Import Facade Auth untuk mengecek status login.
-use Symfony\Component\HttpFoundation\Response; // Import kelas Response dari Symfony untuk tipe data respons HTTP.
+use Symfony\Component\HttpFoundation\Response;
+
+// Import kelas Response dari Symfony untuk tipe data respons HTTP.
 
 class PastikanPeranRekamMedis
 {

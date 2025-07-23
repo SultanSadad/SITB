@@ -2,80 +2,93 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use App\Models\Pasien;
 use App\Models\Staf;
 use App\Models\HasilUjiTB;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SystemTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function laboran_can_login_and_upload_test_result()
+    public function pasien_can_login_and_view_dashboard()
     {
-        $staf = Staf::factory()->create([
+        $pasien = Pasien::create([
+            'nik' => '1234567891234567',
+            'no_erm' => 'ERM001',
+            'nama' => 'Pasien Test',
+            'tanggal_lahir' => '2000-01-01',
+            'no_whatsapp' => '081234567890',
+            'verifikasi' => true,
+        ]);
+
+        $response = $this->post('/pasien/login', [
+            'nik' => $pasien->nik,
+            'no_erm' => $pasien->no_erm,
+        ]);
+
+        $response->assertRedirect('/pasien/dashboard');
+    }
+
+    /** @test */
+    public function laboran_can_login_and_upload_hasil_uji()
+    {
+        Storage::fake('public');
+
+        $staf = Staf::create([
+            'nama' => 'Laboran Uji',
             'email' => 'laboran@example.com',
             'password' => bcrypt('password123'),
             'peran' => 'laboran',
         ]);
 
-        // Login sebagai staf
-        $response = $this->post('/staf/login', [
-            'email' => 'laboran@example.com',
-            'password' => 'password123',
-        ]);
+        $this->actingAs($staf, 'staf'); // login sebagai laboran (guard: staf)
 
-        $response->assertRedirect('/laboran/dashboard');
-
-        // Simulasikan file upload hasil uji
         $pasien = Pasien::factory()->create();
-        Storage::fake('public');
 
-        $file = UploadedFile::fake()->create('hasil.pdf', 500, 'application/pdf');
+        $file = UploadedFile::fake()->create('hasil_uji.pdf', 500, 'application/pdf');
 
-        $response = $this->actingAs($staf, 'staf')->post("/laboran/hasil-uji/{$pasien->id}", [
+        $response = $this->post("/laboran/hasil-uji/{$pasien->id}", [
             'tanggal_uji' => now()->toDateString(),
             'tanggal_upload' => now()->toDateString(),
             'file' => $file,
         ]);
 
-        $response->assertRedirect(); // bisa lebih spesifik ke route hasil-uji.index
-        Storage::disk('public')->assertExists("hasil-uji/{$file->hashName()}");
+
+        $response->assertRedirect(); // sukses simpan
+        Storage::disk('public')->assertExists('hasil-uji/' . $file->hashName());
     }
 
 
     /** @test */
-    public function test_pasien_can_login_and_see_their_test_results()
+    public function pasien_can_see_uploaded_hasil_uji()
     {
-        $pasien = Pasien::factory()->create([
-            'nik' => '1234567890123456',
-            'no_erm' => 'ERM00123',
+        $pasien = Pasien::create([
+            'nik' => '1234567891234567',
+            'no_erm' => 'ERM001',
+            'nama' => 'Pasien Test',
+            'tanggal_lahir' => '2000-01-01',
+            'no_whatsapp' => '081234567890',
             'verifikasi' => true,
         ]);
 
-        $this->actingAs($pasien, 'pasien');
-
-        Storage::fake('public');
-
-        $file = UploadedFile::fake()->create('hasil.pdf', 500, 'application/pdf');
-        Storage::disk('public')->putFileAs('', $file, $file->hashName());
-
-        $hasil = \App\Models\HasilUjiTB::factory()->create([
+        $hasil = HasilUjiTB::create([
             'pasien_id' => $pasien->id,
-            'file' => $file->hashName(),
+            'tanggal_uji' => now()->toDateString(),
+            'file' => 'hasil-uji/test.pdf',
         ]);
 
-        $this->get('/pasien/hasil-uji')
-            ->assertStatus(200)
-            ->assertSee($hasil->id);
+        $this->post('/pasien/login', [
+            'nik' => $pasien->nik,
+            'no_erm' => $pasien->no_erm,        ]);
 
-        $this->get("/pasien/hasil-uji/{$hasil->id}")
-            ->assertStatus(200);
+        $response = $this->get('/pasien/hasil-uji');
+
+        $response->assertStatus(200)
+            ->assertSee('test.pdf'); // Pastikan file terlihat di HTML
     }
-
-
 }

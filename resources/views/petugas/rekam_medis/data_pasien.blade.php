@@ -23,7 +23,7 @@ Perbaikan tambahan:
         <div class="bg-white shadow-md rounded-lg p-3 sm:p-6">
             <div class="mb-4 sm:mb-6">
                 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 mb-4">
-                    <form action="{{ url('/rekam-medis/data-pasien') }}" method="GET" class="flex-grow">
+                    <form action="{{ url('petugas/rekam-medis/data-pasien') }}" method="GET" class="flex-grow">
                         <div class="relative flex flex-col sm:flex-row gap-2 items-stretch sm:items-center w-full">
                             <div class="relative flex">
                                 <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
@@ -490,13 +490,13 @@ Perbaikan tambahan:
                                     <td class="px-6 py-4 flex space-x-2">
                                         <button
                                             onclick="editPasien(
-                                                                                                                                                                                                '{{ $pasien->id }}',
-                                                                                                                                                                                                '{{ $pasien->nama }}',
-                                                                                                                                                                                                '{{ $pasien->nik }}',
-                                                                                                                                                                                                '{{ $pasien->no_whatsapp }}',
-                                                                                                                                                                                                '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
-                                                                                                                                                                                                '{{ $pasien->no_erm ?? '' }}'
-                                                                                                                                                                        )"
+                                                                                                                                                                                                        '{{ $pasien->id }}',
+                                                                                                                                                                                                        '{{ $pasien->nama }}',
+                                                                                                                                                                                                        '{{ $pasien->nik }}',
+                                                                                                                                                                                                        '{{ $pasien->no_whatsapp }}',
+                                                                                                                                                                                                        '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
+                                                                                                                                                                                                        '{{ $pasien->no_erm ?? '' }}'
+                                                                                                                                                                                )"
                                             class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md text-xs font-semibold">
                                             Edit
                                         </button>

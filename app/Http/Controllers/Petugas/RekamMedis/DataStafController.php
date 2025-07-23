@@ -1,5 +1,6 @@
 <?php
-// Nama File   = DataStafController.php 
+
+// Nama File   = DataStafController.php
 // Deskripsi   = Controller ini bertanggung jawab untuk mengelola data staf rumah sakit dari perspektif petugas rekam medis.
 //               Fungsi yang disediakan meliputi: menampilkan daftar staf dengan fitur pencarian,
 //               menambahkan staf baru (termasuk enkripsi password), memperbarui data staf yang sudah ada (dengan validasi unik dan opsionalitas password),
@@ -47,9 +48,10 @@ class DataStafController extends Controller
             // Cari staf yang nama, email, NIP, atau perannya mirip dengan kata kunci.
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('nama', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('no_whatsapp', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
             });
         }
 
@@ -153,7 +155,7 @@ class DataStafController extends Controller
             $staf->save();
 
             // Redirect kembali ke halaman daftar staf dengan pesan sukses.
-            return redirect()->to('rekam-medis/data-staf')->with([
+            return redirect()->route('rekam-medis.staf.index')->with([
                 'success_type' => 'success_edit', // Tipe pesan sukses.
                 'success_message' => 'Data staf berhasil diperbarui.'
             ]);
@@ -230,10 +232,10 @@ class DataStafController extends Controller
             // Filter staf berdasarkan nama, email, NIP, WhatsApp, atau peran.
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('nama', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('no_whatsapp', 'LIKE', "%{$searchTerm}%")
-                  ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
+                    ->orWhere('email', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('no_whatsapp', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
             });
         }
 

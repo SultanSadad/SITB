@@ -1,5 +1,6 @@
 <?php
-// Nama File   = handler.php 
+
+// Nama File   = handler.php
 // Deskripsi   = File ini bertanggung jawab untuk menangani semua error (exception) yang terjadi di aplikasi Laravel.
 //               Secara khusus, file ini mengelola bagaimana aplikasi merespons ketika pengguna tidak terautentikasi (belum login)
 //               dengan mengarahkan mereka ke halaman login yang sesuai (pasien, staf, atau umum).

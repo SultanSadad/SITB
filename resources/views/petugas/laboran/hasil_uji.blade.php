@@ -18,7 +18,7 @@
 
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="mb-6">
-                <form action="{{ url('/laboran/hasil-uji') }}" method="GET" class="w-60">
+                <form action="{{ url('petugas/laboran/hasil-uji') }}" method="GET" class="w-60">
                     <div class="relative flex">
                         <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
                             class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10 placeholder-gray-400 text-black"

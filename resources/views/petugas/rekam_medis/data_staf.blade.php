@@ -1,22 +1,22 @@
-{{-- Nama File   = modal.blade.php --}}
-{{-- Deskripsi   = Template untuk modal notifikasi --}}
+{{-- Nama File = modal.blade.php --}}
+{{-- Deskripsi = Template untuk modal notifikasi --}}
 {{-- Dibuat oleh = Hafivah Tahta- 3312301100 --}}
 {{-- Tanggal = 10 April 2025 --}}
 
-{{-- Nama File   = [Berbagai file halaman rekam medis] --}}
-{{-- Deskripsi   = Perbaiki semua layout rekam medis --}}
+{{-- Nama File = [Berbagai file halaman rekam medis] --}}
+{{-- Deskripsi = Perbaiki semua layout rekam medis --}}
 {{-- Dibuat oleh = Saskia Nadira - 3312301031 --}}
-{{-- Tanggal     = 24 April 2025 --}}
+{{-- Tanggal = 24 April 2025 --}}
 
-{{-- Nama File   = [Berbagai file halaman] --}}
-{{-- Deskripsi   = Update icon untuk semua aktor --}}
+{{-- Nama File = [Berbagai file halaman] --}}
+{{-- Deskripsi = Update icon untuk semua aktor --}}
 {{-- Dibuat oleh = Saskia Nadira - 3312301031 --}}
-{{-- Tanggal     = 24 April 2025 --}}
+{{-- Tanggal = 24 April 2025 --}}
 
-{{-- Nama File   = data_staf.php --}}
-{{-- Deskripsi   = Data staff --}}
+{{-- Nama File = data_staf.php --}}
+{{-- Deskripsi = Data staff --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 
 @extends('layout.rekam_medis')
@@ -26,7 +26,7 @@
         <h1 class="font-bold text-xl sm:text-2xl mb-4">Data Akun Staf</h1>
         <div class="bg-white shadow-md rounded-lg p-3 sm:p-6">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-                <form action="{{ url('/rekam-medis/data-staf') }}" method="GET" class="w-full sm:w-auto">
+                <form action="{{ url('petugas/rekam-medis/data-staf') }}" method="GET" class="w-full sm:w-auto">
                     <div class="relative w-full sm:w-60">
                         <input type="text" id="search-staf" name="q" placeholder="Cari Akun"
                             class="bg-transparent border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10 placeholder-gray-400 text-black"
@@ -645,29 +645,52 @@
                         event.preventDefault();
                         const staffId = editButton.dataset.id;
 
-                        fetch(`/rekam-medis/data-staf/${staffId}/edit-data`)
+                        // PERBAIKAN: Gunakan helper route() Laravel untuk URL fetch
+                        // Ini akan menghasilkan: /petugas/rekam-medis/data-staf/{id}/edit-data
+                        const fetchUrl = `{{ route('rekam-medis.staf.edit-data', ['staf' => ':id']) }}`.replace(':id', staffId);
+
+                        fetch(fetchUrl) // Gunakan fetchUrl yang sudah benar
                             .then(response => {
-                                if (!response.ok) throw new Error('Data staf tidak ditemukan.');
+                                // Periksa jika respons bukan 2xx (misalnya 404, 500)
+                                if (!response.ok) {
+                                    // Coba parse JSON error dari Laravel jika ada
+                                    return response.json().catch(() => {
+                                        // Jika bukan JSON, lemparkan error umum
+                                        throw new Error('Server error: ' + response.statusText);
+                                    }).then(errorData => {
+                                        // Jika ada pesan error dari Laravel (misal 'message' dari JSON)
+                                        const errorMessage = errorData.message || 'Data staf tidak ditemukan.';
+                                        throw new Error(errorMessage);
+                                    });
+                                }
                                 return response.json();
                             })
                             .then(data => {
-                                document.getElementById('edit_nama').value = data.nama || '';
-                                document.getElementById('edit_nip').value = data.nip || '';
-                                document.getElementById('edit_no_whatsapp').value = data.no_whatsapp || '';
-                                document.getElementById('edit_email').value = data.email || '';
-                                document.getElementById('edit_peran').value = data.peran || '';
-                                document.getElementById('edit_password').value = '';
-                                document.getElementById('edit_password_confirmation').value = '';
+                                // Pastikan data memiliki properti yang Anda harapkan
+                                if (data && typeof data === 'object') {
+                                    document.getElementById('edit_nama').value = data.nama || '';
+                                    document.getElementById('edit_nip').value = data.nip || '';
+                                    document.getElementById('edit_no_whatsapp').value = data.no_whatsapp || '';
+                                    document.getElementById('edit_email').value = data.email || '';
+                                    document.getElementById('edit_peran').value = data.peran || '';
+                                    document.getElementById('edit_password').value = '';
+                                    document.getElementById('edit_password_confirmation').value = '';
 
-                                const editForm = document.getElementById('edit-form');
-                                editForm.action = `/rekam-medis/data-staf/${data.id}`;
+                                    const editForm = document.getElementById('edit-form');
+                                    // PERBAIKAN: Gunakan helper route() Laravel untuk URL action form
+                                    // Ini akan menghasilkan: /petugas/rekam-medis/data-staf/{id}
+                                    editForm.action = `{{ route('rekam-medis.staf.update', ['staf' => ':id']) }}`.replace(':id', data.id);
 
-                                if (editModalInstance) {
-                                    editModalInstance.show();
+                                    if (editModalInstance) {
+                                        editModalInstance.show();
+                                    }
+                                } else {
+                                    throw new Error('Respon data tidak valid.');
                                 }
                             })
                             .catch(error => {
                                 console.error('Error fetching staff data for edit:', error);
+                                // Pesan error langsung dari catch block akan ditampilkan
                                 showNotification('error', 'Error: ' + error.message);
                             });
                     }

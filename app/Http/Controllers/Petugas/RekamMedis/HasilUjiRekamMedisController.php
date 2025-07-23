@@ -1,5 +1,6 @@
 <?php
-// Nama File   = HasilUjiRekamMedisController.php 
+
+// Nama File   = HasilUjiRekamMedisController.php
 // Deskripsi   = Controller ini mengelola fungsionalitas terkait hasil uji dari perspektif petugas rekam medis.
 //               Meliputi: menampilkan daftar hasil uji TBC terbaru untuk setiap pasien, menampilkan seluruh riwayat hasil uji TBC dari semua pasien,
 //               menampilkan detail riwayat hasil uji TBC untuk pasien tertentu, serta fungsi untuk menghapus data hasil uji TBC beserta file yang terkait.
@@ -74,7 +75,7 @@ class HasilUjiRekamMedisController extends Controller
         return view('petugas.rekam_medis.hasil_uji', compact('hasilUjiList'));
     }
 
-    
+
 
     /**
      * indexDataHasilUji()
@@ -117,7 +118,7 @@ class HasilUjiRekamMedisController extends Controller
         return view('petugas.rekam_medis.riwayat_hasil_uji', compact('hasilUjiList'));
     }
 
-  
+
 
     /**
      * show()

@@ -34,7 +34,7 @@
 
         <div class="bg-white shadow-md rounded-lg p-3 sm:p-6">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
-                <form action="{{ url('/laboran/data-pasien') }}" method="GET" class="w-64 sm:w-auto">
+                <form action="{{ url('petugas/laboran/data-pasien') }}" method="GET" class="w-64 sm:w-auto">
                     <div class="relative w-full sm:w-64 lg:w-64">
                         <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
                             class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10 placeholder-gray-400 text-black"

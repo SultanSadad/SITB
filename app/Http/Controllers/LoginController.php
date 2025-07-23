@@ -6,10 +6,12 @@
 //               Controller ini menentukan halaman login mana yang akan ditampilkan,
 //               bagaimana data login divalidasi, dan ke mana pengguna akan diarahkan
 //               setelah berhasil atau gagal login/logout.
-// Dibuat oleh = Salma  Aulia - 3312301096 
+// Dibuat oleh = Salma  Aulia - 3312301096
 // Tanggal     = 1 April 2025
 
-namespace App\Http\Controllers; // Menentukan lokasi (namespace) dari controller ini.
+namespace App\Http\Controllers;
+
+// Menentukan lokasi (namespace) dari controller ini.
 
 // =========================================================================
 // Import Kelas yang Dibutuhkan
@@ -183,7 +185,7 @@ class LoginController extends Controller
         }
         // 2. Cek Guard 'web': Jika tidak ada staf, cek apakah ada pengguna dari guard 'web' yang login.
         //    (Guard 'web' sering kali adalah guard default untuk pengguna umum/pasien jika tidak ada guard khusus pasien yang terpisah).
-        else if (Auth::guard('web')->check()) {
+        elseif (Auth::guard('web')->check()) {
             Auth::guard('web')->logout(); // Jika iya, logout dari guard 'web'.
             $redirectRoute = 'pasien.login'; // Atur rute pengalihan ke halaman login pasien.
         }

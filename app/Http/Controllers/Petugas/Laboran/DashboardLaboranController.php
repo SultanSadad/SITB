@@ -1,5 +1,6 @@
 <?php
-// Nama File   = DashboardLaboranController.php 
+
+// Nama File   = DashboardLaboranController.php
 // Deskripsi   = Controller ini mengatur logika bisnis untuk halaman dashboard petugas laboran.
 //               Meliputi pengambilan data statistik ringkasan (hasil uji hari ini, total hasil uji, total pasien),
 //               serta menyiapkan data untuk grafik statistik hasil uji bulanan/tahunan.
@@ -62,8 +63,18 @@ class DashboardLaboranController extends Controller
 
         // Label (nama) bulan untuk grafik.
         $chartLabels = [
-            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
         ];
 
         // Ambil jumlah hasil uji per bulan untuk TAHUN SAAT INI.
@@ -71,11 +82,12 @@ class DashboardLaboranController extends Controller
         // `COUNT(*)`: Hitung jumlah data.
         // `groupBy`: Kelompokkan berdasarkan bulan.
         // `orderBy`: Urutkan berdasarkan bulan.
-        $monthlyStats = HasilUjiTB::selectRaw("MONTH({$dateColumn}) AS month, COUNT(*) AS total")
+        $monthlyStats = HasilUjiTB::selectRaw("EXTRACT(MONTH FROM {$dateColumn})::int AS month, COUNT(*) AS total")
             ->whereYear($dateColumn, $currentYear)
-            ->groupBy(DB::raw("MONTH({$dateColumn})"))
+            ->groupBy(DB::raw("EXTRACT(MONTH FROM {$dateColumn})::int"))
             ->orderBy('month')
             ->get();
+
 
         // Siapkan array kosong untuk data grafik (12 bulan, nilai awal 0).
         $chartData = array_fill(0, 12, 0);
@@ -95,15 +107,17 @@ class DashboardLaboranController extends Controller
         // Ambil data statistik per bulan untuk tahun-tahun sebelumnya.
         foreach ($years as $year) {
             // Lewati tahun sekarang karena sudah diproses.
-            if ($year == $currentYear)
+            if ($year == $currentYear) {
                 continue;
+            }
 
             // Lakukan query yang sama untuk tahun-tahun sebelumnya.
-            $prevYearStats = HasilUjiTB::selectRaw("MONTH({$dateColumn}) AS month, COUNT(*) AS total")
+            $prevYearStats = HasilUjiTB::selectRaw("EXTRACT(MONTH FROM {$dateColumn})::int AS month, COUNT(*) AS total")
                 ->whereYear($dateColumn, $year)
-                ->groupBy(DB::raw("MONTH({$dateColumn})"))
+                ->groupBy(DB::raw("EXTRACT(MONTH FROM {$dateColumn})::int"))
                 ->orderBy('month')
                 ->get();
+
 
             // Siapkan array data bulan untuk tahun ini, lalu isi.
             $yearData = array_fill(0, 12, 0);

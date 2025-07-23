@@ -1,5 +1,6 @@
 <?php
-// Nama File   = HasilUjiLaboranController.php 
+
+// Nama File   = HasilUjiLaboranController.php
 // Deskripsi   = Controller ini mengelola proses terkait hasil uji TBC dari perspektif petugas laboran.
 //               Fungsi yang disediakan meliputi: menampilkan daftar pasien beserta hasil uji mereka (dengan filter dan pencarian),
 //               menampilkan detail semua hasil uji untuk pasien tertentu, menyimpan hasil uji baru (termasuk upload file),
@@ -21,7 +22,6 @@ use App\Models\HasilUjiTB;
 use Illuminate\Support\Facades\Log;
 // Import Storage untuk kelola file (simpan, ambil, hapus).
 use Illuminate\Support\Facades\Storage;
-
 
 class HasilUjiLaboranController extends Controller
 {
@@ -53,11 +53,13 @@ class HasilUjiLaboranController extends Controller
                 // Muat relasi `hasilUjiTB` (data hasil uji pasien).
                 'hasilUjiTB' => function ($query) use ($startDate, $endDate) {
                     // Jika ada tanggal mulai, filter hasil uji dari tanggal tersebut atau setelahnya.
-                    if ($startDate)
+                    if ($startDate) {
                         $query->whereDate('tanggal_uji', '>=', $startDate);
+                    }
                     // Jika ada tanggal akhir, filter hasil uji sampai tanggal tersebut atau sebelumnya.
-                    if ($endDate)
+                    if ($endDate) {
                         $query->whereDate('tanggal_uji', '<=', $endDate);
+                    }
                 }
             ])
             ->latest() // Urutkan daftar pasien dari yang terbaru dibuat.

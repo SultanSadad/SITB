@@ -1,5 +1,6 @@
 <?php
-// Nama File   = DataPasienLaboranController.php 
+
+// Nama File   = DataPasienLaboranController.php
 // Deskripsi   = Controller ini bertanggung jawab untuk mengelola data pasien dari perspektif petugas laboran.
 //               Fungsi utamanya meliputi menampilkan daftar pasien dengan fitur pencarian dan pengurutan,
 //               menambahkan pasien baru, memperbarui informasi pasien yang sudah ada, dan menghapus data pasien.

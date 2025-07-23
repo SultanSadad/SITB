@@ -8,7 +8,9 @@
 // Dibuat oleh = Salma
 // Tanggal     = 16 Juli 2025 (Menggunakan tanggal saat ini sesuai konteks)
 
-namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+namespace App\Http\Middleware;
+
+// Menentukan lokasi (namespace) dari middleware ini.
 
 // Import Closure untuk tipe data callback.
 use Closure;

@@ -7,16 +7,21 @@
 // Dibuat oleh = Salma Aulia - 3312301096
 // Tanggal     = 1 april 2025
 
-namespace App\Models; // Menentukan lokasi (namespace) dari model ini.
+namespace App\Models;
+
+// Menentukan lokasi (namespace) dari model ini.
 
 use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
 use Illuminate\Foundation\Auth\User as Authenticatable; // Import kelas Authenticatable, yang merupakan dasar untuk model yang bisa diotentikasi (login).
-use Illuminate\Notifications\Notifiable; // Import trait Notifiable untuk mengaktifkan fitur notifikasi.
+use Illuminate\Notifications\Notifiable;
+
+// Import trait Notifiable untuk mengaktifkan fitur notifikasi.
 
 class Pasien extends Authenticatable
 {
     // Menggunakan trait HasFactory (untuk seeding/factory) dan Notifiable (untuk notifikasi).
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * $fillable

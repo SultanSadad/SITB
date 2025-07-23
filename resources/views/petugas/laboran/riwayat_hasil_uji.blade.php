@@ -1,7 +1,7 @@
-{{-- Nama File   = [riwayat_hasil_uji.blade.php] --}}
-{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Nama File = [riwayat_hasil_uji.blade.php] --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 
 @extends('layout.laboran')
@@ -11,7 +11,7 @@
         <h1 class="font-bold text-2xl mb-4 text-center md:text-left">Data Hasil Laboratorium</h1>
 
         <div class="bg-white shadow-md rounded-lg p-4 md:p-6"> {{-- Adjusted padding for mobile --}}
-            <form action="{{ url('/laboran/riwayat-hasil-uji') }}" method="GET"
+            <form action="{{ url('petugas/laboran/riwayat-hasil-uji') }}" method="GET"
                 class="flex flex-col md:flex-row justify-between gap-4 mb-6">
                 <div class="relative w-full md:w-64"> {{-- Full width on mobile, fixed width on desktop --}}
                     <input type="text" name="search" placeholder="Cari Pasien" value="{{ request('search') }}"
@@ -40,7 +40,7 @@
                         <i class="fas fa-search mr-2"></i> Filter
                     </button>
 
-                    <a href="{{ url('/laboran/riwayat-hasil-uji') }}"
+                    <a href="{{ url('petugas/laboran/riwayat-hasil-uji') }}"
                         class="bg-white hover:bg-gray-50 text-gray-700 text-sm border border-gray-200 rounded-lg px-4 py-2 flex items-center justify-center w-full md:w-auto transition-all duration-200 shadow-sm hover:shadow-md">
                         <i class="fas fa-rotate-right mr-2"></i> Reset
                     </a>
@@ -166,25 +166,25 @@
             {{-- Desktop Table View --}}
             <div class="hidden md:block overflow-x-auto"> {{-- This div is hidden on mobile, visible on medium screens and
                 up --}}
-                <table class="w-full text-sm text-left text-gray-700 whitespace-nowrap">
+                <table class="w-full text-sm text-left text-gray-700 whitespace-nowrap my-6">
                     <thead class="bg-gray-100 text-xs uppercase">
                         <tr>
-                            <th class="px-3 py-2">No</th>
-                            <th class="px-3 py-2">NIK</th>
-                            <th class="px-3 py-2">Nama</th>
-                            <th class="px-3 py-2">Tanggal Upload</th>
-                            <th class="px-3 py-2">No HP</th>
-                            <th class="px-3 py-2">Tanggal Uji</th>
-                            <th class="px-3 py-2">Hasil Uji</th>
-                            <th class="px-3 py-2">Aksi</th>
+                            <th class="px-3 py-4">No</th>
+                            <th class="px-3 py-4">NIK</th>
+                            <th class="px-3 py-4">Nama</th>
+                            <th class="px-3 py-4">Tanggal Upload</th>
+                            <th class="px-3 py-4">No HP</th>
+                            <th class="px-3 py-4">Tanggal Uji</th>
+                            <th class="px-3 py-4">Hasil Uji</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($hasilUjiList as $index => $hasil)
                             <tr class="bg-white border-b hover:bg-gray-50">
-                                <td class="px-3 py-2">{{ $hasilUjiList->firstItem() + $index }}</td>
+                                <td class="px-3 py-4">{{ $hasilUjiList->firstItem() + $index }}</td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->pasien->nik)
                                         {{ $hasil->pasien->nik }}
                                     @else
@@ -192,7 +192,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->pasien->nama)
                                         {{ $hasil->pasien->nama }}
                                     @else
@@ -200,7 +200,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->tanggal_upload)
                                         {{ date('d-m-Y', strtotime($hasil->tanggal_upload)) }}
                                     @else
@@ -208,7 +208,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->pasien->no_whatsapp)
                                         @php
                                             $noWa = '62' . ltrim($hasil->pasien->no_whatsapp, '0');
@@ -221,7 +221,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->tanggal_uji)
                                         {{ date('d-m-Y', strtotime($hasil->tanggal_uji)) }}
                                     @else
@@ -229,7 +229,7 @@
                                     @endif
                                 </td>
 
-                                <td class="px-3 py-2">
+                                <td class="px-3 py-4">
                                     @if($hasil->file)
                                         <a href="{{ asset('storage/' . $hasil->file) }}" target="_blank"
                                             class="text-white bg-blue-600 hover:bg-blue-700 text-xs px-2 py-1 rounded inline-flex items-center">
@@ -245,27 +245,14 @@
                                     @else
                                         <span class="text-red-500">belum diisi</span>
                                     @endif
-                                </td>
-
-                                <td class="px-3 py-3">
-                                    <form action="{{ route('laboran.hasil-uji.destroy', $hasil->id) }}" method="POST"
-                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs font-semibold">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                </td </tr>
 
                         @empty
-                            <tr class="bg-white">
-                                <td colspan="8" class="px-3 py-2 text-center text-gray-500">Tidak ada data hasil laboratorium
-                                </td>
-                            </tr>
-                        @endforelse
+                                <tr class="bg-white">
+                                    <td colspan="8" class="px-3 py-4 text-center text-gray-500">Tidak ada data hasil laboratorium
+                                    </td>
+                                </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>

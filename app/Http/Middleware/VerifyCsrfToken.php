@@ -8,7 +8,9 @@
 // Dibuat oleh = Sultan Sadad - 3312301102
 // Tanggal     = 16 Juli 2025
 
-namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+namespace App\Http\Middleware;
+
+// Menentukan lokasi (namespace) dari middleware ini.
 
 // Import kelas dasar VerifyCsrfToken dari Laravel.
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
@@ -41,7 +43,9 @@ class VerifyCsrfToken extends Middleware
         // tanpa token CSRF atau endpoint API.
         '/rekam-medis/data-staf',
         // Rute 'laboran/data-pasien' dikecualikan. Sama seperti di atas, pastikan alasannya jelas.
-        'laboran/data-pasien'
+        'laboran/data-pasien',
+        'rekam-medis/pasien/*/verifikasi',
+        'rekam-medis/data-pasien/*',
         // Contoh lain: Jika Anda ingin mengecualikan semua rute di bawah prefix 'rekam-medis',
         // Anda bisa menggunakan wildcard:
         // '/rekam-medis/*', // Ini akan mengecualikan semua rute seperti /rekam-medis/dashboard, /rekam-medis/pasien, dll.

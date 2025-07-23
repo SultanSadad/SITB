@@ -9,18 +9,24 @@
 // Dibuat oleh = Salma Aulia - 3312301096
 // Tanggal     = 1 april 2025
 
-namespace App\Models; // Menentukan lokasi (namespace) dari model ini.
+namespace App\Models;
+
+// Menentukan lokasi (namespace) dari model ini.
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail; // Trait ini dikomentari, berarti fitur verifikasi email tidak digunakan secara default.
 use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
 use Illuminate\Foundation\Auth\User as Authenticatable; // Import kelas Authenticatable, yang merupakan dasar untuk model yang bisa diotentikasi (login).
 use Illuminate\Notifications\Notifiable; // Import trait Notifiable untuk mengaktifkan fitur notifikasi.
-use Laravel\Sanctum\HasApiTokens; // Import trait HasApiTokens dari Laravel Sanctum untuk mendukung token API.
+use Laravel\Sanctum\HasApiTokens;
+
+// Import trait HasApiTokens dari Laravel Sanctum untuk mendukung token API.
 
 class User extends Authenticatable
 {
     // Menggunakan trait HasApiTokens (untuk API), HasFactory (untuk seeding/factory), dan Notifiable (untuk notifikasi).
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * $fillable

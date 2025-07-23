@@ -33,12 +33,12 @@ use App\Models\Pasien; // Mengimpor model Pasien.
 // Middleware 'guest' memastikan rute ini hanya bisa diakses oleh pengguna yang belum login.
 Route::middleware('guest')->group(function () {
     // Rute untuk Login Pasien
-    Route::get('/pasien/login', [LoginController::class, 'showPasienLoginForm'])->name('pasien.login');
-    Route::post('/pasien/login', [LoginController::class, 'loginPasien']); // Memproses submit form login pasien.
+    Route::get('/pemohon/pasien/login', [LoginController::class, 'showPasienLoginForm'])->name('pasien.login');
+    Route::post('/pemohon/pasien/login', [LoginController::class, 'loginPasien']); // Memproses submit form login pasien.
 
     // Rute untuk Login Staf (digunakan oleh Rekam Medis & Laboran)
-    Route::get('/staf/login', [LoginController::class, 'showStafLoginForm'])->name('staf.login');
-    Route::post('/staf/login', [LoginController::class, 'loginStaf']); // Memproses submit form login staf.
+    Route::get('/petugas/staf/login', [LoginController::class, 'showStafLoginForm'])->name('staf.login');
+    Route::post('/petugas/staf/login', [LoginController::class, 'loginStaf']); // Memproses submit form login staf.
 });
 
 // =========================================================================
@@ -46,12 +46,12 @@ Route::middleware('guest')->group(function () {
 // Dibuat oleh: Salma Aulia - 3312301096
 // =========================================================================
 // Rute-rute di grup ini hanya bisa diakses oleh pasien yang sudah login.
-// - `prefix('pasien')`: Semua rute di sini akan diawali dengan '/pasien'.
-// - `name('pasien.')`: Semua nama rute di sini akan diawali dengan 'pasien.'.
-// - `middleware(['auth:pasien', 'no.cache'])`:
-//   - `auth:pasien`: Memastikan pengguna sudah login menggunakan guard 'pasien'.
-//   - `no.cache`: Middleware kustom untuk mencegah caching halaman setelah logout (demi keamanan).
-Route::prefix('pasien')->name('pasien.')->middleware(['auth:pasien', 'no.cache'])->group(function () {
+// - prefix('pemohon/pasien'): Semua rute di sini akan diawali dengan '/pemohon/pasien'.
+// - name('pasien.'): Semua nama rute di sini akan diawali dengan 'pasien.'.
+// - middleware(['auth:pasien', 'no.cache']):
+//   - auth:pasien: Memastikan pengguna sudah login menggunakan guard 'pasien'.
+//   - no.cache: Middleware kustom untuk mencegah caching halaman setelah logout (demi keamanan).
+Route::prefix('pemohon/pasien')->name('pasien.')->middleware(['auth:pasien', 'no.cache'])->group(function () {
     Route::get('/dashboard', [HasilUjiPasienController::class, 'dashboard'])->name('dashboard'); // Menampilkan dashboard pasien.
     Route::get('/hasil-uji', [HasilUjiPasienController::class, 'index'])->name('hasil-uji.index'); // Menampilkan daftar hasil uji pasien.
     Route::get('/hasil-uji/{hasilUjiTB}', [HasilUjiPasienController::class, 'show'])->name('hasil-uji.show'); // Menampilkan detail satu hasil uji.
@@ -63,10 +63,10 @@ Route::prefix('pasien')->name('pasien.')->middleware(['auth:pasien', 'no.cache']
 // Dibuat oleh: Sultan Sadad - 3312301102
 // =========================================================================
 // Rute-rute di grup ini hanya bisa diakses oleh staf yang sudah login.
-// - `prefix('staf')`: Semua rute di sini akan diawali dengan '/staf'.
-// - `name('staf.')`: Semua nama rute di sini akan diawali dengan 'staf.'.
-// - `middleware('auth:staf')`: Memastikan pengguna sudah login menggunakan guard 'staf'.
-Route::prefix('staf')->name('staf.')->middleware('auth:staf')->group(function () {
+// - prefix('petugas/staf'): Semua rute di sini akan diawali dengan '/petugas/staf'.
+// - name('staf.'): Semua nama rute di sini akan diawali dengan 'staf.'.
+// - middleware('auth:staf'): Memastikan pengguna sudah login menggunakan guard 'staf'.
+Route::prefix('petugas/staf')->name('staf.')->middleware('auth:staf')->group(function () {
     // Dashboard umum untuk staf jika diperlukan (saat ini hanya mengembalikan view).
     Route::get('/dashboard', fn() => view('staf.dashboard'))->name('dashboard');
     // Rute untuk proses logout staf.
@@ -78,12 +78,12 @@ Route::prefix('staf')->name('staf.')->middleware('auth:staf')->group(function ()
 // Dibuat oleh: Sultan Sadad - 3312301102
 // =========================================================================
 // Rute-rute di grup ini hanya bisa diakses oleh staf dengan peran 'rekam_medis'.
-// - `prefix('rekam-medis')`: Semua rute di sini akan diawali dengan '/rekam-medis'.
-// - `name('rekam-medis.')`: Semua nama rute di sini akan diawali dengan 'rekam-medis.'.
-// - `middleware(['auth:staf', 'role.rekam_medis'])`:
-//   - `auth:staf`: Memastikan pengguna sudah login sebagai staf.
-//   - `role.rekam_medis`: Middleware kustom yang memastikan peran staf adalah 'rekam_medis'.
-Route::prefix('rekam-medis')->name('rekam-medis.')->middleware(['auth:staf', 'role.rekam_medis'])->group(function () {
+// - prefix('petugas/rekam-medis'): Semua rute di sini akan diawali dengan '/petugas/rekam-medis'.
+// - name('rekam-medis.'): Semua nama rute di sini akan diawali dengan 'rekam-medis.'.
+// - middleware(['auth:staf', 'role.rekam_medis']):
+//   - auth:staf: Memastikan pengguna sudah login sebagai staf.
+//   - role.rekam_medis: Middleware kustom yang memastikan peran staf adalah 'rekam_medis'.
+Route::prefix('petugas/rekam-medis')->name('rekam-medis.')->middleware(['auth:staf', 'role.rekam_medis'])->group(function () {
     Route::get('/dashboard', [DashboardRekamMedisController::class, 'index'])->name('dashboard'); // Menampilkan dashboard rekam medis.
 
     // Manajemen Data Staf (oleh Rekam Medis)
@@ -119,12 +119,12 @@ Route::prefix('rekam-medis')->name('rekam-medis.')->middleware(['auth:staf', 'ro
 // Dibuat oleh: Sultan Sadad - 3312301102
 // =========================================================================
 // Rute-rute di grup ini hanya bisa diakses oleh staf dengan peran 'laboran'.
-// - `prefix('laboran')`: Semua rute di sini akan diawali dengan '/laboran'.
-// - `name('laboran.')`: Semua nama rute di sini akan diawali dengan 'laboran.'.
-// - `middleware(['auth:staf', 'role.laboran'])`:
-//   - `auth:staf`: Memastikan pengguna sudah login sebagai staf.
-//   - `role.laboran`: Middleware kustom yang memastikan peran staf adalah 'laboran'.
-Route::prefix('laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran'])->group(function () {
+// - prefix('petugas/laboran'): Semua rute di sini akan diawali dengan '/petugas/laboran'.
+// - name('laboran.'): Semua nama rute di sini akan diawali dengan 'laboran.'.
+// - middleware(['auth:staf', 'role.laboran']):
+//   - auth:staf: Memastikan pengguna sudah login sebagai staf.
+//   - role.laboran: Middleware kustom yang memastikan peran staf adalah 'laboran'.
+Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran'])->group(function () {
     Route::get('/dashboard', [DashboardLaboranController::class, 'index'])->name('dashboard'); // Menampilkan dashboard laboran.
 
     // Manajemen Data Pasien (oleh Laboran)

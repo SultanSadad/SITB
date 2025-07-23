@@ -8,7 +8,9 @@
 // Dibuat oleh = Salma - 3312301096
 // Tanggal     = 1 April 2025
 
-namespace App\Http; // Menentukan lokasi (namespace) dari file Kernel ini.
+namespace App\Http;
+
+// Menentukan lokasi (namespace) dari file Kernel ini.
 
 // Import kelas dasar HttpKernel dari Laravel.
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -55,7 +57,7 @@ class Kernel extends HttpKernel
 
         'api' => [ // Grup middleware untuk rute API (biasanya untuk aplikasi mobile atau frontend JavaScript).
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, // Digunakan oleh Laravel Sanctum untuk SPA/Mobile API.
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api', // Membatasi jumlah permintaan API dalam periode waktu tertentu (rate limiting).
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api', // Membatasi jumlah permintaan API dalam periode waktu tertentu (rate limiting).
             \Illuminate\Routing\Middleware\SubstituteBindings::class, // Mengganti wildcard di rute dengan instance model yang sesuai (Route Model Binding).
         ],
     ];

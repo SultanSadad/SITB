@@ -7,10 +7,14 @@
 // Dibuat oleh = Salma
 // Tanggal     = 16 Juli 2025
 
-namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+namespace App\Http\Middleware;
+
+// Menentukan lokasi (namespace) dari middleware ini.
 use Closure; // Import Closure untuk tipe data callback.
 use Illuminate\Http\Request; // Import kelas Request untuk bekerja dengan permintaan HTTP.
-use Illuminate\Support\Facades\Auth; // Import Facade Auth untuk mengecek status login.
+use Illuminate\Support\Facades\Auth;
+
+// Import Facade Auth untuk mengecek status login.
 
 
 

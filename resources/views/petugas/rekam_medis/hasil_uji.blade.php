@@ -1,7 +1,7 @@
-{{-- Nama File   = [hasil_uji.blade.php] --}}
-{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Nama File = [hasil_uji.blade.php] --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 @extends('layout.rekam_medis')
 <title>Hasil Uji Laboratorium</title>
@@ -12,7 +12,7 @@
 
         <div class="bg-white shadow-md rounded-lg p-6">
             <div class="mb-6">
-                <form action="{{ url('/rekam-medis/hasil-uji') }}" method="GET" class="w-full sm:w-64">
+                <form action="{{ url('petugas/rekam-medis/hasil-uji') }}" method="GET" class="w-full sm:w-64">
                     <div class="relative w-full">
                         <input type="text" id="search-pasien" name="search" placeholder="Cari Pasien"
                             class="bg-transparent border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 text-sm pl-10 placeholder-gray-400 text-black"

@@ -7,13 +7,14 @@
 // Dibuat oleh = Salma - Aulia
 // Tanggal     = 1 Maret 2025 (Asumsi tanggal pembuatan middleware ini, bisa disesuaikan)
 
-namespace App\Http\Middleware; // Menentukan lokasi (namespace) dari middleware ini.
+namespace App\Http\Middleware;
+
+// Menentukan lokasi (namespace) dari middleware ini.
 
 // Import kelas dasar Authenticate dari Laravel.
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 // Import kelas Request untuk bekerja dengan permintaan HTTP.
 use Illuminate\Http\Request;
-
 
 class Authenticate extends Middleware
 {

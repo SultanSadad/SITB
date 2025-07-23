@@ -8,10 +8,14 @@
 // Dibuat oleh = Salma Aulia - 3312301096
 // Tanggal     = 1 april 2025
 
-namespace App\Models; // Menentukan lokasi (namespace) dari model ini.
+namespace App\Models;
+
+// Menentukan lokasi (namespace) dari model ini.
 
 use Illuminate\Database\Eloquent\Model; // Import kelas dasar Model dari Eloquent ORM.
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+// Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
 
 class HasilUjiTB extends Model
 {

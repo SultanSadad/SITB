@@ -1,5 +1,6 @@
 <?php
-// Nama File   = DashboardRekamMedisController.php 
+
+// Nama File   = DashboardRekamMedisController.php
 // Deskripsi   = Controller ini bertanggung jawab untuk menampilkan halaman dashboard utama bagi petugas rekam medis.
 //               Fungsi utamanya adalah menyediakan ringkasan statistik terkini, seperti jumlah hasil uji hari ini,
 //               total pasien, total hasil uji, serta data bulanan untuk grafik statistik hasil uji TBC selama beberapa tahun terakhir.
