@@ -48,7 +48,7 @@
 
       <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-[#4c52e3]">
         <div class="flex items-center space-x-3">
-          <img src="{{ asset('image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
+          <img src="{{ asset('/statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
           <span class="text-sm font-semibold leading-tight">UPT Puskesmas<br>Baloi Permai</span>
         </div>
         <button onclick="toggleSidebar()" class="text-white text-2xl hover:text-gray-200">
@@ -56,7 +56,7 @@
       </div>
 
       <div class="hidden md:flex items-center px-6 py-5 space-x-4 border-b border-[#4c52e3]">
-        <img src="{{ asset('image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
+        <img src="{{ asset('statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
         <div class="font-bold text-white">
           <div class="text-lg">UPT Puskesmas</div>
           <div class="text-lg">Baloi Permai</div>
@@ -173,7 +173,7 @@
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar me-6 tooltip" data-tip="User Profile"
               aria-label="User Profile">
               <div class="w-10 h-10 rounded-full overflow-hidden">
-                <img src="/image/profile.jpg" class="w-full h-full object-cover" alt="Profile" />
+                <img src="/statis/image/profile.jpg" class="w-full h-full object-cover" alt="Profile" />
               </div>
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">

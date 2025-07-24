@@ -47,11 +47,13 @@ class DataStafController extends Controller
             $searchTerm = $request->q;
             // Cari staf yang nama, email, NIP, atau perannya mirip dengan kata kunci.
             $query->where(function ($q) use ($searchTerm) {
-                $q->where('nama', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('email', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('nip', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('no_whatsapp', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('peran', 'LIKE', "%{$searchTerm}%");
+                $lowerSearch = strtolower($searchTerm);
+
+                $q->whereRaw('LOWER(nama) LIKE ?', ["%{$lowerSearch}%"])
+                    ->orWhereRaw('LOWER(email) LIKE ?', ["%{$lowerSearch}%"])
+                    ->orWhereRaw('LOWER(nip) LIKE ?', ["%{$lowerSearch}%"])
+                    ->orWhereRaw('LOWER(no_whatsapp) LIKE ?', ["%{$lowerSearch}%"])
+                    ->orWhereRaw('LOWER(peran) LIKE ?', ["%{$lowerSearch}%"]);
             });
         }
 

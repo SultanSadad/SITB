@@ -46,7 +46,7 @@
 
       <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-[#4c52e3]">
         <div class="flex items-center space-x-3">
-          <img src="{{ asset('image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
+          <img src="{{ asset('/statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
           <span class="text-sm font-semibold leading-tight">UPT Puskesmas<br>Baloi Permai</span>
         </div>
         <button onclick="toggleSidebar()" class="text-white text-2xl hover:text-gray-200">
@@ -54,7 +54,7 @@
       </div>
 
       <div class="hidden md:flex items-center px-6 py-5 space-x-4 border-b border-[#4c52e3]">
-        <img src="{{ asset('image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
+        <img src="{{ asset('/statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
         <div class="font-bold">
           <div class="text-lg">UPT Puskesmas</div>
           <div class="text-lg">Baloi Permai</div>

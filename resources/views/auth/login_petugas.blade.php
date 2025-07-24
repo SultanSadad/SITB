@@ -12,7 +12,7 @@
         * { box-sizing: border-box; } /* Memastikan padding dan border disertakan dalam total lebar/tinggi elemen */
         body {
             margin: 0; padding: 0; font-family: 'Roboto', sans-serif;
-            background: url('{{ asset('image/bg-login.jpg') }}') no-repeat center center fixed; /* Gambar latar belakang */
+            background: url('{{ asset('/statis/image/bg-login.jpg') }}') no-repeat center center fixed; /* Gambar latar belakang */
             background-size: cover; /* Menutupi seluruh area */
             overflow: hidden; /* Mencegah scrolling pada body */
         }
@@ -80,7 +80,8 @@
             </div>
             <div class="login-content">
                 <div class="left">
-                    <img src="{{ asset('image/logoepus.png') }}" alt="Logo Puskesmas">
+                 <img src="{{ asset('statis/image/logoepus.png') }}" alt="Logo Puskesmas">
+
                 </div>
                 <div class="right">
                     <h3>LOGIN STAF</h3>
