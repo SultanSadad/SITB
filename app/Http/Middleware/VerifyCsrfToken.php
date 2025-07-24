@@ -20,14 +20,16 @@ class VerifyCsrfToken extends Middleware
     /**
      * $except
      *
-     * **Tujuan:** Daftar URI (Uniform Resource Identifiers) yang harus **dikecualikan** dari verifikasi CSRF.
+     * *Tujuan:* Daftar URI (Uniform Resource Identifiers) yang harus *dikecualikan* dari verifikasi CSRF.
      * Artinya, untuk rute-rute yang ada di dalam array ini, Laravel tidak akan memeriksa token CSRF.
      * Ini biasanya digunakan untuk:
-     * 1. **Endpoint API publik** yang mungkin diakses oleh aplikasi eksternal (meskipun lebih baik menggunakan API token).
-     * 2. **Rute-rute login** di mana token CSRF mungkin belum tersedia atau penanganannya berbeda.
-     * 3. **Webhook** dari layanan eksternal.
+     * 1. *Endpoint API publik* yang mungkin diakses oleh aplikasi eksternal
+     *    (meskipun lebih baik menggunakan API token).
+     * 2. *Rute-rute login* di mana token CSRF mungkin belum tersedia atau penanganannya berbeda.
+     * 3. *Webhook* dari layanan eksternal.
      *
-     * **Peringatan:** Mengecualikan rute dari verifikasi CSRF bisa menjadi risiko keamanan jika tidak dilakukan dengan hati-hati.
+     * *Peringatan:* Mengecualikan rute dari verifikasi CSRF bisa menjadi risiko keamanan
+     * jika tidak dilakukan dengan hati-hati.
      * Pastikan Anda memahami implikasinya dan memiliki perlindungan alternatif jika diperlukan.
      *
      * @var array<int, string> Daftar URI yang dikecualikan.
@@ -48,7 +50,8 @@ class VerifyCsrfToken extends Middleware
         'rekam-medis/data-pasien/*',
         // Contoh lain: Jika Anda ingin mengecualikan semua rute di bawah prefix 'rekam-medis',
         // Anda bisa menggunakan wildcard:
-        // '/rekam-medis/*', // Ini akan mengecualikan semua rute seperti /rekam-medis/dashboard, /rekam-medis/pasien, dll.
+        // '/rekam-medis/*',// Ini akan mengecualikan semua rute
+        // /rekam-medis/dashboard, /rekam-medis/pasien, dll.
                            // Gunakan dengan sangat hati-hati karena ini bisa menurunkan keamanan.
     ];
 }

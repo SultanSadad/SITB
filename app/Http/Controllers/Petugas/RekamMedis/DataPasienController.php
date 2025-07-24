@@ -2,9 +2,12 @@
 
 // Nama File   = DataPasienController.php
 // Deskripsi   = Controller ini bertanggung jawab untuk mengelola data pasien dari perspektif petugas rekam medis.
-//               Fungsi yang disediakan meliputi: menampilkan daftar pasien dengan fitur pencarian, filter status verifikasi, dan pengurutan;
-//               menambahkan pasien baru (beserta pembuatan akun user terkait), memperbarui data pasien yang sudah ada,
-//               menghapus pasien (beserta akun user terkait), serta mengelola status verifikasi pasien.
+//               Fungsi yang disediakan meliputi:
+//               - Menampilkan daftar pasien dengan fitur pencarian, filter status verifikasi, dan pengurutan
+//               - Menambahkan pasien baru (beserta pembuatan akun user terkait)
+//               - Memperbarui data pasien yang sudah ada
+//               - Menghapus pasien (beserta akun user terkait)
+//               - Mengelola status verifikasi pasien
 // Dibuat oleh = Sultan Sadad- 3312301102
 // Tanggal     = 4 April 2025
 namespace App\Http\Controllers\Petugas\RekamMedis;
@@ -166,7 +169,7 @@ class DataPasienController extends Controller
     /**
      * edit()
      *
-     * Fungsi ini untuk menampilkan form edit pasien. Sama seperti `create()`,
+     * Fungsi ini untuk menampilkan form edit pasien. Sama seperti create(),
      * karena form edit biasanya pakai modal, fungsi ini hanya redirect ke halaman index.
      *
      * @param  \App\Models\Pasien $pasien Objek Pasien yang akan diedit.

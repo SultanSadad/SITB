@@ -23,18 +23,20 @@ class PastikanPeranLaboran
     /**
      * handle()
      *
-     * **Tujuan:** Memeriksa apakah pengguna yang sedang login adalah seorang 'laboran'.
+     * *Tujuan:* Memeriksa apakah pengguna yang sedang login adalah seorang 'laboran'.
      * Jika ya, izinkan akses. Jika tidak, tolak akses.
      *
      * @param  \Illuminate\Http\Request  $request Objek Request yang sedang diproses.
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next Closure yang mewakili middleware berikutnya atau handler utama.
+     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     *         Closure yang mewakili middleware berikutnya atau handler utama.
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse Respons HTTP atau pengalihan.
      */
     public function handle(Request $request, Closure $next)
     {
         // 1. Cek Login Staf & Peran:
-        //    - `Auth::guard('staf')->check()`: Memeriksa apakah ada pengguna yang login melalui guard 'staf'.
-        //    - `Auth::guard('staf')->user()->peran === 'laboran'`: Jika ada, periksa apakah peran staf tersebut adalah 'laboran'.
+        //    - Auth::guard('staf')->check(): Memeriksa apakah ada pengguna yang login melalui guard 'staf'.
+        //    - Auth::guard('staf')->user()->peran === 'laboran':
+        //      Jika ada, periksa apakah peran staf tersebut adalah 'laboran'.
         if (Auth::guard('staf')->check() && Auth::guard('staf')->user()->peran === 'laboran') {
             // Jika pengguna adalah staf dan perannya 'laboran', izinkan permintaan untuk dilanjutkan.
             return $next($request);

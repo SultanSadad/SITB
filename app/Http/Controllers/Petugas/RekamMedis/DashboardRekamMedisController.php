@@ -3,7 +3,8 @@
 // Nama File   = DashboardRekamMedisController.php
 // Deskripsi   = Controller ini bertanggung jawab untuk menampilkan halaman dashboard utama bagi petugas rekam medis.
 //               Fungsi utamanya adalah menyediakan ringkasan statistik terkini, seperti jumlah hasil uji hari ini,
-//               total pasien, total hasil uji, serta data bulanan untuk grafik statistik hasil uji TBC selama beberapa tahun terakhir.
+//               total pasien, total hasil uji,
+//               serta data bulanan untuk grafik statistik hasil uji TBC selama beberapa tahun terakhir.
 // Dibuat oleh = Sultan Sadad- 3312301102
 // Tanggal     = 4 April 2025
 namespace App\Http\Controllers\Petugas\RekamMedis;
@@ -34,7 +35,7 @@ class DashboardRekamMedisController extends Controller
         // --- Data Ringkasan Utama ---
 
         // Ambil 5 hasil uji TB yang dibuat HARI INI.
-        // Termasuk data pasien terkait (`with('pasien')`).
+        // Termasuk data pasien terkait (with('pasien')).
         // Diurutkan dari yang terbaru, dan ditampilkan 5 per halaman.
         $todayResults = HasilUjiTB::whereDate('created_at', Carbon::today())
             ->with('pasien')
@@ -70,16 +71,16 @@ class DashboardRekamMedisController extends Controller
 
             // Loop untuk setiap bulan (dari Januari sampai Desember).
             for ($month = 1; $month <= 12; $month++) {
-                // Hitung jumlah hasil uji TB yang dilakukan pada tahun `$year` dan bulan `$month` ini.
+                // Hitung jumlah hasil uji TB yang dilakukan pada tahun $year dan bulan $month ini.
                 $monthlyCount = HasilUjiTB::whereYear('tanggal_uji', $year)
                     ->whereMonth('tanggal_uji', $month)
                     ->count();
 
-                // Tambahkan jumlah hasil uji bulanan ke array `$monthlyData`.
+                // Tambahkan jumlah hasil uji bulanan ke array $monthlyData.
                 $monthlyData[] = $monthlyCount;
             }
 
-            // Simpan data bulanan ini ke array `$yearlyStats` dengan kunci berupa tahunnya.
+            // Simpan data bulanan ini ke array $yearlyStats dengan kunci berupa tahunnya.
             $yearlyStats[$year] = $monthlyData;
         }
 

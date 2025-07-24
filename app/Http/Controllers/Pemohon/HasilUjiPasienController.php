@@ -90,7 +90,7 @@ class HasilUjiPasienController extends Controller
         // Ambil data hasil uji TB punya pasien yang lagi login.
         $hasilUjiList = $pasien->hasilUjiTB()
             // Kalau ada input 'search', filter berdasarkan 'tanggal_uji'.
-            // `CAST(tanggal_uji AS TEXT)`: Ubah tanggal jadi teks biar bisa dicari pake LIKE.
+            // CAST(tanggal_uji AS TEXT): Ubah tanggal jadi teks biar bisa dicari pake LIKE.
             ->when($search, function ($query) use ($search) {
                 $query->whereRaw("CAST(tanggal_uji AS TEXT) LIKE ?", ["%$search%"]);
             })
@@ -117,7 +117,8 @@ class HasilUjiPasienController extends Controller
      * Penting: Cuma bisa nampilin hasil uji milik pasien yang lagi login.
      *
      * @param  \App\Models\HasilUjiTB $hasilUjiTB Objek HasilUjiTB yang mau ditampilkan.
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\Response Respon berupa file PDF atau error.
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\Response
+     *         Respon berupa file PDF atau error.
      */
     public function show(HasilUjiTB $hasilUjiTB)
     {

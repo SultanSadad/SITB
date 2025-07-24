@@ -11,8 +11,8 @@ namespace App\Models;
 
 // Menentukan lokasi (namespace) dari model ini.
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
-use Illuminate\Foundation\Auth\User as Authenticatable; // Import kelas Authenticatable, yang merupakan dasar untuk model yang bisa diotentikasi (login).
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 // Import trait Notifiable untuk mengaktifkan fitur notifikasi.
@@ -26,7 +26,7 @@ class Staf extends Authenticatable
     /**
      * $table
      *
-     * **Tujuan:** Mendefinisikan nama tabel di database yang terhubung dengan model ini.
+     * *Tujuan:* Mendefinisikan nama tabel di database yang terhubung dengan model ini.
      * Secara default, Eloquent akan menggunakan bentuk plural dari nama model (misal: 'stafs').
      * Namun, jika nama tabel Anda berbeda, Anda harus menentukannya secara eksplisit di sini.
      *
@@ -37,8 +37,8 @@ class Staf extends Authenticatable
     /**
      * $fillable
      *
-     * **Tujuan:** Mendefinisikan atribut-atribut (kolom) tabel yang dapat diisi secara massal (mass assignable).
-     * Atribut yang ada di array `$fillable` bisa diisi menggunakan metode `create()` atau `update()`
+     * *Tujuan:* Mendefinisikan atribut-atribut (kolom) tabel yang dapat diisi secara massal (mass assignable).
+     * Atribut yang ada di array $fillable bisa diisi menggunakan metode create() atau update()
      * dengan array data, yang merupakan praktik umum di Laravel. Ini adalah fitur keamanan untuk mencegah
      * pengisian data yang tidak diinginkan.
      *
@@ -56,7 +56,7 @@ class Staf extends Authenticatable
     /**
      * $hidden
      *
-     * **Tujuan:** Mendefinisikan atribut-atribut (kolom) yang seharusnya disembunyikan
+     * *Tujuan:* Mendefinisikan atribut-atribut (kolom) yang seharusnya disembunyikan
      * saat model diubah menjadi array atau JSON. Ini sangat berguna untuk menyembunyikan
      * data sensitif seperti password atau token.
      *
@@ -70,7 +70,7 @@ class Staf extends Authenticatable
     /**
      * $casts
      *
-     * **Tujuan:** Mendefinisikan tipe data native PHP yang seharusnya dijadikan (cast) atribut tertentu.
+     * *Tujuan:* Mendefinisikan tipe data native PHP yang seharusnya dijadikan (cast) atribut tertentu.
      * Ini membantu dalam penanganan data, misalnya mengubah string datetime dari database menjadi objek Carbon.
      *
      * @var array<string, string> Daftar kolom dengan tipe data casting.
@@ -82,10 +82,10 @@ class Staf extends Authenticatable
     /**
      * hasilUji()
      *
-     * **Tujuan:** Mendefinisikan relasi "one-to-many" (hasMany) dengan model `HasilUjiTB`.
-     * Ini berarti satu `Staf` dapat menginput (memiliki) banyak `HasilUjiTB`.
+     * *Tujuan:* Mendefinisikan relasi "one-to-many" (hasMany) dengan model HasilUjiTB.
+     * Ini berarti satu Staf dapat menginput (memiliki) banyak HasilUjiTB.
      * Dengan relasi ini, Anda bisa dengan mudah mendapatkan semua hasil uji TB yang diinput oleh staf ini.
-     * Contoh: `$staf->hasilUji` akan mengembalikan koleksi semua hasil uji TB yang diinput staf tersebut.
+     * Contoh: $staf->hasilUji akan mengembalikan koleksi semua hasil uji TB yang diinput staf tersebut.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany Relasi dengan model HasilUjiTB.
      */
@@ -93,7 +93,7 @@ class Staf extends Authenticatable
     {
         // Menyatakan bahwa model Staf 'memiliki banyak' (has many) model HasilUjiTB.
         // Parameter kedua ('staf_id') secara eksplisit menunjukkan kolom foreign key
-        // di tabel `hasil_uji_tb` yang merujuk kembali ke tabel `staf`.
+        // di tabel hasil_uji_tb yang merujuk kembali ke tabel staf.
         return $this->hasMany(HasilUjiTB::class, 'staf_id');
     }
 }

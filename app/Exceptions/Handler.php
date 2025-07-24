@@ -1,8 +1,10 @@
 <?php
 
 // Nama File   = handler.php
-// Deskripsi   = File ini bertanggung jawab untuk menangani semua error (exception) yang terjadi di aplikasi Laravel.
-//               Secara khusus, file ini mengelola bagaimana aplikasi merespons ketika pengguna tidak terautentikasi (belum login)
+// Deskripsi   = File ini bertanggung jawab untuk menangani semua error (exception) yang terjadi
+//               di aplikasi Laravel.
+//               Secara khusus, file ini mengelola bagaimana aplikasi merespons ketika pengguna
+//               tidak terautentikasi (belum login)
 //               dengan mengarahkan mereka ke halaman login yang sesuai (pasien, staf, atau umum).
 // Dibuat oleh = Salma Aulia - 3312301096
 // Tanggal     = 1 April 2025
@@ -18,7 +20,7 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     /**
-     * **register()**
+     * *register()*
      *
      * Fungsi ini untuk mendaftarkan bagaimana kita ingin melaporkan error yang terjadi.
      * Saat ini, isinya masih kosong, jadi error akan dilaporkan secara standar oleh Laravel.
@@ -35,7 +37,7 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * **unauthenticated()**
+     * *unauthenticated()*
      *
      * Fungsi ini akan otomatis dijalankan ketika ada pengguna yang mencoba mengakses
      * halaman yang butuh login, tapi dia belum login atau sesi loginnya sudah habis.

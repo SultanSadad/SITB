@@ -11,8 +11,8 @@ namespace App\Models;
 
 // Menentukan lokasi (namespace) dari model ini.
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory untuk mendukung factory model (untuk seeding/pengujian).
-use Illuminate\Foundation\Auth\User as Authenticatable; // Import kelas Authenticatable, yang merupakan dasar untuk model yang bisa diotentikasi (login).
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 // Import trait Notifiable untuk mengaktifkan fitur notifikasi.

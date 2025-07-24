@@ -12,7 +12,7 @@ use App\Models\HasilUjiTB;
 class Kernel extends ConsoleKernel
 {
     /**
-     * **schedule()**
+     * *schedule()*
      *
      * Fungsi ini buat atur kapan tugas atau perintah di aplikasi harus jalan otomatis.
      * Kayak ngasih alarm ke aplikasi.
@@ -31,17 +31,17 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * **commands()**
+     * *commands()*
      *
      * Fungsi ini buat daftar semua perintah khusus yang bisa kamu jalankan
-     * lewat terminal (misal: `php artisan nama-perintah`).
+     * lewat terminal (misal: php artisan nama-perintah).
      *
      * @return void
      */
     protected function commands()
     {
         // Muat semua perintah yang ada di folder 'App/Console/Commands'.
-        $this->load(__DIR__ . '/Commands');
+        $this->load(_DIR_ . '/Commands');
 
         // Muat file 'console.php' di folder 'routes'.
         // Ini biasanya buat perintah sederhana tanpa file terpisah.
