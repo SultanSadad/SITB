@@ -117,7 +117,7 @@ class DataPasienLaboranController extends Controller
 
         // Redirect kembali ke halaman daftar pasien dengan pesan sukses.
         // Menggunakan `redirect()->to()` karena rute `laboran/data-pasien` mungkin tidak punya nama.
-        return redirect()->to('laboran/data-pasien')->with('success', 'Data pasien berhasil diperbarui');
+        return redirect()->to('laboran.pasien.index')->with('success', 'Data pasien berhasil diperbarui');
     }
 
     /**

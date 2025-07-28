@@ -86,9 +86,7 @@
                                         <i class="fas fa-download mr-1 text-xs"></i>
                                         Unduh
                                     </a>
-                                    <a href="{{ route('pasien.hasil-uji.show', $hasil->id) }}?download=true">
-    🔽 Unduh PDF Hasil
-</a>
+                                   
 
                                 </div>
                             </div>

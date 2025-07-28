@@ -36,9 +36,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         // Rute login untuk staf dikecualikan. (Umumnya form login tidak memerlukan CSRF token)
-        'staf/login',
+        'petugas/staf/login',
         // Rute login untuk pasien dikecualikan.
-        'pasien/login',
+        'pemohon/pasien/login',
         // Rute '/pasiens' dikecualikan. Pastikan ini adalah API endpoint atau rute yang memang tidak memerlukan CSRF.
         '/pasiens',
         // Rute '/rekam-medis/data-staf' dikecualikan. Periksa apakah ini route untuk form yang di-submit via AJAX

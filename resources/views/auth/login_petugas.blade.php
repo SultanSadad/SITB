@@ -110,7 +110,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script nonce="{{ request()->attributes->get('csp_nonce') }}">
         function togglePassword() {
             const input = document.getElementById('password'); // Ambil input password
             const icon = document.getElementById('togglePassword').querySelector('path'); // Ambil path SVG ikon

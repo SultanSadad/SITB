@@ -1,3 +1,4 @@
+import flowbite from 'flowbite/plugin'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [

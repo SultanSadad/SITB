@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string> Daftar kelas middleware global.
      */
     protected $middleware = [
+        // \App\Http\Middleware\SecurityHeaders::class, // <-- DIHAPUS DARI SINI
         // \App\Http\Middleware\TrustHosts::class, // Digunakan untuk mengamankan aplikasi dari serangan Host Header.
         \App\Http\Middleware\TrustProxies::class, // Mengatur server proxy tepercaya untuk penanganan header permintaan.
         \Illuminate\Http\Middleware\HandleCors::class,
@@ -37,6 +38,7 @@ class Kernel extends HttpKernel
         // Memeriksa ukuran data POST agar tidak melebihi batas yang ditentukan.
         \App\Http\Middleware\TrimStrings::class, // Memotong spasi di awal dan akhir string pada input permintaan.
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+
         // Mengubah string kosong di input permintaan menjadi nilai null.
     ];
 
@@ -62,6 +64,7 @@ class Kernel extends HttpKernel
             // Memverifikasi token CSRF untuk melindungi dari serangan Cross-Site Request Forgery.
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // Mengganti wildcard di rute dengan instance model yang sesuai (Route Model Binding).
+            \App\Http\Middleware\SecurityHeaders::class, // <-- BIARKAN DI SINI
         ],
 
         'api' => [ // Grup middleware untuk rute API (biasanya untuk aplikasi mobile atau frontend JavaScript).

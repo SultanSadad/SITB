@@ -138,7 +138,7 @@
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar me-6 tooltip" data-tip="User Profile"
               aria-label="User Profile">
               <div class="w-10 h-10 rounded-full overflow-hidden">
-                <img src="/image/profile.jpg" class="w-full h-full object-cover" alt="Profile" />
+                <img src="/statis/image/profile.jpg" class="w-full h-full object-cover" alt="Profile" />
               </div>
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">

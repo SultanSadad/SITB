@@ -124,7 +124,7 @@ Route::prefix('petugas/rekam-medis')->name('rekam-medis.')->middleware(['auth:st
 // - middleware(['auth:staf', 'role.laboran']):
 //   - auth:staf: Memastikan pengguna sudah login sebagai staf.
 //   - role.laboran: Middleware kustom yang memastikan peran staf adalah 'laboran'.
-Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran'])->group(function () {
+Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran', \App\Http\Middleware\SecurityHeaders::class])->group(function () {
     Route::get('/dashboard', [DashboardLaboranController::class, 'index'])->name('dashboard'); // Menampilkan dashboard laboran.
 
     // Manajemen Data Pasien (oleh Laboran)

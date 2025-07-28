@@ -10,19 +10,23 @@
   <title>Dashboard Rekam Medis</title>
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @vite('resources/js/sidebar_rekam_medis.js')
+
+
+
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
-  <style>
+  <style nonce="{{ request()->attributes->get('csp_nonce') }}">
     /* Styling dasar untuk item sidebar */
     .sidebar-item { color: white !important; background-color: transparent; transition: background 0.2s ease; }
     .sidebar-item:hover { background-color: #4c52e3 !important; color: white !important; }
     .sidebar-item.active { background-color: #5e64ff !important; color: white !important; font-weight: bold; }
     /* Styling untuk ringkasan menu (jika ada dropdown) */
     .menu summary { color: white !important; }
-    .menu summary:hover { background-color: #4c52e3 !important; color: white !important; }
+    .menu summary:hover x{ background-color: #4c52e3 !important; color: white !important; }
     /* Styling untuk submenu item */
     .menu li ul li a { color: white !important; padding-left: 2.5rem; }
     .menu li ul li a:hover { background-color: #4c52e3 !important; color: white !important; }
@@ -36,7 +40,7 @@
 
     /* Mencegah scrolling pada body saat sidebar mobile terbuka */
     html, body { overflow: hidden; height: 100%; }
-  </style>
+</style>
 </head>
 
 <body class="sidebar-closed">
@@ -66,7 +70,7 @@
       <ul class="menu w-full rounded-box px-2 py-4 space-y-1">
         <li>
           <a href="{{ route('rekam-medis.dashboard') }}"
-            class="sidebar-item {{ Request::is('rekam-medis/dashboard') ? 'active' : '' }}">
+   class="sidebar-item {{ Request::is('*rekam-medis/dashboard') ? 'active' : '' }}">
             <span class="flex items-center pl-1">
               <i class="fas fa-home w-5 text-center mr-3"></i>
               <span>Dashboard</span>
@@ -129,7 +133,7 @@
           </a>
         </li>
 
-        <script>
+        <script nonce="{{ request()->attributes->get('csp_nonce') }}">
           // Menetapkan status 'active' pada tombol logout
           function setActiveLogout() {
             const items = document.querySelectorAll('.sidebar-item');
@@ -218,47 +222,14 @@
       </div>
     </div>
   </div>
-
-  <script>
-    // Fungsi untuk membuka/menutup sidebar (untuk responsif mobile)
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      document.body.classList.toggle('sidebar-open'); // Kelas untuk mengaktifkan overlay
-      sidebar.classList.toggle('-translate-x-full'); // Menggeser sidebar masuk/keluar layar
-
-      // Mengontrol scrolling body saat sidebar terbuka di mobile
-      if (document.body.classList.contains('sidebar-open')) {
-        document.body.style.overflow = 'hidden'; // Mencegah scrolling
-      } else {
-        document.body.style.overflow = ''; // Mengizinkan scrolling normal
-      }
-    }
-
-    // Menutup sidebar saat item menu diklik (khusus mobile)
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-      item.addEventListener('click', function () {
-        if (window.innerWidth < 768) { // Cek jika lebar layar adalah mobile (< 768px)
-          toggleSidebar(); // Tutup sidebar
-        }
-      });
-    });
-  </script>
-  <script>
-    // Menampilkan modal konfirmasi logout
-    function showLogoutModal() {
-      const modal = document.getElementById('logout-modal');
-      modal.classList.remove('hidden'); // Menghilangkan kelas 'hidden'
-      modal.classList.add('flex'); // Menampilkan modal dengan display flex
-    }
-
-    // Menyembunyikan modal konfirmasi logout
-    function hideLogoutModal() {
-      const modal = document.getElementById('logout-modal');
-      modal.classList.remove('flex'); // Menghilangkan display flex
-      modal.classList.add('hidden'); // Menambahkan kelas 'hidden'
-    }
-  </script>
-
 </body>
+{{-- Inject chartLabels dan yearlyStats ke JS global window --}}
+<script nonce="{{ request()->attributes->get('csp_nonce') }}">
+    window.chartLabels = @json($chartLabels);
+    window.yearlyStats = @json($yearlyStats);
+</script>
 
+{{-- ChartJS CDN + Vite compiled JS --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@vite('resources/js/pages/rekam_medis/dashboard.js')
 </html>
