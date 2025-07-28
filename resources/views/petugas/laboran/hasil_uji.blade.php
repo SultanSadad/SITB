@@ -1,13 +1,13 @@
-{{-- Nama File   = hasil_uji.blade.php --}}
-{{-- Deskripsi   = Hasil Uji Rekam medis --}}
+{{-- Nama File = hasil_uji.blade.php --}}
+{{-- Deskripsi = Hasil Uji Rekam medis --}}
 {{-- Dibuat oleh = Saskia Nadira - 3312301031 --}}
-{{-- Tanggal     = 10 April 2025 --}}
+{{-- Tanggal = 10 April 2025 --}}
 
 
-{{-- Nama File   = [Berbagai file views] --}}
-{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Nama File = [Berbagai file views] --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 
 @extends('layout.laboran')
@@ -212,3 +212,7 @@
     </script>
 
 @endsection
+
+@push('scripts')
+    @vite('resources/js/pages/laboran/hasil_uji.js')
+@endpush

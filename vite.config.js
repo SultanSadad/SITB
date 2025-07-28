@@ -11,4 +11,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ['flowbite'],
   },
+  server: {
+    host: 'localhost',
+    port: 5173,
+    origin: 'http://localhost:5173',
+  },
 });

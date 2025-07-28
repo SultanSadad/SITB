@@ -134,10 +134,8 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK</label>
                                     <input type="text" name="nik" id="nik"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        pattern="[0-9]{16}"
-                                        maxlength="16"
-                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka."
-                                        inputmode="numeric">
+                                        pattern="[0-9]{16}" maxlength="16"
+                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka." inputmode="numeric">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="no_whatsapp"
@@ -145,8 +143,7 @@
                                         WhatsApp</label>
                                     <input type="tel" name="no_whatsapp" id="no_whatsapp"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        pattern="^(08|\+62)[0-9]{8,12}$"
-                                        maxlength="14"
+                                        pattern="^(08|\+62)[0-9]{8,12}$" maxlength="14"
                                         title="Masukkan nomor WhatsApp yang valid (contoh: 081234567890 atau +6281234567890). Minimal 10 digit, maksimal 14 digit.">
                                 </div>
                                 <div class="col-span-2">
@@ -216,10 +213,8 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIK</label>
                                     <input type="text" name="nik" id="edit_nik"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        pattern="[0-9]{16}"
-                                        maxlength="16"
-                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka."
-                                        inputmode="numeric">
+                                        pattern="[0-9]{16}" maxlength="16"
+                                        title="Nomor Induk Kependudukan (NIK) harus 16 digit angka." inputmode="numeric">
                                 </div>
                                 <div class="col-span-2">
                                     <label for="edit_no_whatsapp"
@@ -227,8 +222,7 @@
                                         WhatsApp</label>
                                     <input type="tel" name="no_whatsapp" id="edit_no_whatsapp"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        pattern="^(08|\+62)[0-9]{8,12}$"
-                                        maxlength="14"
+                                        pattern="^(08|\+62)[0-9]{8,12}$" maxlength="14"
                                         title="Masukkan nomor WhatsApp yang valid (contoh: 081234567890 atau +6281234567890). Minimal 10 digit, maksimal 14 digit.">
                                 </div>
                                 <div class="col-span-2">
@@ -284,8 +278,8 @@
                             <p>
                                 <span class="font-semibold text-gray-600">WhatsApp: </span>
                                 @if (!empty($pasien->no_whatsapp))
-                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $pasien->no_whatsapp)) }}" target="_blank"
-                                        class="text-green-600 hover:underline">
+                                    <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $pasien->no_whatsapp)) }}"
+                                        target="_blank" class="text-green-600 hover:underline">
                                         {{ $pasien->no_whatsapp }}
                                     </a>
                                 @else
@@ -296,13 +290,13 @@
 
                         <div class="flex justify-end gap-3 mt-4">
                             <button onclick="editPasien(
-                                                                                    '{{ $pasien->id }}',
-                                                                                    '{{ $pasien->nama }}',
-                                                                                    '{{ $pasien->nik }}',
-                                                                                    '{{ $pasien->no_whatsapp }}',
-                                                                                    '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
-                                                                                    '{{ $pasien->no_erm ?? '' }}'
-                                                                                )"
+                                                                                            '{{ $pasien->id }}',
+                                                                                            '{{ $pasien->nama }}',
+                                                                                            '{{ $pasien->nik }}',
+                                                                                            '{{ $pasien->no_whatsapp }}',
+                                                                                            '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
+                                                                                            '{{ $pasien->no_erm ?? '' }}'
+                                                                                        )"
                                 class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm font-semibold w-full transition duration-200">
                                 Edit
                             </button>
@@ -379,13 +373,13 @@
 
                                 <td class="px-6 py-4 flex space-x-2">
                                     <button onclick="editPasien(
-                                                                                            '{{ $pasien->id }}',
-                                                                                            '{{ $pasien->nama }}',
-                                                                                            '{{ $pasien->nik }}',
-                                                                                            '{{ $pasien->no_whatsapp }}',
-                                                                                            '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
-                                                                                            '{{ $pasien->no_erm ?? '' }}'
-                                                                                        )"
+                                                                                                    '{{ $pasien->id }}',
+                                                                                                    '{{ $pasien->nama }}',
+                                                                                                    '{{ $pasien->nik }}',
+                                                                                                    '{{ $pasien->no_whatsapp }}',
+                                                                                                    '{{ $pasien->tanggal_lahir ? \Carbon\Carbon::parse($pasien->tanggal_lahir)->format('Y-m-d') : '' }}',
+                                                                                                    '{{ $pasien->no_erm ?? '' }}'
+                                                                                                )"
                                         class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md text-xs font-semibold transition duration-200">
                                         Edit
                                     </button>
@@ -519,7 +513,7 @@
             const inputElement = document.getElementById(id);
             if (!inputElement) return;
 
-            inputElement.addEventListener('input', function() {
+            inputElement.addEventListener('input', function () {
                 let value = this.value.replace(/\D/g, ''); // Remove non-digits
                 if (value.length > 16) {
                     value = value.slice(0, 16);
@@ -527,7 +521,7 @@
                 this.value = value;
             });
 
-            inputElement.addEventListener('paste', function(event) {
+            inputElement.addEventListener('paste', function (event) {
                 event.preventDefault();
                 const pasteData = event.clipboardData.getData('text');
                 const sanitizedData = pasteData.replace(/\D/g, '');
@@ -537,7 +531,7 @@
                 this.value = newValue;
             });
 
-            inputElement.addEventListener('invalid', function() {
+            inputElement.addEventListener('invalid', function () {
                 if (this.value !== '' && this.value.length !== 16) {
                     this.setCustomValidity("NIK harus terdiri dari 16 digit angka.");
                 } else {
@@ -545,11 +539,11 @@
                 }
             });
 
-            inputElement.addEventListener('focus', function() {
+            inputElement.addEventListener('focus', function () {
                 this.setCustomValidity("");
             });
 
-            inputElement.addEventListener('blur', function() {
+            inputElement.addEventListener('blur', function () {
                 if (this.value !== '' && this.value.length !== 16) {
                     this.reportValidity();
                 }
@@ -566,18 +560,18 @@
             const inputElement = document.getElementById(id);
             if (!inputElement) return;
 
-            inputElement.addEventListener('input', function() {
+            inputElement.addEventListener('input', function () {
                 let value = this.value.replace(/[^0-9+]/g, ''); // Only digits and '+'
                 // Ensure it doesn't exceed max length while allowing '+' at start
                 if (value.startsWith('+') && value.length > 15) { // + and up to 14 digits after
                     value = value.slice(0, 15);
                 } else if (!value.startsWith('+') && value.length > 14) { // no + and up to 14 digits
-                     value = value.slice(0, 14);
+                    value = value.slice(0, 14);
                 }
                 this.value = value;
             });
 
-            inputElement.addEventListener('paste', function(event) {
+            inputElement.addEventListener('paste', function (event) {
                 event.preventDefault();
                 const pasteData = event.clipboardData.getData('text');
                 const sanitizedData = pasteData.replace(/[^0-9+]/g, '');
@@ -592,7 +586,7 @@
                 this.value = newValue;
             });
 
-            inputElement.addEventListener('invalid', function(event) {
+            inputElement.addEventListener('invalid', function (event) {
                 if (this.value !== '') {
                     // Check for minimum and maximum length first (10 to 14 digits for the number part)
                     let numValue = this.value.replace(/[^0-9]/g, ''); // Only numeric part for length check
@@ -612,11 +606,11 @@
                 }
             });
 
-            inputElement.addEventListener('focus', function() {
+            inputElement.addEventListener('focus', function () {
                 this.setCustomValidity("");
             });
 
-            inputElement.addEventListener('blur', function() {
+            inputElement.addEventListener('blur', function () {
                 if (this.value !== '') {
                     this.reportValidity();
                 }
@@ -868,3 +862,7 @@
         });
     </script>
 @endsection
+
+@push('scripts')
+    @vite('resources/js/pages/laboran/data_pasien.js')
+@endpush
