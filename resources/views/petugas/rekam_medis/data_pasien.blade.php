@@ -587,11 +587,11 @@ Perbaikan tambahan:
                 </div>
             </div>
         </div>
-
     </div>
     <script nonce="{{ request()->attributes->get('csp_nonce') }}">
         window.csrfToken = "{{ csrf_token() }}";
         window.routeUpdateUrl = "{{ route('rekam-medis.pasien.update', ['pasien' => ':id']) }}";
         window.routeVerifikasiUrl = "{{ route('rekam-medis.pasien.verifikasi', ['id' => ':id']) }}";
     </script>
+      @vite('resources/js/pages/data_pasien.js')
 @endsection

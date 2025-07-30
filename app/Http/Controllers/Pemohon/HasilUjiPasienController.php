@@ -73,41 +73,33 @@ class HasilUjiPasienController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil data pasien yang lagi login.
         $pasien = auth()->guard('pasien')->user();
 
-        // Penting: Cek dulu $pasien gak boleh kosong.
-        // Kalau kosong (harusnya gak terjadi karena ada middleware), kasih error 401.
         if (!$pasien) {
             abort(401, 'Anda tidak terautentikasi sebagai pasien.');
         }
 
-        // Ambil inputan pencarian dari URL (kalau ada).
         $search = $request->input('search');
         $startDate = $request->input('start');
         $endDate = $request->input('end');
 
-        // Ambil data hasil uji TB punya pasien yang lagi login.
         $hasilUjiList = $pasien->hasilUjiTB()
-            // Kalau ada input 'search', filter berdasarkan 'tanggal_uji'.
-            // CAST(tanggal_uji AS TEXT): Ubah tanggal jadi teks biar bisa dicari pake LIKE.
             ->when($search, function ($query) use ($search) {
                 $query->whereRaw("CAST(tanggal_uji AS TEXT) LIKE ?", ["%$search%"]);
             })
-            // Kalau ada 'startDate', filter data dari tanggal tersebut atau setelahnya.
             ->when($startDate, fn($query) => $query->whereDate('tanggal_uji', '>=', $startDate))
-            // Kalau ada 'endDate', filter data sampai tanggal tersebut atau sebelumnya.
             ->when($endDate, fn($query) => $query->whereDate('tanggal_uji', '<=', $endDate))
-            // Urutkan dari yang terbaru.
             ->latest()
-            // Tampilkan 7 data per halaman (pagination).
             ->paginate(7);
 
-        // Tambahkan parameter pencarian ke link pagination biar filternya tetap aktif.
         $hasilUjiList->appends($request->only(['search', 'start', 'end']));
 
-        // Tampilkan view 'pemohon.hasil_uji' dan kirim data $hasilUjiList ke sana.
-        return view('pemohon.hasil_uji', compact('hasilUjiList'));
+        // === TAMBAHKAN BARIS INI UNTUK MENDAPATKAN DAN MENERUSKAN $nonce ===
+        $nonce = $request->attributes->get('csp_nonce');
+        // ==================================================================
+
+        // Tampilkan view 'pemohon.hasil_uji' dan kirim data $hasilUjiList dan $nonce ke sana.
+        return view('pemohon.hasil_uji', compact('hasilUjiList', 'nonce')); // Tambahkan 'nonce' di compact
     }
 
     /**

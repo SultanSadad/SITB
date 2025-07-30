@@ -1,67 +1,93 @@
 <?php
 
-// Nama File   = handler.php
-// Deskripsi   = File ini bertanggung jawab untuk menangani semua error (exception) yang terjadi
-//               di aplikasi Laravel.
-//               Secara khusus, file ini mengelola bagaimana aplikasi merespons ketika pengguna
-//               tidak terautentikasi (belum login)
-//               dengan mengarahkan mereka ke halaman login yang sesuai (pasien, staf, atau umum).
-// Dibuat oleh = Salma Aulia - 3312301096
-// Tanggal     = 1 April 2025
 namespace App\Exceptions;
 
-// Ini adalah kelas dasar untuk menangani error (exception) di Laravel.
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-// Ini khusus untuk menangani error saat pengguna tidak terautentikasi (belum login).
-use Illuminate\Auth\AuthenticationException;
-// Ini adalah tipe dasar untuk semua error atau masalah yang bisa terjadi.
 use Throwable;
+use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * *register()*
-     *
-     * Fungsi ini untuk mendaftarkan bagaimana kita ingin melaporkan error yang terjadi.
-     * Saat ini, isinya masih kosong, jadi error akan dilaporkan secara standar oleh Laravel.
-     * Kita bisa tambahkan logika di sini, misalnya kirim notifikasi error ke email.
-     *
-     * @return void
-     */
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
+
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            // Kita bisa tambahkan kode di sini untuk melaporkan error.
-            // Contoh: Log::error('Ada error: ' . $e->getMessage());
+            Log::error('App Error Reported: ' . $e->getMessage(), ['exception' => $e]);
+        });
+
+        $this->renderable(function (Throwable $e, Request $request) {
+            Log::info('Handler: renderable() dipanggil untuk error: ' . get_class($e));
+
+            // Generate nonce untuk respons error
+            $nonce = Str::random(32);
+            Log::info('Handler: Nonce digenerasi untuk halaman error: ' . $nonce);
+
+            // Tentukan status code default jika tidak ada
+            $statusCode = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
+
+            // Tangani error tertentu dengan view kustom sederhana atau respons langsung
+            if (in_array($statusCode, [404, 419, 500]) || // Targetkan error umum
+                $e instanceof \Symfony\Component\ErrorHandler\Error\FatalError ||
+                $e instanceof \ErrorException ||
+                $e instanceof \OutOfMemoryError
+            ) {
+                Log::info("Handler: Menerapkan CSP dan merender view error kustom untuk status $statusCode.");
+
+                try {
+                    // Render view error kustom
+                    $response = response()->view('errors.custom_error', [
+                        'exception' => $e,
+                        'cspNonce' => $nonce, // Kirim nonce ke view
+                    ], $statusCode);
+
+                    // Bangun kebijakan CSP (seperti sebelumnya, tapi lebih sederhana jika bisa)
+                    $cspPolicy = "default-src 'self'; ";
+                    $cspPolicy .= "img-src 'self' data: blob:; ";
+                    // Untuk view error sederhana ini, kita hanya butuh ini:
+                    $cspPolicy .= "script-src 'self' 'nonce-{$nonce}'; ";
+                    $cspPolicy .= "style-src 'self' 'nonce-{$nonce}'; ";
+                    $cspPolicy .= "connect-src 'self'; "; // Jika view error tidak memuat AJAX/WS
+                    $cspPolicy .= "font-src 'self'; "; // Jika tidak memuat font eksternal
+                    $cspPolicy .= "frame-ancestors 'self'; ";
+                    $cspPolicy .= "form-action 'self'; ";
+                    $cspPolicy .= "frame-src 'self'; "; // Jika tidak ada iframe
+
+                    $response->headers->set('Content-Security-Policy', $cspPolicy);
+                    $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+                    $response->headers->set('X-Content-Type-Options', 'nosniff');
+                    $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+                    $response->headers->set('Permissions-Policy', 'geolocation=(self), microphone=(), camera=()');
+
+                    Log::info('Handler: Header CSP berhasil ditambahkan ke respons error kustom.');
+                    return $response;
+
+                } catch (Throwable $renderException) {
+                    Log::error('Handler: Gagal merender view error kustom atau menerapkan CSP: ' . $renderException->getMessage(), ['exception' => $renderException]);
+                    // Jika rendering view kustom pun gagal, kembali ke respons teks sederhana
+                    return response('<h1>Error ' . $statusCode . ' - Fatal Issue</h1><p>Maaf, ada masalah teknis lebih lanjut.</p>', $statusCode)
+                                ->header('Content-Type', 'text/html');
+                }
+            }
+
+            // Untuk error lainnya, biarkan Laravel menangani seperti biasa
+            return parent::render($request, $e);
         });
     }
 
-    /**
-     * *unauthenticated()*
-     *
-     * Fungsi ini akan otomatis dijalankan ketika ada pengguna yang mencoba mengakses
-     * halaman yang butuh login, tapi dia belum login atau sesi loginnya sudah habis.
-     * Fungsinya untuk mengarahkan pengguna ke halaman login yang sesuai.
-     *
-     * @param  \Illuminate\Http\Request  $request Objek request yang sedang berjalan.
-     * @param  \Illuminate\Auth\AuthenticationException  $exception Objek error autentikasi.
-     * @return \Illuminate\Http\RedirectResponse
-     */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        // Cek apakah yang belum login itu pengguna dengan 'guard' (sistem login) 'staf'.
-        // Jika iya, arahkan ke halaman login staf.
-        if (in_array('staf', $exception->guards())) {
-            return redirect()->guest(route('staf.login'));
-        }
-
-        // Cek apakah yang belum login itu pengguna dengan 'guard' 'pasien'.
-        // Jika iya, arahkan ke halaman login pasien.
-        if (in_array('pasien', $exception->guards())) {
-            return redirect()->guest(route('pasien.login'));
-        }
-
-        // Kalau bukan staf atau pasien, arahkan ke halaman login standar aplikasi.
-        return redirect()->guest(route('login'));
+        return $request->expectsJson()
+                    ? response()->json(['message' => $exception->getMessage()], 401)
+                    : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

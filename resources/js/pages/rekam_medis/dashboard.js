@@ -1,3 +1,4 @@
+import { Chart, registerables } from 'chart.js';
 document.addEventListener('DOMContentLoaded', () => {
     const chartLabels = window.chartLabels;
     const yearlyStats = window.yearlyStats;

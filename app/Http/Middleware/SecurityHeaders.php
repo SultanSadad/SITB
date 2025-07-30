@@ -5,68 +5,103 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Str; // Tambahkan ini untuk menggunakan Str::random()
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class SecurityHeaders
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $response = $next($request);
-
         $isDevelopment = app()->environment('local') || app()->environment('development');
 
-        // Generate a fresh nonce for each request
-        $nonce = Str::random(32);
-        $request->attributes->set('csp_nonce', $nonce); // Simpan nonce di request untuk diakses di Blade
-
-        // Base CSP policy
-        $cspPolicy = "default-src 'self';";
-        $cspPolicy .= "img-src 'self' data:;";
-
-        // Perbarui font-src untuk mencakup semua CDN yang mungkin
-        $cspPolicy .= "font-src 'self' data: " .
-                      "https://fonts.gstatic.com " . // Untuk Google Fonts
-                      "https://cdnjs.cloudflare.com;"; // Untuk Font Awesome
-
-        if ($isDevelopment) {
-            // -- Development specific CSP (more lenient) --
-            // Tambahkan 'unsafe-eval' jika Anda yakin ada library yang memerlukannya (Chart.js kadang butuh)
-            // Namun, cobalah tanpa ini dulu jika memungkinkan.
-            $cspPolicy .= "script-src 'self' 'unsafe-inline' 'nonce-{$nonce}' " .
-                          "http://localhost:5173 http://127.0.0.1:5173 " . // Vite assets
-                          "https://cdn.jsdelivr.net;"; // Chart.js CDN
-
-            $cspPolicy .= "style-src 'self' 'unsafe-inline' 'nonce-{$nonce}' " .
-                          "http://localhost:5173 http://127.0.0.1:5173 " . // Vite assets
-                          "https://fonts.googleapis.com https://cdnjs.cloudflare.com;"; // CDN CSS dan Font
-
-            // Perbarui connect-src untuk mencakup semua yang dibutuhkan Vite
-            $cspPolicy .= "connect-src 'self' " .
-                          "http://localhost:5173 http://127.0.0.1:5173 " . // Vite dev server
-                          "ws://localhost:5173 ws://127.0.0.1:5173;"; // Vite HMR (WebSockets)
-
+        // Pastikan nonce hanya digenerasi satu kali per permintaan.
+        // Coba ambil dari atribut request; jika belum ada, generate yang baru.
+        $nonce = $request->attributes->get('csp_nonce');
+        if (empty($nonce)) {
+            $nonce = Str::random(32);
+            $request->attributes->set('csp_nonce', $nonce); // Set di atribut request
+            Session::put('csp_nonce_session', $nonce); // Simpan di session juga untuk View Composer
+            Log::info('SecurityHeaders: Nonce generated & set: ' . $nonce);
         } else {
-            // -- Production specific CSP (strict) --
-            $cspPolicy .= "script-src 'self' 'nonce-{$nonce}' " .
-                          "https://cdn.jsdelivr.net;"; // Chart.js CDN untuk produksi
-            $cspPolicy .= "style-src 'self' 'nonce-{$nonce}' " .
-                          "https://fonts.googleapis.com https://cdnjs.cloudflare.com;";
-            $cspPolicy .= "connect-src 'self';";
+            // Nonce sudah ada. Konfirmasi saja dan sinkronkan sesi jika perlu.
+            if (Session::get('csp_nonce_session') !== $nonce) {
+                Session::put('csp_nonce_session', $nonce);
+                Log::warning('SecurityHeaders: Nonce di request attributes dan session tidak konsisten, disinkronkan.');
+            }
+            Log::info('SecurityHeaders: Nonce reused from request attributes: ' . $nonce);
         }
 
-        $response->headers->set('Content-Security-Policy', $cspPolicy);
+        // Inisialisasi semua array source untuk CSP
+        $fontSrc = ["'self'", "data:", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"];
+        $scriptSrc = ["'self'", "'nonce-{$nonce}'"];
+        $styleSrc = ["'self'", "'nonce-{$nonce}'"];
+        $connectSrc = ["'self'"];
+        $frameSrc = ["'self'"]; // Inisialisasi frame-src
 
-        // Header keamanan lainnya
+        if ($isDevelopment) {
+            $viteDevServerUrl = config('vite.dev_server_url', 'http://localhost:5173');
+            
+            // Tambahkan URL Vite development server
+            $scriptSrc[] = $viteDevServerUrl;
+            $styleSrc[] = $viteDevServerUrl;
+            $connectSrc[] = str_replace('http', 'ws', $viteDevServerUrl); // Untuk WebSocket HMR
+            $connectSrc[] = $viteDevServerUrl;
+            $fontSrc[] = $viteDevServerUrl; // Tambahkan URL Vite ke font-src
+
+            // Tambahkan CDN yang diperlukan di development
+            $scriptSrc[] = 'https://cdn.jsdelivr.net'; // <<< PASTIKAN INI ADA
+            $scriptSrc[] = 'https://code.jquery.com';   // <<< PASTIKAN INI ADA
+            $styleSrc[] = 'https://fonts.googleapis.com';
+            $styleSrc[] = 'https://cdnjs.cloudflare.com';
+            $styleSrc[] = 'https://cdn.jsdelivr.net'; // <<< PASTIKAN INI ADA (untuk DaisyUI)
+            $frameSrc[] = 'https://www.youtube.com'; // Untuk YouTube iframe
+        } else {
+            // Aturan ketat untuk production (tanpa Vite dev server)
+            $scriptSrc[] = 'https://cdn.jsdelivr.net';
+            $scriptSrc[] = 'https://code.jquery.com';
+            $styleSrc[] = 'https://fonts.googleapis.com';
+            $styleSrc[] = 'https://cdnjs.cloudflare.com';
+            $styleSrc[] = 'https://cdn.jsdelivr.net';
+            // frame-src mungkin perlu disesuaikan untuk produksi jika pakai YouTube
+        }
+
+        // Bangun string kebijakan CSP
+        $cspPolicy = "default-src 'self'; ";
+        $cspPolicy .= "img-src 'self' data: blob:; ";
+
+        // >>> TAMBAHKAN BARIS INI (base-uri) <<<
+        $cspPolicy .= "base-uri 'self'; "; 
+        // Ini adalah direktif yang paling sering menyebabkan ZAP mengeluh jika tidak ada.
+
+        $cspPolicy .= "font-src " . implode(' ', array_unique($fontSrc)) . "; "; // Bangun font-src
+        $cspPolicy .= "frame-ancestors 'self'; ";
+        $cspPolicy .= "form-action 'self'; ";
+        $cspPolicy .= "frame-src " . implode(' ', array_unique($frameSrc)) . "; "; // Bangun frame-src
+
+        $cspPolicy .= "script-src " . implode(' ', array_unique($scriptSrc)) . "; ";
+        $cspPolicy .= "style-src " . implode(' ', array_unique($styleSrc)) . "; ";
+        $cspPolicy .= "connect-src " . implode(' ', array_unique($connectSrc)) . "; ";
+
+        // Lanjutkan permintaan ke aplikasi dan dapatkan respons
+        $response = $next($request);
+
+        // Set header CSP di respons
+        $response->headers->set('Content-Security-Policy', $cspPolicy);
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'geolocation=(self), microphone=(), camera=()');
 
+        // Log final untuk perbandingan
+        $finalCspHeader = $response->headers->get('Content-Security-Policy');
+        Log::info('SecurityHeaders: Nonce yang digunakan untuk membangun kebijakan: ' . $nonce);
+        Log::info('SecurityHeaders: Header CSP Akhir (di respons): ' . ($finalCspHeader ?? 'NULL'));
+
         return $response;
     }
-}     
+}

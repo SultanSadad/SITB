@@ -301,7 +301,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.3/dist/flowbite.min.js"></script>
-    <script>
+    <script nonce="{{ $nonce }}">
         // Variabel global untuk menyimpan instance modal
         let flowbitePopupModal;
         let flowbiteDeleteModal;

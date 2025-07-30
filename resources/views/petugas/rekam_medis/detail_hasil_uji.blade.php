@@ -172,7 +172,7 @@
                 </div>
             @endif
         </div>
-        <style>
+        <style nonce="{{ $nonce }}">
             @media (max-width: 768px) {
                 .truncate {
                     max-width: 250px;

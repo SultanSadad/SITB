@@ -8,15 +8,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard Pasien</title>
 
+  {{-- Dapatkan nonce --}}
+
+
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  @vite(['resources/css/app.css', 'resources/js/app.js']) <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  {{-- HAPUS baris ini jika Anda mengelola Tailwind via Vite --}}
+
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
 
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
-  <style>
+  <style nonce="{{ $nonce }}">
     /* Styling dasar untuk item sidebar */
     .sidebar-item { color: white !important; background-color: transparent; transition: background 0.2s ease; }
     .sidebar-item:hover { background-color: #4c52e3 !important; color: white !important; }
@@ -90,7 +96,7 @@
           </a>
         </li>
 
-        <script>
+        <script nonce="{{ $nonce }}">
           // Menetapkan status 'active' pada tombol logout
           function setActiveLogout() {
             document.querySelectorAll('.sidebar-item').forEach(item => { item.classList.remove('active'); });
@@ -169,7 +175,7 @@
     </div>
   </div>
 
-  <script>
+  <script nonce="{{ $nonce }}">
     // Fungsi untuk membuka/menutup sidebar (untuk responsif mobile)
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -194,7 +200,7 @@
     });
   </script>
 
-  <script>
+<script nonce="{{ $nonce }}">
     // Menampilkan modal konfirmasi logout
     function showLogoutModal() {
       const modal = document.getElementById('logout-modal');

@@ -1,3 +1,5 @@
+# public/.htaccess
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -18,4 +20,21 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # === TAMBAHKAN KODE INI UNTUK HEADER X-Content-Type-Options ===
+    <IfModule mod_headers.c>
+        # Mencegah MIME-sniffing untuk semua file yang disajikan oleh Apache
+        Header set X-Content-Type-Options "nosniff"
+        # Anda juga bisa lebih spesifik untuk jenis file tertentu jika mau:
+        # <FilesMatch "\.(js|css|jpe?g|png|gif|svg|ico|eot|otf|ttf|woff|woff2)$">
+        #     Header set X-Content-Type-Options "nosniff"
+        # </FilesMatch>
+    </IfModule>
+    # =============================================================
 </IfModule>
+
+# Block access to .DS_Store file (macOS hidden file)
+<FilesMatch "^\.DS_Store$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

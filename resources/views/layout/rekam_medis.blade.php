@@ -1,5 +1,5 @@
-{{-- Nama File   = rekam_medis.blade.php --}}
-{{-- Deskripsi   = Template layout untuk halaman dashboard rekam medis --}}
+{{-- Nama File = rekam_medis.blade.php --}}
+{{-- Deskripsi = Template layout untuk halaman dashboard rekam medis --}}
 {{-- Dibuat oleh = Sultan Sadad - 3312301102 --}}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -7,40 +7,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard Rekam Medis</title>
 
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-  @vite('resources/js/sidebar_rekam_medis.js')
+ 
 
-
-
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
-
+  <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}" nonce="{{ $nonce }}">
+  <script type="module" src="{{ Vite::asset('resources/js/app.js') }}" nonce="{{ $nonce }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/sidebar_rekam_medis.js') }}" nonce="{{ $nonce }}"></script>
+  <script type="module" src="{{ Vite::asset('resources/js/pages/rekam_medis/dashboard.js') }}"
+    nonce="{{ $nonce }}"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
   <style nonce="{{ request()->attributes->get('csp_nonce') }}">
     /* Styling dasar untuk item sidebar */
-    .sidebar-item { color: white !important; background-color: transparent; transition: background 0.2s ease; }
-    .sidebar-item:hover { background-color: #4c52e3 !important; color: white !important; }
-    .sidebar-item.active { background-color: #5e64ff !important; color: white !important; font-weight: bold; }
+    .sidebar-item {
+      color: white !important;
+      background-color: transparent;
+      transition: background 0.2s ease;
+    }
+
+    .sidebar-item:hover {
+      background-color: #4c52e3 !important;
+      color: white !important;
+    }
+
+    .sidebar-item.active {
+      background-color: #5e64ff !important;
+      color: white !important;
+      font-weight: bold;
+    }
+
     /* Styling untuk ringkasan menu (jika ada dropdown) */
-    .menu summary { color: white !important; }
-    .menu summary:hover x{ background-color: #4c52e3 !important; color: white !important; }
+    .menu summary {
+      color: white !important;
+    }
+
+    .menu summary:hover x {
+      background-color: #4c52e3 !important;
+      color: white !important;
+    }
+
     /* Styling untuk submenu item */
-    .menu li ul li a { color: white !important; padding-left: 2.5rem; }
-    .menu li ul li a:hover { background-color: #4c52e3 !important; color: white !important; }
-    .menu li ul { background-color: transparent; }
+    .menu li ul li a {
+      color: white !important;
+      padding-left: 2.5rem;
+    }
+
+    .menu li ul li a:hover {
+      background-color: #4c52e3 !important;
+      color: white !important;
+    }
+
+    .menu li ul {
+      background-color: transparent;
+    }
+
     /* Font family global */
-    body { font-family: 'Roboto', sans-serif; }
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
 
     /* Overlay untuk sidebar di perangkat mobile */
-    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 50; }
-    .sidebar-open .sidebar-overlay { display: block; }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 50;
+    }
+
+    .sidebar-open .sidebar-overlay {
+      display: block;
+    }
 
     /* Mencegah scrolling pada body saat sidebar mobile terbuka */
-    html, body { overflow: hidden; height: 100%; }
-</style>
+    html,
+    body {
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
 </head>
 
 <body class="sidebar-closed">
@@ -70,7 +120,7 @@
       <ul class="menu w-full rounded-box px-2 py-4 space-y-1">
         <li>
           <a href="{{ route('rekam-medis.dashboard') }}"
-   class="sidebar-item {{ Request::is('*rekam-medis/dashboard') ? 'active' : '' }}">
+            class="sidebar-item {{ Request::is('*rekam-medis/dashboard') ? 'active' : '' }}">
             <span class="flex items-center pl-1">
               <i class="fas fa-home w-5 text-center mr-3"></i>
               <span>Dashboard</span>
@@ -87,14 +137,15 @@
           </a>
         </li>
         @php
-          // Menentukan apakah menu 'Users' harus terbuka (active)
-          $userMenuActive = Str::contains(Request::path(), [
-            'rekam-medis/data-pasien',
-            'rekam-medis/data-staf',
-          ]);
-        @endphp
+      // Menentukan apakah menu 'Users' harus terbuka (active)
+      $userMenuActive = Str::contains(Request::path(), [
+        'rekam-medis/data-pasien',
+        'rekam-medis/data-staf',
+      ]);
+    @endphp
         <li>
-          <details {{ $userMenuActive ? 'open' : '' }}> <summary class="{{ $userMenuActive ? 'font-bold text-white' : '' }}">
+          <details {{ $userMenuActive ? 'open' : '' }}>
+            <summary class="{{ $userMenuActive ? 'font-bold text-white' : '' }}">
               <span class="flex items-center pl-1">
                 <i class="fas fa-users w-5 text-center mr-3"></i>
                 <span>Users</span>
@@ -154,8 +205,8 @@
             console.log("Modal Logout ditampilkan (dari sidebar)"); // Debugging
             const modal = document.getElementById('logout-modal');
             if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+              modal.classList.remove('hidden');
+              modal.classList.add('flex');
             }
           }
         </script>
@@ -169,7 +220,8 @@
         </button>
 
         <div class="flex-1">
-          <h1 class="text-xl font-bold ml-2"></h1> </div>
+          <h1 class="text-xl font-bold ml-2"></h1>
+        </div>
 
         <div class="flex-none gap-4 items-center">
           <span class="text-sm font-semibold">Hi, {{ Auth::guard('staf')->user()->nama }}</span>
@@ -205,7 +257,8 @@
     class="hidden fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
       <div class="text-center">
-        <i class="fas fa-sign-out-alt text-red-500 text-4xl mb-4"></i> <h3 class="text-lg font-semibold mb-2">Anda yakin ingin logout?</h3>
+        <i class="fas fa-sign-out-alt text-red-500 text-4xl mb-4"></i>
+        <h3 class="text-lg font-semibold mb-2">Anda yakin ingin logout?</h3>
         <div class="flex justify-center gap-3">
           <button onclick="hideLogoutModal()"
             class="px-4 py-2 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400 min-w-[80px] h-9 flex items-center justify-center">
@@ -223,13 +276,4 @@
     </div>
   </div>
 </body>
-{{-- Inject chartLabels dan yearlyStats ke JS global window --}}
-<script nonce="{{ request()->attributes->get('csp_nonce') }}">
-    window.chartLabels = @json($chartLabels);
-    window.yearlyStats = @json($yearlyStats);
-</script>
-
-{{-- ChartJS CDN + Vite compiled JS --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-@vite('resources/js/pages/rekam_medis/dashboard.js')
 </html>

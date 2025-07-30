@@ -50,7 +50,7 @@ total, total pasien, dan tabel hasil uji hari ini.
     </div>
 
     {{-- Inject chartLabels dan yearlyStats ke JS global window --}}
-    <script>
+    <script nonce="{{ $nonce }}">
         window.chartLabels = @json($chartLabels);
         window.yearlyStats = @json($yearlyStats);
     </script>

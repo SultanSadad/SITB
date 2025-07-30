@@ -1,4 +1,4 @@
-<script>
+<script nonce="{{ $nonce }}">
     // Pastikan seluruh DOM (struktur halaman) sudah selesai dimuat sebelum menjalankan skrip.
     document.addEventListener('DOMContentLoaded', function () {
         // Mendapatkan referensi ke elemen modal utama berdasarkan ID 'popup-modal'.

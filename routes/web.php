@@ -20,8 +20,37 @@ use App\Http\Controllers\Petugas\RekamMedis\DataStafController; // Mengimpor Dat
 use App\Http\Controllers\Petugas\RekamMedis\HasilUjiRekamMedisController; // Mengimpor HasilUjiRekamMedisController.
 use Illuminate\Http\Request; // Mengimpor kelas Request.
 use App\Models\Pasien; // Mengimpor model Pasien.
+use Illuminate\Support\Facades\Response;
 
 
+// Rute untuk URL root
+Route::get('/', function () {
+    // Cek apakah user Pasien sudah login
+    if (Auth::guard('pasien')->check()) {
+        $redirectUrl = route('pasien.dashboard');
+    }
+    // Cek apakah user Staf sudah login
+    else if (Auth::guard('staf')->check()) { // Gunakan else if agar tidak bentrok
+        // Sesuaikan dengan peran staf yang login
+        $role = Auth::guard('staf')->user()->role;
+        if ($role === 'laboran') {
+            $redirectUrl = route('laboran.dashboard');
+        } else if ($role === 'rekam-medis') {
+            $redirectUrl = route('rekam-medis.dashboard');
+        } else {
+            // Default jika peran staf tidak dikenali
+            $redirectUrl = route('staf.dashboard'); // Asumsi ada dashboard umum staf
+        }
+    } else {
+        // Jika belum login, redirect ke halaman login pasien (default)
+        $redirectUrl = route('pasien.login');
+    }
+
+    // === INI ADALAH PERUBAHAN YANG HARUS ANDA LAKUKAN ===
+    return response()->noContent(303)->header('Location', $redirectUrl);
+    // ====================================================
+
+});
 // =========================================================================
 // RUTE PUBLIK & REDIRECT
 // Dibuat oleh: Salma Aulia - 3312301096
@@ -124,7 +153,7 @@ Route::prefix('petugas/rekam-medis')->name('rekam-medis.')->middleware(['auth:st
 // - middleware(['auth:staf', 'role.laboran']):
 //   - auth:staf: Memastikan pengguna sudah login sebagai staf.
 //   - role.laboran: Middleware kustom yang memastikan peran staf adalah 'laboran'.
-Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran', \App\Http\Middleware\SecurityHeaders::class])->group(function () {
+Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'role.laboran'])->group(function () {
     Route::get('/dashboard', [DashboardLaboranController::class, 'index'])->name('dashboard'); // Menampilkan dashboard laboran.
 
     // Manajemen Data Pasien (oleh Laboran)
@@ -139,4 +168,35 @@ Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'ro
     Route::delete('/hasil-uji/{id}', [HasilUjiLaboranController::class, 'destroy'])->name('hasil-uji.destroy'); // Menghapus hasil uji.
     Route::get('/detail/{pasienId}', [HasilUjiLaboranController::class, 'show'])->name('hasil-uji.show'); // Menampilkan detail hasil uji satu pasien.
     Route::get('/riwayat-hasil-uji', [HasilUjiLaboranController::class, 'semuaHasilUji'])->name('hasil-uji.riwayat'); // Menampilkan semua riwayat hasil uji.
+});
+
+Route::get('/sitemap.xml', function () {
+    // Path ke file sitemap.xml yang baru Anda buat di resources/sitemap.xml
+    $sitemapPath = resource_path('sitemap.xml');
+
+    if (!file_exists($sitemapPath)) {
+        // Seharusnya tidak terjadi jika Anda sudah membuat filenya
+        return Response::make('Sitemap not found', 404, ['Content-Type' => 'text/plain']);
+    }
+
+    $content = file_get_contents($sitemapPath);
+
+    return Response::make($content, 200, [
+        'Content-Type' => 'application/xml'
+    ]);
+});
+
+
+Route::get('/robots.txt', function () {
+    // Path ke file robots.txt Anda yang sekarang di resources/
+    $robotsPath = resource_path('robots.txt');
+
+    if (!file_exists($robotsPath)) {
+        return Response::make('Robots.txt not found', 404, ['Content-Type' => 'text/plain']);
+    }
+
+    $content = file_get_contents($robotsPath);
+    return Response::make($content, 200, [
+        'Content-Type' => 'text/plain',
+    ]);
 });

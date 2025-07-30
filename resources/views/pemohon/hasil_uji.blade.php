@@ -238,11 +238,8 @@
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
-    <script>
+    <script nonce="{{ $nonce }}">
         flatpickr("#search", {
             locale: "id",
             altInput: true,
@@ -252,7 +249,7 @@
         });
     </script>
 
-    <style>
+<style nonce="{{ $nonce }}">
         @media (max-width: 640px) {
             .flex-1 {
                 min-width: 0;

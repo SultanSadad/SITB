@@ -7,9 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HasilLaboratorium - Login</title>
+    <title>Hasil Laboratorium - Login</title
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <style>
+    <style nonce="{{ $nonce }}">
         /* CSS Umum */
         * {
             box-sizing: border-box;
@@ -223,7 +223,7 @@
         </div>
     </div>
 
-    <script>
+    <script nonce="{{ $nonce }}">
         function togglePassword() {
             const input = document.getElementById('no_erm'); // Ambil input password
             const icon = document.getElementById('togglePassword'); // Ambil ikon toggle

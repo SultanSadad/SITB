@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HasilLaboratorium - Login</title> <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> <style>
+    <title>HasilLaboratorium - Login</title> <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <style nonce="{{ $nonce }}">
         /* CSS Umum */
         * { box-sizing: border-box; } /* Memastikan padding dan border disertakan dalam total lebar/tinggi elemen */
         body {

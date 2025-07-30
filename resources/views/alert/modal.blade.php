@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ $nonce }}">
     document.addEventListener('DOMContentLoaded', function () {
         const popupModalElement = document.getElementById('popup-modal'); // Elemen modal utama
         const iconElement = document.getElementById('modal-icon');       // Elemen SVG untuk ikon

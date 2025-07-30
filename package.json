@@ -24,10 +24,12 @@
         "test": "tests"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^7.0.0",
         "asynckit": "^0.4.0",
         "browserslist": "^4.24.5",
         "call-bind-apply-helpers": "^1.0.2",
         "caniuse-lite": "^1.0.30001718",
+        "chart.js": "^4.5.0",
         "combined-stream": "^1.0.8",
         "daisyui": "^5.0.35",
         "delayed-stream": "^1.0.0",
@@ -50,6 +52,7 @@
         "has-symbols": "^1.1.0",
         "has-tostringtag": "^1.0.2",
         "hasown": "^2.0.2",
+        "jquery": "^3.7.1",
         "math-intrinsics": "^1.1.0",
         "mime-db": "^1.52.0",
         "mime-types": "^2.1.35",
