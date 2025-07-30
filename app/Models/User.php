@@ -50,12 +50,12 @@ class User extends Authenticatable
         'pasien_id', // Foreign key ke tabel 'pasiens' jika user ini adalah seorang pasien.
         'staf_id',   // Foreign key ke tabel 'staf' jika user ini adalah seorang staf.
         'hasilujiTB' // Kolom ini sepertinya tidak sesuai dengan konteks User dan fillable.
-                     // Jika 'hasilujiTB' merujuk ke relasi atau data lain, mungkin lebih baik dihapus dari $fillable,
-                     // atau pastikan ini adalah kolom di tabel users yang memang perlu diisi langsung.
-                     // Umumnya, hasilujiTB akan menjadi relasi, bukan kolom langsung
-                     // di tabel users.
-                     // Jika hasilujiTB sebenarnya adalah HasilUjiTB (model), maka ini adalah
-                     // penamaan yang membingungkan.
+        // Jika 'hasilujiTB' merujuk ke relasi atau data lain, mungkin lebih baik dihapus dari $fillable,
+        // atau pastikan ini adalah kolom di tabel users yang memang perlu diisi langsung.
+        // Umumnya, hasilujiTB akan menjadi relasi, bukan kolom langsung
+        // di tabel users.
+        // Jika hasilujiTB sebenarnya adalah HasilUjiTB (model), maka ini adalah
+        // penamaan yang membingungkan.
     ];
 
     /**
@@ -84,7 +84,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime', // Mengubah nilai kolom ini menjadi objek DateTime (Carbon).
         'password' => 'hashed',            // Laravel akan secara otomatis mengenkripsi password ketika diset
-                                           // dan memverifikasinya saat otentikasi.
+        // dan memverifikasinya saat otentikasi.
     ];
 
     /**

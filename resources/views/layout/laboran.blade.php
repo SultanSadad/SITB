@@ -18,7 +18,7 @@
 
   {{-- Tambahan CSS --}}
   {{-- === TAMBAHKAN NONCE DI SINI === --}}
-  <style nonce="{{ $nonce }}">
+  <style nonce="{{ $nonce }}"> {{-- Nonce dari versi lokalmu --}}
     body {
       font-family: 'Roboto', sans-serif;
     }
@@ -195,6 +195,10 @@
       </div>
     </div>
   </div>
+
+  {{-- Flowbite Datepicker --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/datepicker.min.js"></script> {{-- Script dari versi remote --}}
+
   {{-- Stack Scripts --}}
   @stack('scripts')
 </body>
