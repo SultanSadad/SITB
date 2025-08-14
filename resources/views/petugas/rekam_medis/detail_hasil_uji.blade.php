@@ -1,7 +1,7 @@
-{{-- Nama File   = detail_hasil_uji.blade.php --}}
-{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Nama File = detail_hasil_uji.blade.php --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 @extends('layout.rekam_medis')
 <title>Detail Hasil Uji Laboratorium</title>
@@ -18,7 +18,7 @@
         <div class="bg-white shadow-lg rounded-sm p-4 md:p-6">
             <!-- Tombol Kembali -->
             <div class="mb-4 md:mb-6">
-                <a href="{{ url('/rekam-medis/hasil-uji') }}"
+                <a href="{{ url('/petugas/rekam-medis/hasil-uji') }}"
                     class="inline-flex items-center bg-gray-600 hover:bg-gray-700 text-white px-3 md:px-4 py-2 rounded-md text-sm font-medium transition">
                     <i class="fa-solid fa-arrow-left mr-1 md:mr-2"></i>
                     <span class="hidden sm:inline">Kembali</span>

@@ -6,7 +6,7 @@
 
 @extends('layout.laboran')
 <title>Data Hasil Uji Laboratorium</title>
-@section('laboran')
+@section('content')
     <div class="px-4 md:px-6 mt-4"> {{-- Adjusted padding for mobile --}}
         <h1 class="font-bold text-2xl mb-4 text-center md:text-left">Data Hasil Laboratorium</h1>
 

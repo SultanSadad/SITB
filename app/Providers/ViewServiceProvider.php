@@ -8,7 +8,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session; // <<< PASTIKAN INI DIIMPOR!
+use Illuminate\Support\Facades\Session;
+
+// <<< PASTIKAN INI DIIMPOR!
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -36,7 +38,7 @@ class ViewServiceProvider extends ServiceProvider
             }
             // ===================================================
 
-            Log::info('ViewComposer (Session/Fallback): Nonce diambil: ' . ($nonce ?? 'NULL'));
+            // Log::info('ViewComposer (Session/Fallback): Nonce diambil: ' . ($nonce ?? 'NULL'));
 
             $view->with('nonce', $nonce);
         });

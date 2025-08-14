@@ -102,23 +102,22 @@ class DataPasienLaboranController extends Controller
      */
     public function update(Request $request, Pasien $pasien)
     {
-        // Validasi data update.
-        // 'unique:pasiens,nik,' . $pasien->id artinya cek unik, tapi lewati ID pasien ini sendiri.
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'nik' => 'nullable|string|unique:pasiens,nik,' . $pasien->id,
-            'no_erm' => 'required|string|unique:pasiens,no_erm,' . $pasien->id,
-            'no_whatsapp' => 'nullable|string|unique:pasiens,no_whatsapp,' . $pasien->id,
-            'tanggal_lahir' => 'nullable|date',
+        'nama'           => 'required|string|max:255',
+        'nik'            => 'nullable|string|unique:pasiens,nik,' . $pasien->id,
+        'no_erm'         => 'required|string|unique:pasiens,no_erm,' . $pasien->id,
+        'no_whatsapp'    => 'nullable|string|unique:pasiens,no_whatsapp,' . $pasien->id,
+        'tanggal_lahir'  => 'nullable|date',
         ]);
 
-        // Update data pasien di database pakai data yang sudah divalidasi.
         $pasien->update($validated);
 
-        // Redirect kembali ke halaman daftar pasien dengan pesan sukses.
-        // Menggunakan `redirect()->to()` karena rute `laboran/data-pasien` mungkin tidak punya nama.
-        return redirect()->to('laboran.pasien.index')->with('success', 'Data pasien berhasil diperbarui');
+    // ✅ gunakan nama route
+        return redirect()
+        ->route('laboran.pasien.index')
+        ->with('success', 'Data pasien berhasil diperbarui');
     }
+
 
     /**
      * destroy()

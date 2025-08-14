@@ -50,16 +50,11 @@ class HasilUjiPasienController extends Controller
      */
     public function dashboard()
     {
-        // Ambil data pasien yang lagi login lewat guard 'pasien'.
         $pasien = auth()->guard('pasien')->user();
-
-        // Baris di bawah ini dikomen, artinya relasi 'hasilUjiTB' gak diload dulu.
-        // Kalau nanti di dashboard perlu data hasil uji, baru aktifkan baris ini.
-        // $pasien->load('hasilUjiTB');
-
-        // Tampilkan view 'pemohon.dashboard_pasien' dan kirim data $pasien ke sana.
-        return view('pemohon.dashboard_pasien', compact('pasien'));
+        return view('pemohon.dashboard', compact('pasien'));
     }
+
+
 
 
     /**

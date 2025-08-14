@@ -12,7 +12,7 @@
 
 @extends('layout.laboran')
 <title>Hasil Uji Laboratorium</title>
-@section('laboran')
+@section('content')
     <div class="px-6 mt-2">
         <h1 class="font-bold text-2xl mb-4">Hasil Uji Laboratorium</h1>
 

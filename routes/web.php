@@ -21,6 +21,8 @@ use App\Http\Controllers\Petugas\RekamMedis\HasilUjiRekamMedisController; // Men
 use Illuminate\Http\Request; // Mengimpor kelas Request.
 use App\Models\Pasien; // Mengimpor model Pasien.
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
+
 
 
 // Rute untuk URL root
@@ -80,12 +82,13 @@ Route::middleware('guest')->group(function () {
 // - middleware(['auth:pasien', 'no.cache']):
 //   - auth:pasien: Memastikan pengguna sudah login menggunakan guard 'pasien'.
 //   - no.cache: Middleware kustom untuk mencegah caching halaman setelah logout (demi keamanan).
-Route::prefix('pemohon/pasien')->name('pasien.')->middleware(['auth:pasien', 'no.cache'])->group(function () {
-    Route::get('/dashboard', [HasilUjiPasienController::class, 'dashboard'])->name('dashboard'); // Menampilkan dashboard pasien.
-    Route::get('/hasil-uji', [HasilUjiPasienController::class, 'index'])->name('hasil-uji.index'); // Menampilkan daftar hasil uji pasien.
-    Route::get('/hasil-uji/{hasilUjiTB}', [HasilUjiPasienController::class, 'show'])->name('hasil-uji.show'); // Menampilkan detail satu hasil uji.
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // Rute untuk proses logout pasien.
+Route::prefix('pemohon/pasien')->name('pasien.')->middleware('auth:pasien')->group(function () {
+    Route::get('/dashboard', [HasilUjiPasienController::class, 'dashboard'])->name('dashboard');
+    Route::get('/hasil-uji', [HasilUjiPasienController::class, 'index'])->name('hasil-uji.index');
+    Route::get('/hasil-uji/{hasilUjiTB}', [HasilUjiPasienController::class, 'show'])->name('hasil-uji.show');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+
 
 // =========================================================================
 // RUTE UMUM STAF (SETELAH LOGIN)
@@ -137,10 +140,8 @@ Route::prefix('petugas/rekam-medis')->name('rekam-medis.')->middleware(['auth:st
 
     // Verifikasi Pasien (Endpoint AJAX)
     // Rute ini langsung menangani update verifikasi pasien.
-    Route::post('/pasien/{id}/verifikasi', function ($id, Request $request) {
-        Pasien::findOrFail($id)->update(['verifikasi' => $request->verifikasi ? 1 : 0]);
-        return response()->json(['success' => true]);
-    })->name('pasien.verifikasi');
+    Route::post('/pasien/{pasien}/verifikasi', [DataPasienController::class, 'verifikasi'])
+        ->name('pasien.verifikasi');
 });
 
 // =========================================================================
@@ -167,7 +168,8 @@ Route::prefix('petugas/laboran')->name('laboran.')->middleware(['auth:staf', 'ro
     Route::post('/hasil-uji/{pasienId}', [HasilUjiLaboranController::class, 'store'])->name('hasil-uji.store'); // Menyimpan hasil uji baru untuk pasien tertentu.
     Route::delete('/hasil-uji/{id}', [HasilUjiLaboranController::class, 'destroy'])->name('hasil-uji.destroy'); // Menghapus hasil uji.
     Route::get('/detail/{pasienId}', [HasilUjiLaboranController::class, 'show'])->name('hasil-uji.show'); // Menampilkan detail hasil uji satu pasien.
-    Route::get('/riwayat-hasil-uji', [HasilUjiLaboranController::class, 'semuaHasilUji'])->name('hasil-uji.riwayat'); // Menampilkan semua riwayat hasil uji.
+    Route::get('/riwayat-hasil-uji', [HasilUjiLaboranController::class, 'riwayat'])
+        ->name('hasil-uji.riwayat');
 });
 
 Route::get('/sitemap.xml', function () {

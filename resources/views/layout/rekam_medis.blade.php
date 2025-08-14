@@ -1,6 +1,4 @@
 {{-- Nama File = rekam_medis.blade.php --}}
-{{-- Deskripsi = Template layout untuk halaman dashboard rekam medis --}}
-{{-- Dibuat oleh = Sultan Sadad - 3312301102 --}}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -10,92 +8,76 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Dashboard Rekam Medis</title>
 
- 
-
+  @vite(['resources/css/app.css', 'resources/js/app.js'])@php $nonce = request()->attributes->get('csp_nonce'); @endphp
   <link rel="stylesheet" href="{{ Vite::asset('resources/css/app.css') }}" nonce="{{ $nonce }}">
   <script type="module" src="{{ Vite::asset('resources/js/app.js') }}" nonce="{{ $nonce }}"></script>
-  <script type="module" src="{{ Vite::asset('resources/js/sidebar_rekam_medis.js') }}" nonce="{{ $nonce }}"></script>
-  <script type="module" src="{{ Vite::asset('resources/js/pages/rekam_medis/dashboard.js') }}"
-    nonce="{{ $nonce }}"></script>
+
+
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
   <style nonce="{{ request()->attributes->get('csp_nonce') }}">
-    /* Styling dasar untuk item sidebar */
     .sidebar-item {
-      color: white !important;
-      background-color: transparent;
-      transition: background 0.2s ease;
+      color: #fff !important;
+      background: transparent;
+      transition: background .2s
     }
 
     .sidebar-item:hover {
-      background-color: #4c52e3 !important;
-      color: white !important;
+      background: #4c52e3 !important;
+      color: #fff !important
     }
 
     .sidebar-item.active {
-      background-color: #5e64ff !important;
-      color: white !important;
-      font-weight: bold;
+      background: #5e64ff !important;
+      color: #fff !important;
+      font-weight: bold
     }
 
-    /* Styling untuk ringkasan menu (jika ada dropdown) */
     .menu summary {
-      color: white !important;
+      color: #fff !important
     }
 
-    .menu summary:hover x {
-      background-color: #4c52e3 !important;
-      color: white !important;
-    }
-
-    /* Styling untuk submenu item */
     .menu li ul li a {
-      color: white !important;
-      padding-left: 2.5rem;
+      color: #fff !important;
+      padding-left: 2.5rem
     }
 
     .menu li ul li a:hover {
-      background-color: #4c52e3 !important;
-      color: white !important;
+      background: #4c52e3 !important;
+      color: #fff !important
     }
 
     .menu li ul {
-      background-color: transparent;
+      background: transparent
     }
 
-    /* Font family global */
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Roboto', sans-serif
     }
 
-    /* Overlay untuk sidebar di perangkat mobile */
     .sidebar-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 50;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 50
     }
 
     .sidebar-open .sidebar-overlay {
-      display: block;
+      display: block
     }
 
-    /* Mencegah scrolling pada body saat sidebar mobile terbuka */
     html,
     body {
       overflow: hidden;
-      height: 100%;
+      height: 100%
     }
   </style>
 </head>
 
 <body class="sidebar-closed">
   <div class="flex h-screen bg-gray-100">
-    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-overlay"></div>
 
     <div id="sidebar"
       class="fixed md:relative z-[60] w-64 h-full bg-[#3339CD] text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
@@ -105,8 +87,9 @@
           <img src="{{ asset('/statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
           <span class="text-sm font-semibold leading-tight">UPT Puskesmas<br>Baloi Permai</span>
         </div>
-        <button onclick="toggleSidebar()" class="text-white text-2xl hover:text-gray-200">
-          <i class="fas fa-times"></i> </button>
+        <button class="text-white text-2xl hover:text-gray-200">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
 
       <div class="hidden md:flex items-center px-6 py-5 space-x-4 border-b border-[#4c52e3]">
@@ -136,12 +119,9 @@
             </span>
           </a>
         </li>
+
         @php
-      // Menentukan apakah menu 'Users' harus terbuka (active)
-      $userMenuActive = Str::contains(Request::path(), [
-        'rekam-medis/data-pasien',
-        'rekam-medis/data-staf',
-      ]);
+      $userMenuActive = Str::contains(Request::path(), ['rekam-medis/data-pasien', 'rekam-medis/data-staf']);
     @endphp
         <li>
           <details {{ $userMenuActive ? 'open' : '' }}>
@@ -174,48 +154,21 @@
           </details>
         </li>
 
+        {{-- Trigger logout modal: pakai data-open-logout, tanpa onclick inline --}}
         <li>
-          <a href="#" id="logout-button" class="sidebar-item"
-            onclick="event.preventDefault(); setActiveLogout(); showLogoutModal();">
+          <a href="#" id="logout-button" class="sidebar-item" data-open-logout>
             <span class="flex items-center pl-1">
               <i class="fas fa-sign-out-alt w-5 text-center mr-3"></i>
               <span>Logout</span>
             </span>
           </a>
         </li>
-
-        <script nonce="{{ request()->attributes->get('csp_nonce') }}">
-          // Menetapkan status 'active' pada tombol logout
-          function setActiveLogout() {
-            const items = document.querySelectorAll('.sidebar-item');
-            items.forEach(item => item.classList.remove('active'));
-
-            const logoutBtn = document.getElementById('logout-button');
-            if (logoutBtn) {
-              logoutBtn.classList.add('active');
-              console.log("Logout active ditambahkan");
-            } else {
-              console.log("Element logout-button tidak ditemukan");
-            }
-          }
-
-          // Catatan: Fungsi showLogoutModal() di sini mungkin belum didefinisikan lengkap
-          // Definisi lengkapnya ada di bagian bawah file ini.
-          function showLogoutModal() {
-            console.log("Modal Logout ditampilkan (dari sidebar)"); // Debugging
-            const modal = document.getElementById('logout-modal');
-            if (modal) {
-              modal.classList.remove('hidden');
-              modal.classList.add('flex');
-            }
-          }
-        </script>
       </ul>
     </div>
 
     <div class="flex-1 flex flex-col overflow-hidden">
       <div class="navbar bg-[#EDEDED] text-black shadow-lg z-50 relative px-4">
-        <button class="md:hidden btn btn-ghost btn-circle" onclick="toggleSidebar()">
+        <button class="md:hidden btn btn-ghost btn-circle">
           <i class="fas fa-bars text-xl"></i>
         </button>
 
@@ -234,12 +187,10 @@
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <a href="#" class="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onclick="event.preventDefault(); showLogoutModal();">
+                <a href="#" class="block w-full text-left px-4 py-2 hover:bg-gray-100" data-open-logout>
                   Logout
                 </a>
-                <form id="logout-form-dropdown" action="{{ route('staf.logout') }}" method="POST"
-                  style="display: none;">
+                <form id="logout-form-dropdown" action="{{ route('staf.logout') }}" method="POST" class="hidden">
                   @csrf
                 </form>
               </li>
@@ -248,11 +199,13 @@
         </div>
       </div>
 
-      <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
-        @yield('rekam_medis') </main>
+      <main class="p-6 flex-1 overflow-y-auto bg-[#F5F6FA]">
+        @yield('rekam_medis')
+      </main>
     </div>
   </div>
 
+  {{-- Modal Logout (tanpa inline JS) --}}
   <div id="logout-modal" tabindex="-1"
     class="hidden fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
@@ -260,7 +213,7 @@
         <i class="fas fa-sign-out-alt text-red-500 text-4xl mb-4"></i>
         <h3 class="text-lg font-semibold mb-2">Anda yakin ingin logout?</h3>
         <div class="flex justify-center gap-3">
-          <button onclick="hideLogoutModal()"
+          <button type="button" data-close-logout
             class="px-4 py-2 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400 min-w-[80px] h-9 flex items-center justify-center">
             Batal
           </button>
@@ -275,5 +228,8 @@
       </div>
     </div>
   </div>
+  @stack('scripts')
+
 </body>
+
 </html>

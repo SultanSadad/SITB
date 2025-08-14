@@ -1,24 +1,23 @@
 // resources/js/app.js
+import './bootstrap';
+import axios from 'axios';
+import 'flowbite';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.css';
 
-// Import dari versi lokal (config axios & bootstrap jika digunakan)
-import './bootstrap'; // Jika Anda menggunakan bootstrap (ini dari starter kit Laravel)
-import axios from 'axios'; // Pastikan axios diimpor
-
-// Konfigurasi CSRF token untuk Axios
+// CSRF axios (biarkan seperti sebelumnya)
 const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
 if (csrfToken) {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
-} else {
-    console.error('CSRF token meta tag not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
 }
 
-// Import dari versi remote (Flowbite dan JS spesifik halaman laboran)
-import "flowbite";
-import "./pages/laboran/dashboard";
+// Halaman Rekam Medis
+import './pages/rekam_medis/data_pasien';
+import './pages/rekam_medis/data_staf';   // <— TAMBAHKAN BARIS INI
+import './pages/rekam_medis/logout_modal';
+import './pages/laboran/logout_modal';
+import './pages/laboran/flash_banner';
+import './pages/laboran/pasien_modals';
 import './pages/laboran/data_pasien';
+import './pages/laboran/hasil_uji';
 
-// ... (tambahkan import lain seperti jquery, flatpickr, chart.js, dll. jika ada di file asli tapi terpotong di konflik ini) ...
-// Contoh jika ada import lain yang hilang:
-// import 'jquery';
-// import 'flatpickr';
-// import 'chart.js';

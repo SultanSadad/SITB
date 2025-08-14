@@ -102,11 +102,16 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+    // default redirect
         $redirectRoute = 'pasien.login';
 
         if (Auth::guard('staf')->check()) {
             Auth::guard('staf')->logout();
             $redirectRoute = 'staf.login';
+        } elseif (Auth::guard('pasien')->check()) {
+            // 🔧 penting: handle pasien juga
+            Auth::guard('pasien')->logout();
+            $redirectRoute = 'pasien.login';
         } elseif (Auth::guard('web')->check()) {
             Auth::guard('web')->logout();
             $redirectRoute = 'pasien.login';

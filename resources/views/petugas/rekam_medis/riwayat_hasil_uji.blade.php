@@ -1,7 +1,7 @@
-{{-- Nama File   = [riwayat_hasil_uji.blade,php] --}}
-{{-- Deskripsi   = Perbaiki Pagination --}}
+{{-- Nama File = [riwayat_hasil_uji.blade,php] --}}
+{{-- Deskripsi = Perbaiki Pagination --}}
 {{-- Dibuat oleh = Hafivah Tahta Rasyida - 3312301100 --}}
-{{-- Tanggal     = 16 April 2025 --}}
+{{-- Tanggal = 16 April 2025 --}}
 
 @extends('layout.rekam_medis')
 <title>Riwayat Hasil Uji Laboratorium</title>

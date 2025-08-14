@@ -8,9 +8,12 @@
             <p><strong>Nama Pasien:</strong> {{ $pasien->nama ?? '-' }}</p>
             <p><strong>NIK:</strong> {{ $pasien->nik ?? '-' }}</p>
             <p><strong>No. WhatsApp:</strong> {{ $pasien->no_whatsapp ?? '-' }}</p>
-            <p><strong>Tanggal Lahir:</strong> {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d F Y') ?? '-' }}</p>
+            <p><strong>Tanggal Lahir:</strong>
+                {{ \Carbon\Carbon::parse($pasien->tanggal_lahir)->translatedFormat('d F Y') ?? '-' }}</p>
             <p><strong>Verifikasi:</strong> {{ $pasien->verifikasi ? 'Sudah Diverifikasi' : 'Belum Diverifikasi' }}</p>
-            <a href="{{ route('pasiens.index') }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Kembali ke Daftar</a>
+            <a href="{{ route('pasiens.index') }}"
+                class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Kembali ke
+                Daftar</a>
         </div>
     </div>
 @endsection

@@ -1,6 +1,5 @@
-
-{{-- Nama File   = modal.blade.php --}}
-{{-- Deskripsi   = Template untuk modal notifikasi --}}
+{{-- Nama File = modal.blade.php --}}
+{{-- Deskripsi = Template untuk modal notifikasi --}}
 {{-- Dibuat oleh = Sultan Sadad - 3312301102 --}}
 {{-- Tanggal = 1 Maret 2025 --}}
 
@@ -82,19 +81,19 @@
                 window.showNotification(message, type); // Tampilkan notifikasi
             @endif
 
-            // Tangani pesan error validasi dari $errors Laravel (misal: kembali dengan validasi gagal)
-            @if ($errors->any())
-                const rawMessage = @json($errors->first()); // Ambil pesan error pertama
-                // Terjemahan pesan error umum (jika ada)
-                const translated = {
-                    "The nik has already been taken.": "NIK sudah digunakan.",
-                    "The no whatsapp has already been taken.": "Nomor WhatsApp sudah digunakan.",
-                    "The no erm has already been taken.": "Nomor ERM sudah digunakan.",
-                };
-                // Gunakan terjemahan jika ada, kalau tidak pakai pesan asli
-                const finalMessage = translated[rawMessage] ?? rawMessage;
-                window.showNotification(finalMessage, 'error'); // Tampilkan notifikasi error
-            @endif
+                // Tangani pesan error validasi dari $errors Laravel (misal: kembali dengan validasi gagal)
+                @if ($errors->any())
+                    const rawMessage = @json($errors->first()); // Ambil pesan error pertama
+                    // Terjemahan pesan error umum (jika ada)
+                    const translated = {
+                        "The nik has already been taken.": "NIK sudah digunakan.",
+                        "The no whatsapp has already been taken.": "Nomor WhatsApp sudah digunakan.",
+                        "The no erm has already been taken.": "Nomor ERM sudah digunakan.",
+                    };
+                    // Gunakan terjemahan jika ada, kalau tidak pakai pesan asli
+                    const finalMessage = translated[rawMessage] ?? rawMessage;
+                    window.showNotification(finalMessage, 'error'); // Tampilkan notifikasi error
+                @endif
 
         } else {
             // Log error jika Flowbite Modal atau elemen HTML tidak ditemukan

@@ -38,69 +38,73 @@ class DataStafController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => 'nullable|string|max:255|unique:staf,nip',
-            'email' => 'required|string|max:255|unique:staf,email',
-            'no_whatsapp' => 'nullable|string|max:255',
-            'peran' => 'required|string',
-            'password' => ['required', 'confirmed', Password::min(8)],
+        'nama'         => 'required|string|max:255',
+        'nip'          => 'nullable|string|max:255|unique:staf,nip',
+        'email'        => 'required|string|max:255|unique:staf,email',
+        'no_whatsapp'  => 'nullable|string|max:255|unique:staf,no_whatsapp',
+        'peran'        => 'required|string',
+        'password'     => ['required', 'confirmed', Password::min(8)],
+        ], [
+        'nama.required'            => 'Nama wajib diisi.',
+        'email.required'           => 'Username wajib diisi.',
+        'email.unique'             => 'Username sudah digunakan.',
+        'nip.unique'               => 'NIP sudah digunakan.',
+        'no_whatsapp.unique'       => 'Nomor WhatsApp sudah digunakan.',
+        'password.required'        => 'Password wajib diisi.',
+        'password.confirmed'       => 'Konfirmasi password tidak cocok.',
+        'peran.required'           => 'Role wajib dipilih.',
         ]);
 
         try {
             Staf::create([
-                'nama' => $validated['nama'],
-                'nip' => $validated['nip'],
-                'email' => $validated['email'],
-                'no_whatsapp' => $validated['no_whatsapp'],
-                'peran' => $validated['peran'],
-                'password' => Hash::make($validated['password']),
+            'nama'        => $validated['nama'],
+            'nip'         => $validated['nip'] ?? null,
+            'email'       => $validated['email'],
+            'no_whatsapp' => $validated['no_whatsapp'] ?? null,
+            'peran'       => $validated['peran'],
+            'password'    => Hash::make($validated['password']),
             ]);
 
             return redirect()
                 ->route('rekam-medis.staf.index')
-                ->with([
-                    'success_type' => 'success_add',
-                    'success_message' => 'Data staf Berhasil ditambahkan.'
-                ]);
+                ->with('notif_type', 'success_add')
+                ->with('notif_message', 'Data staf berhasil ditambahkan.');
         } catch (\Exception $e) {
             Log::error('Gagal membuat staf: ' . $e->getMessage());
 
             return redirect()
-                ->route('rekam-medis.staf.index')
-                ->with([
-                    'success_type' => 'error',
-                    'success_message' => 'Gagal menambahkan data staf.'
-                ]);
+            ->route('rekam-medis.staf.index')
+            ->with('notif_type', 'error')
+            ->with('notif_message', 'Gagal menambahkan data staf.');
         }
     }
+
 
     public function update(Request $request, Staf $staf)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => [
-                'nullable',
-                'string',
-                'max:255',
-                Rule::unique('staf')->ignore($staf->id),
-            ],
-            'email' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('staf')->ignore($staf->id),
-            ],
-            'no_whatsapp' => 'nullable|string|max:255',
-            'peran' => 'required|string',
-            'password' => ['nullable', 'confirmed', Password::min(8)],
+        'nama'         => 'required|string|max:255',
+        'nip'          => ['nullable','string','max:255', Rule::unique('staf', 'nip')->ignore($staf->id)],
+        'email'        => ['required','string','max:255', Rule::unique('staf', 'email')->ignore($staf->id)],
+        'no_whatsapp'  => ['nullable','string','max:255', Rule::unique('staf', 'no_whatsapp')->ignore($staf->id)],
+        'peran'        => 'required|string',
+        'password'     => ['nullable', 'confirmed', Password::min(8)],
+        ], [
+        'nama.required'            => 'Nama wajib diisi.',
+        'email.required'           => 'Username wajib diisi.',
+        'email.unique'             => 'Username sudah digunakan.',
+        'nip.unique'               => 'NIP sudah digunakan.',
+        'no_whatsapp.unique'       => 'Nomor WhatsApp sudah digunakan.',
+        'password.confirmed'       => 'Konfirmasi password tidak cocok.',
+        'peran.required'           => 'Role wajib dipilih.',
         ]);
 
         try {
-            $staf->nama = $validated['nama'];
-            $staf->nip = $validated['nip'];
-            $staf->email = $validated['email'];
-            $staf->no_whatsapp = $validated['no_whatsapp'];
-            $staf->peran = $validated['peran'];
+            $staf->nama        = $validated['nama'];
+            $staf->nip         = $validated['nip'] ?? null;
+            $staf->email       = $validated['email'];
+            $staf->no_whatsapp = $validated['no_whatsapp'] ?? null;
+            $staf->peran       = $validated['peran'];
 
             if ($request->filled('password')) {
                 $staf->password = Hash::make($request->password);
@@ -109,22 +113,19 @@ class DataStafController extends Controller
             $staf->save();
 
             return redirect()
-                ->route('rekam-medis.staf.index')
-                ->with([
-                    'success_type' => 'success_edit',
-                    'success_message' => 'Data staf berhasil diperbarui.'
-                ]);
+            ->route('rekam-medis.staf.index')
+            ->with('notif_type', 'success_edit')
+            ->with('notif_message', 'Data staf berhasil diperbarui.');
         } catch (\Exception $e) {
             Log::error('Gagal update staf: ' . $e->getMessage());
 
             return redirect()
-                ->to('rekam-medis/data-staf')
-                ->with([
-                    'success_type' => 'error',
-                    'success_message' => 'Gagal memperbarui data staf.'
-                ]);
+            ->route('rekam-medis.staf.index')
+            ->with('notif_type', 'error')
+            ->with('notif_message', 'Gagal memperbarui data staf.');
         }
     }
+
 
     public function destroy(Staf $staf)
     {

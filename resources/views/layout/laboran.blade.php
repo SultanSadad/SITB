@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@yield('title', 'Dashboard Laboran')</title>
 
-  {{-- Styles --}}
+  {{-- Styles/CDN --}}
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.1/dist/full.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
@@ -16,85 +16,76 @@
   {{-- Vite --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  {{-- Tambahan CSS --}}
-  {{-- === TAMBAHKAN NONCE DI SINI === --}}
-  <style nonce="{{ $nonce }}"> {{-- Nonce dari versi lokalmu --}}
+  {{-- Tambahan CSS (pakai nonce CSP dari request) --}}
+  <style nonce="{{ request()->attributes->get('csp_nonce') }}">
     body {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Roboto', sans-serif
     }
 
     .sidebar-item {
-      color: white !important;
-      background-color: transparent;
-      transition: background 0.2s ease;
+      color: #fff !important;
+      background: transparent;
+      transition: background .2s
     }
 
     .sidebar-item:hover {
-      background-color: #4c52e3 !important;
-      color: white !important;
+      background: #4c52e3 !important;
+      color: #fff !important
     }
 
     .sidebar-item.active {
-      background-color: #5e64ff !important;
-      color: white !important;
-      font-weight: bold;
+      background: #5e64ff !important;
+      color: #fff !important;
+      font-weight: bold
     }
 
     .menu summary {
-      color: white !important;
-    }
-
-    .menu summary:hover {
-      background-color: #4c52e3 !important;
-      color: white !important;
+      color: #fff !important
     }
 
     .menu li ul li a {
-      color: white !important;
-      padding-left: 2.5rem;
+      color: #fff !important;
+      padding-left: 2.5rem
     }
 
     .menu li ul li a:hover {
-      background-color: #4c52e3 !important;
-      color: white !important;
+      background: #4c52e3 !important;
+      color: #fff !important
     }
 
     .menu li ul {
-      background-color: transparent;
+      background: transparent
     }
 
     .sidebar-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 50;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 50
     }
 
     .sidebar-open .sidebar-overlay {
-      display: block;
+      display: block
     }
 
     html,
     body {
       overflow: hidden;
-      height: 100%;
+      height: 100%
     }
   </style>
-  {{-- ============================== --}}
 </head>
 
-<body class="sidebar-closed">
+<body class="sidebar-closed" data-has-errors="{{ $errors->any() ? '1' : '0' }}"
+  data-first-error="{{ $errors->any() ? $errors->first() : '' }}">
+
   <div class="flex h-screen bg-gray-100">
     <div class="sidebar-overlay"></div>
 
     {{-- Sidebar --}}
     <div id="sidebar"
       class="fixed md:relative z-[60] w-64 h-full bg-[#3339CD] text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
-      {{-- Logo Sidebar --}}
       <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-[#4c52e3]">
         <div class="flex items-center space-x-3">
           <img src="{{ asset('/statis/image/logoepus.png') }}" class="w-14 h-14" alt="Logo Puskesmas" />
@@ -132,8 +123,10 @@
             <i class="fas fa-flask w-5 text-center mr-3"></i> <span>Hasil Uji Laboratorium</span>
           </a>
         </li>
+
+        {{-- Trigger logout modal: tanpa inline JS, cukup data-open-logout --}}
         <li>
-          <a href="#" id="logout-button" class="sidebar-item">
+          <a href="#" id="logout-button" class="sidebar-item" data-open-logout>
             <i class="fas fa-sign-out-alt w-5 text-center mr-3"></i> <span>Logout</span>
           </a>
         </li>
@@ -160,9 +153,8 @@
             </div>
             <ul tabindex="0" class="menu dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
               <li>
-                <a href="#" id="dropdownLogout">Logout</a>
-                <form id="logout-form-dropdown" action="{{ route('staf.logout') }}" method="POST"
-                  style="display: none;">
+                <a href="#" data-open-logout>Logout</a>
+                <form id="logout-form-dropdown" action="{{ route('staf.logout') }}" method="POST" class="hidden">
                   @csrf
                 </form>
               </li>
@@ -171,7 +163,7 @@
         </div>
       </div>
 
-      <main class="p-6 flex-1 overflow-y-auto" style="background-color: #F5F6FA">
+      <main class="p-6 flex-1 overflow-y-auto bg-[#F5F6FA]">
         @yield('content')
       </main>
     </div>
@@ -184,22 +176,25 @@
         <i class="fas fa-sign-out-alt text-red-500 text-4xl mb-4"></i>
         <h3 class="text-lg font-semibold mb-2">Anda yakin ingin logout?</h3>
         <div class="flex justify-center gap-3">
-          <button type="button" id="cancelLogout"
-            class="px-4 py-2 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400 min-w-[80px] h-9 flex items-center justify-center">Batal</button>
+          <button type="button" data-close-logout
+            class="px-4 py-2 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400 min-w-[80px] h-9 flex items-center justify-center">
+            Batal
+          </button>
           <form id="logout-form" action="{{ route('staf.logout') }}" method="POST">
             @csrf
             <button type="submit"
-              class="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 min-w-[80px] h-9 flex items-center justify-center">Keluar</button>
+              class="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 min-w-[80px] h-9 flex items-center justify-center">
+              Keluar
+            </button>
           </form>
         </div>
       </div>
     </div>
   </div>
 
-  {{-- Flowbite Datepicker --}}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/datepicker.min.js"></script> {{-- Script dari versi remote --}}
+  {{-- (opsional) Flowbite Datepicker CDN --}}
 
-  {{-- Stack Scripts --}}
+
   @stack('scripts')
 </body>
 
