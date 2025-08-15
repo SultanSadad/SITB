@@ -31,11 +31,11 @@ Dibangun menggunakan **Laravel 10** dengan arsitektur berbasis role, SITB memper
 
 ## 👥 Aktor & Hak Akses
 
-| Role         | Deskripsi                                                                 |
-|--------------     |---------------------------------------------------------------------------|
-| **Laboran**       | Mengelola data pasien & hasil uji laboratorium.                           |
-| **Rekam Medis**   | Memverifikasi pasien & mengelola rekam medis.                             |
-| **Pasien**        | Melihat & mengunduh hasil uji pribadi.                                    |
+| Role | Deskripsi |
+|---|---|
+| **Laboran** | Mengelola data pasien & hasil uji laboratorium. |
+| **Rekam Medis** | Memverifikasi pasien & mengelola rekam medis. |
+| **Pasien** | Melihat & mengunduh hasil uji pribadi. |
 
 ---
 
@@ -54,7 +54,7 @@ Dibangun menggunakan **Laravel 10** dengan arsitektur berbasis role, SITB memper
 
 ### 1️⃣ Clone Repository
 ```bash masuk ke terminal
-git clone https://gitlab.com/sultan/sitb.git
+git clone [https://gitlab.com/sultan/sitb.git](https://gitlab.com/sultan/sitb.git)
 - cd sitb
 - composer install
 - npm install
@@ -75,5 +75,3 @@ Atur konfigurasi database:
 - npm run dev
 
 *Kami berharap aplikasi ini dapat membantu tenaga medis dan pasien dalam memperoleh informasi kesehatan secara efisien, sekaligus menjadi langkah kecil  menuju pelayanan kesehatan yang lebih baik.
-
-
